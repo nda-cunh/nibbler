@@ -6,13 +6,13 @@
 #include <memory>
 
 
-class Game : public IGame {
+class Plugin : public IPlugin {
 	private:
 		sf::RenderWindow *window;
 	public:
-		~Game () {
+		~Plugin () {
 		}
-		Game () {
+		Plugin () {
 		}
 
 		void open(){
@@ -21,6 +21,23 @@ class Game : public IGame {
 
 		void close(){
 			delete window;
+		}
+		
+		Event poll_event(){
+			sf::Event event;
+
+			window->pollEvent(event);
+			if (event.key.code == sf::Keyboard::Left)
+				return LEFT;
+			if (event.key.code == sf::Keyboard::Right)
+				return RIGHT;
+			if (event.key.code == sf::Keyboard::Up)
+				return UP;
+			if (event.key.code == sf::Keyboard::Down)
+				return DOWN;
+			if (event.type == sf::Event::Closed)
+				return CLOSE;
+			return NONE;
 		}
 
 		void rect(int x, int y){
@@ -35,15 +52,17 @@ class Game : public IGame {
 		}
 };
 
-Game *game = NULL;
 
 extern "C" {
-	IGame *get_ptr () {
-		game = new Game();
+	Plugin *game = NULL;
+
+	IPlugin *load() {
+		if (game == NULL)
+			game = new Plugin();
 		return game;
 	}
 	
-	void destroy_ptr() {
+	void unload() {
 		delete game;
 	}
 }
