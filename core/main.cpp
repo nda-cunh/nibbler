@@ -2,6 +2,7 @@
 #include <string>
 #include <dlfcn.h>
 #include <unistd.h>
+#include <time.h>
 
 #include "../include/IGame.hpp"
 
@@ -42,6 +43,13 @@ class Plugin : public IPlugin {
 		}
 };
 
+enum Direction {
+	Left,
+	Right,
+	Up,
+	Down
+};
+
 int	main(int ac, char **av)
 {
 	Plugin plugin("lib_nibbler_sfml.so");
@@ -49,22 +57,36 @@ int	main(int ac, char **av)
 	int y = 20; 
 	bool is_running = true;
 
+	Direction direction = Up;
+	clock_t tick = clock();
 	Event event;
 	while (is_running) {
 
 		/* Event Part */
 		auto event = plugin.poll_event();
 		if (event == RIGHT)
-			x++;
+			direction = Right;
 		else if (event == LEFT)
-			x--;
+			direction = Left;
 		else if (event == UP)
-			y--;
+			direction = Up;
 		else if (event == DOWN)
-			y++;
+			direction = Down;
 		else if (event == CLOSE)
 			is_running = false;
 		// std::cout << event << std::endl;
+
+		if (tick + 10000 < clock()) {
+			if (direction == Left)
+				x -= 5;
+			if (direction == Right)
+				x += 5;
+			if (direction == Up)
+				y -= 5;
+			if (direction == Down)
+				y += 5;
+			tick = clock();
+		}
 
 		plugin.rect(x, y);
 		plugin.iteration();
