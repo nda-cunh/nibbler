@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#include "../include/IGame.hpp"
+#include "../include/IPlugin.hpp"
 
 class Plugin : public IPlugin {
 	private:
@@ -17,15 +17,15 @@ class Plugin : public IPlugin {
 			func();
 			dlclose(handler);
 		}
-		Plugin (std::string so) {
+		Plugin (std::string so, int x, int y) {
 			handler = dlopen(so.c_str(), RTLD_LAZY);
 			auto func = (IPlugin*(*)())dlsym(handler, "load");
 			game = func();
-			this->open();
+			this->open(x, y);
 		}
 
-		void open () {
-			game->open();
+		void open (int x, int y) {
+			game->open(x, y);
 		}
 		void close() {
 			game->close();
@@ -35,11 +35,20 @@ class Plugin : public IPlugin {
 		Event poll_event() {
 			return game->poll_event();
 		}
-		void rect (int x, int y) {
-			game->rect(x, y);
-		}
 		void iteration() {
 			game->iteration();
+		}
+		void draw_snake(std::deque<Position> queue) {
+			game->draw_snake(queue);
+		}
+		void draw_food(Position &position) {
+			game->draw_food(position);
+		}
+		void draw_score(int n) {
+			game->draw_score(n);
+		}
+		void draw_gameover() {
+			game->draw_gameover();
 		}
 };
 
@@ -52,7 +61,7 @@ enum Direction {
 
 int	main(int ac, char **av)
 {
-	Plugin plugin("lib_nibbler_sfml.so");
+	Plugin plugin("lib_nibbler_sfml.so", 20, 20);
 	int x = 20; 
 	int y = 20; 
 	bool is_running = true;
@@ -88,7 +97,6 @@ int	main(int ac, char **av)
 			tick = clock();
 		}
 
-		plugin.rect(x, y);
 		plugin.iteration();
 	}
 	

@@ -2,7 +2,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include "../include/IGame.hpp"
+#include "../include/IPlugin.hpp"
 #include <memory>
 
 
@@ -15,7 +15,7 @@ class Plugin : public IPlugin {
 		Plugin () {
 		}
 
-		void open(){
+		void open(int x, int y){
 			window = new sf::RenderWindow(sf::VideoMode(500, 500), "Hello SFML");
 		}
 
@@ -40,10 +40,27 @@ class Plugin : public IPlugin {
 			return NONE;
 		}
 
-		void rect(int x, int y){
-			auto rec = sf::RectangleShape(sf::Vector2f(50, 50));
-			rec.setPosition(x, y);
-			window->draw(rec);
+		// void rect(int x, int y){
+			// auto rec = sf::RectangleShape(sf::Vector2f(50, 50));
+			// rec.setPosition(x, y);
+			// window->draw(rec);
+		// }
+		
+		
+		void draw_snake(std::deque<Position>) {
+
+		}
+
+		void draw_food(Position &position) {
+
+		}
+
+		void draw_score(int n) {
+
+		}
+
+		void draw_gameover() {
+
 		}
 
 		void iteration () {
