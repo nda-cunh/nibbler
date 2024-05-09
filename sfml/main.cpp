@@ -7,6 +7,26 @@
 #include <cmath>
 
 
+
+class Animation : sf::Clock {
+	public:
+		Animation (int ms) {
+			this->ms = ms;
+			this->restart();
+		}
+		bool isElapsed () {
+			auto t = this->getElapsedTime().asMilliseconds();
+			if (t >= ms) {
+				this->restart();
+				return true;
+			}
+			return false;
+		}
+	private:
+		sf::Int32 ms; 
+};
+
+
 class Plugin : public IPlugin {
 	private:
 		sf::RenderWindow *window;
@@ -14,19 +34,31 @@ class Plugin : public IPlugin {
 		sf::RenderTexture Tdamier;
 		sf::Texture Tapple;
 		sf::Sprite Sapple;
+		Animation Aapple;
+		sf::Texture texture_snake;
+		sf::Sprite tounge;
 		int tileX;
 		int tileY;
 	public:
+		Plugin() : Aapple(500){
+		
+		}
 		void open(int x, int y){
-			window = new sf::RenderWindow(sf::VideoMode(800, 800), "Hello SFML");
-			window->setFramerateLimit(60);
+			sf::ContextSettings settings;
+			settings.antialiasingLevel = 8;
+
+			window = new sf::RenderWindow(sf::VideoMode(800, 800), "Hello SFML", sf::Style::Default, settings);
+			// window->setFramerateLimit(60);//TODO use real time
 			tileX = 800 /x;
 			tileY = 800 /y;
 			init_background();
 			draw_background();
 			
-			Tapple.loadFromFile("/nfs/homes/nda-cunh/Desktop/nibbler/sfml/food.png");
+			// Tapple.setSmooth(true);
+			texture_snake.loadFromFile("./sfml/snake.png");
+			Tapple.loadFromFile("./sfml/food.png");
 			Sapple.setTexture(Tapple);
+			Sapple.setOrigin({static_cast<float>(Tapple.getSize().x / 2.0), static_cast<float>(Tapple.getSize().y / 2.0)});
 		}
 
 		void init_background() {
@@ -69,15 +101,16 @@ class Plugin : public IPlugin {
 				return UP;
 			if (event.key.code == sf::Keyboard::Down)
 				return DOWN;
+			if (event.key.code == sf::Keyboard::Enter)
+				return ENTER;
 			if (event.type == sf::Event::Closed)
 				return CLOSE;
 			return NONE;
 		}
 	
-		void draw_segment(const Position begin, const Position end, double size) {
+		void draw_segment(const Position begin, const Position end, double size, sf::Color color) {
 			sf::CircleShape circle(size);
-			circle.setPointCount(7);
-			circle.setFillColor(sf::Color(78, 125, 246, 255));
+			circle.setFillColor(color);
 			double diff = (tileX / 2.0) - size;
 
 			Position b = {begin.x * tileX, begin.y * tileY};
@@ -103,17 +136,28 @@ class Plugin : public IPlugin {
 		void draw_snake(std::deque<Position> snake) {
 
 			Position last = snake[0];
+			auto color = sf::Color(78, 125, 246, 255);
 			double size = tileX / 2.0;
 			for (auto i : snake) {
-				draw_segment(i, last, size);
+				draw_segment(i, last, size, color);
+				color.b -= 3;
 				last = i;
 				size -= 0.2;
 			}
 		}
 
 		void draw_food(Position &position) {
+			static bool is_up = true;
+			if (Aapple.isElapsed())
+				is_up = !is_up;
 
-			Sapple.setPosition(position.x * tileX, position.y * tileY);
+			if (is_up && Sapple.getScale().x <= 1.5) {
+				Sapple.scale({1.0001, 1.0001});
+			}
+			else if (Sapple.getScale().x >= 0.8)
+				Sapple.scale({0.9999, 0.9999});
+			auto size = Tapple.getSize();
+			Sapple.setPosition(position.x * tileX + size.x/2, position.y * tileY + size.y/2);
 			window->draw(Sapple);
 		}
 
