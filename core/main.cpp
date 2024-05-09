@@ -1,75 +1,31 @@
 #include <iostream>
 #include <string>
-#include <dlfcn.h>
 #include <unistd.h>
 #include <time.h>
+#include "Plugin.hpp"
+#include "Game.hpp"
+#include "../include/utils.hpp"
 
-#include "../include/IPlugin.hpp"
+#define WIDTH 20
+#define HEIGHT 20
 
-class Plugin : public IPlugin {
-	private:
-		IPlugin* game;
-		void* handler;
-	public:
-		~Plugin(){
-			this->close();
-			auto func = (IPlugin*(*)())dlsym(handler, "unload");
-			func();
-			dlclose(handler);
-		}
-		Plugin (std::string so, int x, int y) {
-			handler = dlopen(so.c_str(), RTLD_LAZY);
-			auto func = (IPlugin*(*)())dlsym(handler, "load");
-			game = func();
-			this->open(x, y);
-		}
+void	init_new_game(Direction &direction, Game &game, Event &event) {
+	direction = Down;
+	game = Game(WIDTH, HEIGHT);
+	event = DOWN;
+}
 
-		void open (int x, int y) {
-			game->open(x, y);
-		}
-		void close() {
-			game->close();
-		}
-
-		/* API du jeu */
-		Event poll_event() {
-			return game->poll_event();
-		}
-		void iteration() {
-			game->iteration();
-		}
-		void draw_snake(std::deque<Position> queue) {
-			game->draw_snake(queue);
-		}
-		void draw_food(Position &position) {
-			game->draw_food(position);
-		}
-		void draw_score(int n) {
-			game->draw_score(n);
-		}
-		void draw_gameover() {
-			game->draw_gameover();
-		}
-};
-
-enum Direction {
-	Left,
-	Right,
-	Up,
-	Down
-};
-
-int	main(int ac, char **av)
+// TODO handle params and arg error
+int	main(  void )
 {
-	Plugin plugin("lib_nibbler_sfml.so", 20, 20);
-	int x = 20; 
-	int y = 20; 
-	bool is_running = true;
+	Plugin		plugin("lib_nibbler_sfml.so", WIDTH, HEIGHT);
+	clock_t		tick = clock();
+	Direction	direction;
+	Event		event;
+	Game		game(WIDTH, HEIGHT);
 
-	Direction direction = Up;
-	clock_t tick = clock();
-	Event event;
-	while (is_running) {
+	init_new_game(direction, game, event);
+	while (true) {
 
 		/* Event Part */
 		auto event = plugin.poll_event();
@@ -81,22 +37,23 @@ int	main(int ac, char **av)
 			direction = Up;
 		else if (event == DOWN)
 			direction = Down;
-		else if (event == CLOSE)
-			is_running = false;
+		else if (event == ENTER) {
+			init_new_game(direction, game, event);
+			continue;
+		} else if (event == CLOSE)
+			break;
 		// std::cout << event << std::endl;
 
-		if (tick + 10000 < clock()) {
-			if (direction == Left)
-				x -= 5;
-			if (direction == Right)
-				x += 5;
-			if (direction == Up)
-				y -= 5;
-			if (direction == Down)
-				y += 5;
+		if (tick + 100000 < clock() && !game._is_over) {
+			game.moveSnake(direction);
 			tick = clock();
 		}
+		plugin.draw_snake(game.getSnakePositions());
+		plugin.draw_food(game.getFoodPositions());
 
+		if (game._is_over) {
+			plugin.draw_gameover();
+		}
 		plugin.iteration();
 	}
 	

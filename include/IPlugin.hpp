@@ -1,4 +1,7 @@
+#ifndef IPLUGIN_HPP
+#define IPLUGIN_HPP
 #include <deque>
+#include "utils.hpp"
 
 enum Event {
 	NONE,
@@ -13,11 +16,6 @@ enum Event {
 	F3,
 };
 
-struct Position {
-	int x;
-	int y;
-};
-
 class IPlugin {
 	public:
 		virtual void open(int, int) = 0;
@@ -29,3 +27,4 @@ class IPlugin {
 		virtual void iteration () = 0;
 		virtual Event poll_event() = 0;
 };
+#endif
