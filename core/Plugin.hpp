@@ -37,8 +37,8 @@ class Plugin : public IPlugin {
 		void iteration() {
 			game->iteration();
 		}
-		void draw_snake(std::deque<Position> queue) {
-			game->draw_snake(queue);
+		void draw_snake(const std::deque<Position> &queue, Direction direction) {
+			game->draw_snake(queue, direction);
 		}
 		void draw_food(Position &position) {
 			game->draw_food(position);

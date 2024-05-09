@@ -48,7 +48,7 @@ int	main(  void )
 			game.moveSnake(direction);
 			tick = clock();
 		}
-		plugin.draw_snake(game.getSnakePositions());
+		plugin.draw_snake(game.getSnakePositions(), direction);
 		plugin.draw_food(game.getFoodPositions());
 
 		if (game._is_over) {

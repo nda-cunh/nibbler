@@ -6,8 +6,6 @@
 #include <memory>
 #include <cmath>
 
-
-
 class Animation : sf::Clock {
 	public:
 		Animation (int ms) {
@@ -27,6 +25,120 @@ class Animation : sf::Clock {
 };
 
 
+
+
+class Snake {
+	public:
+		Snake () {
+			texture_snake.loadFromFile("./sfml/snake.png");
+			tounge.setTexture(texture_snake);
+			eyes.setTexture(texture_snake);
+		}
+		void create (int x, int y) {
+			tileX = x;
+			tileY = y;
+		}
+		void draw_snake(sf::RenderWindow &window, const std::deque<Position> &snake, Direction direction) {
+
+			// sf::RenderTexture head;
+			// head.create(tileX, tileY);
+			
+			// eyes.setTextureRect({1, 15, 28, 28});
+			// head.draw(eyes);
+			// head.setSmooth(true);
+			// head.display();
+			// sf::Sprite sprite;
+			// sprite.setTexture(head.getTexture());
+
+			// window.draw(sprite);
+			/* Draw Langue */
+			/*
+			auto boca = sf::Vector2f(snake[0].x * tileX, snake[0].y * tileY);
+
+			switch (direction) {
+				case Up:
+					tounge.setRotation(-95.0f);
+					boca.x += tileX/2;
+					break;
+				case Down:
+					boca.x += tileX/2;
+					boca.y += tileY;
+					tounge.setRotation(95.f);
+					break;
+				case Left:
+					boca.y += tileY/2;
+					tounge.setRotation(180.f);
+					break;
+				case Right:
+					boca.y += tileY/2;
+					boca.x += tileX;
+					tounge.setRotation(0.f);
+					break;
+				default:
+					break;
+			}
+			tounge.setOrigin(10, 10);
+			tounge.setTextureRect({884,129, 45, 21});
+			tounge.setPosition(boca);
+			window.draw(tounge);
+			*/
+			
+
+			/* Draw Body */
+			Position last = snake[0];
+			auto color = sf::Color(78, 125, 246, 255);
+			double size = tileX / 2.0;
+			for (auto i : snake) {
+				draw_segment(window, i, last, size, color);
+				color.b -= 3;
+				last = i;
+				size -= 0.2;
+			}
+
+		}
+	protected:
+		inline void draw_segment(sf::RenderWindow& window, const Position begin, const Position end, double size, sf::Color color) {
+			sf::CircleShape circle(size);
+			circle.setFillColor(color);
+			double diff = (tileX / 2.0) - size;
+
+			Position b = {begin.x * tileX, begin.y * tileY};
+			Position e = {end.x * tileX, end.y * tileY};
+			while (b.x != e.x) {
+				circle.setPosition(b.x + diff, b.y + diff);
+				window.draw(circle);
+				if (e.x > b.x)
+					b.x++;
+				else
+					b.x--;
+			}
+			while (b.y != e.y) {
+				circle.setPosition(b.x + diff, b.y + diff);
+				window.draw(circle);
+				if (e.y > b.y)
+					b.y++;
+				else
+					b.y--;
+			}
+		}
+	private:
+		sf::Texture texture_snake;
+		sf::Sprite tounge;
+		sf::Sprite eyes;
+		int tileX;
+		int tileY;
+};
+
+
+
+
+
+
+
+
+
+
+
 class Plugin : public IPlugin {
 	private:
 		sf::RenderWindow *window;
@@ -35,8 +147,7 @@ class Plugin : public IPlugin {
 		sf::Texture Tapple;
 		sf::Sprite Sapple;
 		Animation Aapple;
-		sf::Texture texture_snake;
-		sf::Sprite tounge;
+		Snake snake;
 		int tileX;
 		int tileY;
 	public:
@@ -51,11 +162,11 @@ class Plugin : public IPlugin {
 			// window->setFramerateLimit(60);//TODO use real time
 			tileX = 800 /x;
 			tileY = 800 /y;
+			snake.create(tileX, tileY);
 			init_background();
 			draw_background();
 			
 			// Tapple.setSmooth(true);
-			texture_snake.loadFromFile("./sfml/snake.png");
 			Tapple.loadFromFile("./sfml/food.png");
 			Sapple.setTexture(Tapple);
 			Sapple.setOrigin({static_cast<float>(Tapple.getSize().x / 2.0), static_cast<float>(Tapple.getSize().y / 2.0)});
@@ -108,42 +219,9 @@ class Plugin : public IPlugin {
 			return NONE;
 		}
 	
-		void draw_segment(const Position begin, const Position end, double size, sf::Color color) {
-			sf::CircleShape circle(size);
-			circle.setFillColor(color);
-			double diff = (tileX / 2.0) - size;
 
-			Position b = {begin.x * tileX, begin.y * tileY};
-			Position e = {end.x * tileX, end.y * tileY};
-			while (b.x != e.x) {
-				circle.setPosition(b.x + diff, b.y + diff);
-				window->draw(circle);
-				if (e.x > b.x)
-					b.x++;
-				else
-					b.x--;
-			}
-			while (b.y != e.y) {
-				circle.setPosition(b.x + diff, b.y + diff);
-				window->draw(circle);
-				if (e.y > b.y)
-					b.y++;
-				else
-					b.y--;
-			}
-		}
-
-		void draw_snake(std::deque<Position> snake) {
-
-			Position last = snake[0];
-			auto color = sf::Color(78, 125, 246, 255);
-			double size = tileX / 2.0;
-			for (auto i : snake) {
-				draw_segment(i, last, size, color);
-				color.b -= 3;
-				last = i;
-				size -= 0.2;
-			}
+		void draw_snake(const std::deque<Position> &queue, Direction direction) {
+			snake.draw_snake(*window, queue, direction);
 		}
 
 		void draw_food(Position &position) {

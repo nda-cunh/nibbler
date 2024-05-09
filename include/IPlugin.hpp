@@ -16,11 +16,18 @@ enum Event {
 	F3,
 };
 
+enum Direction {
+	Up,
+	Down,
+	Left,
+	Right
+};
+
 class IPlugin {
 	public:
 		virtual void open(int, int) = 0;
 		virtual void close() = 0;
-		virtual void draw_snake(std::deque<Position>) = 0;
+		virtual void draw_snake(const std::deque<Position> &snake, Direction direction) = 0;
 		virtual void draw_food(Position &position) = 0;
 		virtual void draw_score(int n) = 0;
 		virtual void draw_gameover() = 0;

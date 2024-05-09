@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include "IPlugin.hpp"
 
 struct Position {
 	int x;
@@ -15,16 +16,4 @@ struct Position {
 	}
 };
 
-enum Direction {
-	Left,
-	Right,
-	Up,
-	Down
-};
-
-std::ostream &operator<<(std::ostream &o, const enum Direction d) {
-	const std::string names[4] = {"Left", "Right", "Up", "Down"};
-	o << names[d];
-	return o;
-}
 #endif
