@@ -87,13 +87,14 @@ class Snake {
 			/* Draw Body */
 			Position last = snake[0];
 			auto color = sf::Color(78, 125, 246, 255);
-			double size = tileX / 2.0;
+				double size = tileX / 2.0 - 4;
 			for (auto i : snake) {
-				draw_segment(window, i, last, size, color);
+				draw_segment (window, i, last, size, color);
 				color.b -= 3;
 				last = i;
 				size -= 0.2;
 			}
+
 
 		}
 	protected:
@@ -204,18 +205,22 @@ class Plugin : public IPlugin {
 			sf::Event event;
 
 			window->pollEvent(event);
-			if (event.key.code == sf::Keyboard::Left)
-				return LEFT;
-			if (event.key.code == sf::Keyboard::Right)
-				return RIGHT;
-			if (event.key.code == sf::Keyboard::Up)
-				return UP;
-			if (event.key.code == sf::Keyboard::Down)
-				return DOWN;
-			if (event.key.code == sf::Keyboard::Enter)
-				return ENTER;
 			if (event.type == sf::Event::Closed)
 				return CLOSE;
+			switch(event.key.code) {
+				case sf::Keyboard::Left :
+					return LEFT;
+				case sf::Keyboard::Right:
+					return RIGHT;
+				case sf::Keyboard::Up:
+					return UP;
+				case sf::Keyboard::Down:
+					return DOWN;
+				case sf::Keyboard::Enter:
+					return ENTER;
+				default:
+					return NONE;
+			}
 			return NONE;
 		}
 	
