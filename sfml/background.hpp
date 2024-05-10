@@ -11,7 +11,7 @@ class Background : public sf::Sprite
 {
 	 public:
 		void init(sf::Vector2u size);
-		void draw_self(sf::RenderWindow &window);
+		void draw_self(sf::RenderTexture &window);
 	 private:
 		std::shared_ptr<sf::RenderTexture> texture;
 };

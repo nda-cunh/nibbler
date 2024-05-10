@@ -10,6 +10,8 @@
 class Plugin : public IPlugin {
 	private:
 		std::shared_ptr<sf::RenderWindow> window;
+		std::shared_ptr<sf::RenderTexture> texture_game;
+		sf::Sprite game;
 		Snake snake;
 		Apple apple;
 		Background background;
@@ -19,8 +21,11 @@ class Plugin : public IPlugin {
 			sf::ContextSettings settings;
 			settings.antialiasingLevel = 8;
 
-			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x, TILE * y), "Hello SFML", sf::Style::Default, settings);
-			// window->setFramerateLimit(60);//TODO use real time
+			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Hello SFML", sf::Style::Default, settings);
+			texture_game = std::make_shared<sf::RenderTexture>();
+			texture_game->create(TILE*x, TILE*y);
+			game.setTexture(texture_game->getTexture());
+			game.setPosition(40, 120);
 			background.init(window->getSize());
 			draw_background();
 		}
@@ -53,11 +58,11 @@ class Plugin : public IPlugin {
 		}
 
 		void draw_snake(const std::deque<Position> &queue, Direction direction) {
-			snake.draw_snake(*window, queue, direction);
+			snake.draw_snake(*texture_game, queue, direction);
 		}
 
 		void draw_food(Position &position) {
-			apple.draw_food (*window, position);
+			apple.draw_food (*texture_game, position);
 		}
 
 		void draw_score(int n) {
@@ -70,12 +75,14 @@ class Plugin : public IPlugin {
 
 
 		void draw_background() {
-			background.draw_self(*window);
+			background.draw_self(*texture_game);
 		}
 
 		void iteration () {
+			texture_game->display();
+			window->draw(game);
 			window->display();
-			window->clear();
+			window->clear(sf::Color(87, 138, 52));
 			draw_background();
 		}
 };

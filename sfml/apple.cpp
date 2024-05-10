@@ -9,7 +9,7 @@ Apple::Apple () {
 	this->setOrigin({static_cast<float>(texture->getSize().x / 2.0), static_cast<float>(texture->getSize().y / 2.0)});
 }
 
-void Apple::draw_food(sf::RenderWindow &window, Position &position) {
+void Apple::draw_food(sf::RenderTexture &window, Position &position) {
 	auto size = texture->getSize();
 	if (Aapple.isElapsed())
 		is_up = !is_up;
