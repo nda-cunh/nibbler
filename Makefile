@@ -1,17 +1,49 @@
-SFML	=	lib_nibbler_sfml.so
-NAME	=	nibbler
-CFLAGS	=	-Wall -Wextra 
+NAME_SFML = lib_nibbler_sfml.so
+NAME = nibbler
+CFLAGS = -Wall -Wextra -O3
 
-$(NAME): core/main.cpp core/Snake.hpp core/Game.hpp
-	clang++ $(CFLAGS) core/*.cpp -o $(NAME)
+############
+#  SOURCE  #
+############
+CORE_SRCS = core/main.cpp 
+CORE_OBJS = $(CORE_SRCS:.cpp=.o) 
+SFML_SRCS = sfml/main.cpp sfml/snake.cpp
+SFML_OBJS = $(SFML_SRCS:.cpp=.o) 
 
-$(SFML): sfml/main.cpp
-	clang++ $(CFLAGS) sfml/*.cpp --shared -fPIC -o $(SFML) -lsfml-graphics -lsfml-window -lsfml-system
+############
+#   CORE   #
+############
+all: $(NAME)
+
+$(NAME): $(CORE_OBJS) $(NAME_SFML)
+	clang++ $(CORE_OBJS) -o $(NAME)
+
+############
+#   SFML   #
+############
+SFML_LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+
+$(NAME_SFML): $(SFML_OBJS)
+	clang++ $(SFML_SRCS)  $(SFML_LDFLAGS) --shared -fPIC -o $(NAME_SFML) 
 
 
-run: $(NAME) $(SFML)
-	./nibbler
+###########
+# UTILITY #
+###########
 
+%.o: %.cpp
+	clang++ $(CFLAGS) $< -c -o $@
 
-run2: $(NAME) $(SFML)
-	valgrind ./nibbler
+run: $(NAME) $(NAME_SFML)
+	./$(NAME)
+
+run2: $(NAME) $(NAME_SFML)
+	valgrind ./$(NAME)
+
+clean:
+	rm -f $(NAME) $(NAME_SFML)
+
+fclean: clean
+	rm -f *.o
+
+re: fclean all
