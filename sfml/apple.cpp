@@ -1,4 +1,5 @@
 #include "apple.hpp"
+#include "config.h"
 
 Apple::Apple () {
 	Aapple.time_ms(500);
@@ -6,11 +7,6 @@ Apple::Apple () {
 	texture->loadFromFile("./sfml/food.png");
 	this->setTexture(*texture);
 	this->setOrigin({static_cast<float>(texture->getSize().x / 2.0), static_cast<float>(texture->getSize().y / 2.0)});
-}
-
-void Apple::init(int x, int y) {
-	this->tileX = x;
-	this->tileY = y;
 }
 
 void Apple::draw_food(sf::RenderWindow &window, Position &position) {
@@ -22,7 +18,7 @@ void Apple::draw_food(sf::RenderWindow &window, Position &position) {
 		this->scale({1.0001, 1.0001});
 	else if (this->getScale().x >= 0.8)
 		this->scale({0.9999, 0.9999});
-	this->setPosition(position.x * tileX + size.x / 2, position.y * tileY + size.y / 2);
+	this->setPosition(position.x * TILE + size.x / 2, position.y * TILE + size.y / 2);
 	window.draw(*this);
 }
 

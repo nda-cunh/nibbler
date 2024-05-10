@@ -6,15 +6,10 @@ Snake::Snake () {
 	eyes.setTexture(texture_snake);
 }
 
-void Snake::init (int x, int y) {
-	tileX = x;
-	tileY = y;
-}
-
 void Snake::draw_snake(sf::RenderWindow &window, const std::deque<Position> &snake, Direction direction) {
 
 	// sf::RenderTexture head;
-	// head.create(tileX, tileY);
+	// head.create(TILE, TILE);
 	
 	// eyes.setTextureRect({1, 15, 28, 28});
 	// head.draw(eyes);
@@ -26,25 +21,25 @@ void Snake::draw_snake(sf::RenderWindow &window, const std::deque<Position> &sna
 	// window.draw(sprite);
 	/* Draw Langue */
 	/*
-	auto boca = sf::Vector2f(snake[0].x * tileX, snake[0].y * tileY);
+	auto boca = sf::Vector2f(snake[0].x * TILE, snake[0].y * TILE);
 
 	switch (direction) {
 		case Up:
 			tounge.setRotation(-95.0f);
-			boca.x += tileX/2;
+			boca.x += TILE/2;
 			break;
 		case Down:
-			boca.x += tileX/2;
-			boca.y += tileY;
+			boca.x += TILE/2;
+			boca.y += TILE;
 			tounge.setRotation(95.f);
 			break;
 		case Left:
-			boca.y += tileY/2;
+			boca.y += TILE/2;
 			tounge.setRotation(180.f);
 			break;
 		case Right:
-			boca.y += tileY/2;
-			boca.x += tileX;
+			boca.y += TILE/2;
+			boca.x += TILE;
 			tounge.setRotation(0.f);
 			break;
 		default:
@@ -59,24 +54,27 @@ void Snake::draw_snake(sf::RenderWindow &window, const std::deque<Position> &sna
 
 	/* Draw Body */
 	Position last = snake[0];
-	auto color = sf::Color(78, 125, 246, 255);
-		double size = tileX / 2.0 - 4;
+	auto color_head = sf::Color(78, 125, 246, 255);
+	auto color = color_head;
+	double size_head = (TILE / 2.0 - 4.0);
+	double size = size_head;
 	for (auto i : snake) {
 		draw_segment (window, i, last, size, color);
 		color.b -= 3;
 		last = i;
 		size -= 0.2;
 	}
+	draw_segment (window, snake[0], snake[1], size_head, color_head);
 
 
 }
 void Snake::draw_segment(sf::RenderWindow& window, const Position begin, const Position end, double size, sf::Color color) {
 	sf::CircleShape circle(size);
 	circle.setFillColor(color);
-	double diff = (tileX / 2.0) - size;
+	double diff = (TILE / 2.0) - size;
 
-	Position b = {begin.x * tileX, begin.y * tileY};
-	Position e = {end.x * tileX, end.y * tileY};
+	Position b = {begin.x * TILE, begin.y * TILE};
+	Position e = {end.x * TILE, end.y * TILE};
 	while (b.x != e.x) {
 		circle.setPosition(b.x + diff, b.y + diff);
 		window.draw(circle);

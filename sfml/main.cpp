@@ -7,61 +7,29 @@
 #include <cmath>
 #include "snake.hpp"
 #include "apple.hpp"
+#include "config.h"
+#include "background.hpp"
 
 class Plugin : public IPlugin {
 	private:
-		sf::RenderWindow *window;
-		sf::Sprite Sdamier;
-		sf::RenderTexture Tdamier;
+		std::shared_ptr<sf::RenderWindow> window;
 		Snake snake;
 		Apple apple;
-		int tileX;
-		int tileY;
+		Background background;
 	public:
-		Plugin(){
-		
-		}
+		virtual ~Plugin() {}
 		void open(int x, int y){
 			sf::ContextSettings settings;
 			settings.antialiasingLevel = 8;
 
-			window = new sf::RenderWindow(sf::VideoMode(800, 800), "Hello SFML", sf::Style::Default, settings);
+			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x, TILE * y), "Hello SFML", sf::Style::Default, settings);
 			// window->setFramerateLimit(60);//TODO use real time
-			tileX = 800 /x;
-			tileY = 800 /y;
-			apple.init(tileX, tileY);
-			snake.init(tileX, tileY);
-			init_background();
+			background.init(window->getSize());
 			draw_background();
-			
-		}
-
-		void init_background() {
-			Tdamier.create(800, 800);
-			float width = tileX;
-			float height = tileY;
-			int num_tiles_x = window->getSize().x / width;
-			int num_tiles_y = window->getSize().y / height;
-
-			sf::RectangleShape rectangle({width, height});
-			for (int i = 0; i < num_tiles_x; ++i) {
-				for (int j = 0; j < num_tiles_y; ++j) {
-					if ((i + j) % 2 == 0) {
-						rectangle.setFillColor(sf::Color(162, 209, 73)); // couleur de rectangle1
-					} else {
-						rectangle.setFillColor(sf::Color(170, 215, 81)); // couleur de rectangle2
-					}
-					rectangle.setPosition(i * width, j * height);
-					Tdamier.draw(rectangle);
-				}
-			}
-			Tdamier.display();
-			Sdamier.setTexture(Tdamier.getTexture());
 		}
 
 		void close(){
 			window->close();
-			delete window;
 		}
 		
 		Event poll_event(){
@@ -86,7 +54,6 @@ class Plugin : public IPlugin {
 			}
 			return NONE;
 		}
-	
 
 		void draw_snake(const std::deque<Position> &queue, Direction direction) {
 			snake.draw_snake(*window, queue, direction);
@@ -106,7 +73,7 @@ class Plugin : public IPlugin {
 
 
 		void draw_background() {
-			window->draw(Sdamier);
+			background.draw_self(*window);
 		}
 
 		void iteration () {
