@@ -6,40 +6,19 @@
 #include <memory>
 #include <cmath>
 #include "snake.hpp"
-
-class Animation : sf::Clock {
-	public:
-		Animation (int ms) {
-			this->ms = ms;
-			this->restart();
-		}
-		bool isElapsed () {
-			auto t = this->getElapsedTime().asMilliseconds();
-			if (t >= ms) {
-				this->restart();
-				return true;
-			}
-			return false;
-		}
-	private:
-		sf::Int32 ms; 
-};
-
-
+#include "apple.hpp"
 
 class Plugin : public IPlugin {
 	private:
 		sf::RenderWindow *window;
 		sf::Sprite Sdamier;
 		sf::RenderTexture Tdamier;
-		sf::Texture Tapple;
-		sf::Sprite Sapple;
-		Animation Aapple;
 		Snake snake;
+		Apple apple;
 		int tileX;
 		int tileY;
 	public:
-		Plugin() : Aapple(500){
+		Plugin(){
 		
 		}
 		void open(int x, int y){
@@ -50,14 +29,11 @@ class Plugin : public IPlugin {
 			// window->setFramerateLimit(60);//TODO use real time
 			tileX = 800 /x;
 			tileY = 800 /y;
-			snake.create(tileX, tileY);
+			apple.init(tileX, tileY);
+			snake.init(tileX, tileY);
 			init_background();
 			draw_background();
 			
-			// Tapple.setSmooth(true);
-			Tapple.loadFromFile("./sfml/food.png");
-			Sapple.setTexture(Tapple);
-			Sapple.setOrigin({static_cast<float>(Tapple.getSize().x / 2.0), static_cast<float>(Tapple.getSize().y / 2.0)});
 		}
 
 		void init_background() {
@@ -117,18 +93,7 @@ class Plugin : public IPlugin {
 		}
 
 		void draw_food(Position &position) {
-			static bool is_up = true;
-			if (Aapple.isElapsed())
-				is_up = !is_up;
-
-			if (is_up && Sapple.getScale().x <= 1.5) {
-				Sapple.scale({1.0001, 1.0001});
-			}
-			else if (Sapple.getScale().x >= 0.8)
-				Sapple.scale({0.9999, 0.9999});
-			auto size = Tapple.getSize();
-			Sapple.setPosition(position.x * tileX + size.x/2, position.y * tileY + size.y/2);
-			window->draw(Sapple);
+			apple.draw_food (*window, position);
 		}
 
 		void draw_score(int n) {

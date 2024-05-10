@@ -7,7 +7,7 @@ CFLAGS = -Wall -Wextra -O3
 ############
 CORE_SRCS = core/main.cpp 
 CORE_OBJS = $(CORE_SRCS:.cpp=.o) 
-SFML_SRCS = sfml/main.cpp sfml/snake.cpp
+SFML_SRCS = sfml/main.cpp sfml/snake.cpp sfml/animation.cpp sfml/apple.cpp
 SFML_OBJS = $(SFML_SRCS:.cpp=.o) 
 
 ############

@@ -5,10 +5,12 @@ Snake::Snake () {
 	tounge.setTexture(texture_snake);
 	eyes.setTexture(texture_snake);
 }
-void Snake::create (int x, int y) {
+
+void Snake::init (int x, int y) {
 	tileX = x;
 	tileY = y;
 }
+
 void Snake::draw_snake(sf::RenderWindow &window, const std::deque<Position> &snake, Direction direction) {
 
 	// sf::RenderTexture head;
