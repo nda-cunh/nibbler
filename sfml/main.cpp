@@ -1,10 +1,7 @@
-#include <iostream>
-#include <string>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include "../include/IPlugin.hpp"
 #include <memory>
-#include <cmath>
 #include "snake.hpp"
 #include "apple.hpp"
 #include "config.h"
