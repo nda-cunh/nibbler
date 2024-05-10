@@ -6,7 +6,7 @@ Snake::Snake () {
 	eyes.setTexture(texture_snake);
 }
 
-void Snake::draw_snake(sf::RenderWindow &window, const std::deque<Position> &snake, Direction direction) {
+void Snake::draw_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction) {
 
 	// sf::RenderTexture head;
 	// head.create(TILE, TILE);
@@ -68,7 +68,7 @@ void Snake::draw_snake(sf::RenderWindow &window, const std::deque<Position> &sna
 
 
 }
-void Snake::draw_segment(sf::RenderWindow& window, const Position begin, const Position end, double size, sf::Color color) {
+void Snake::draw_segment(sf::RenderTexture& window, const Position begin, const Position end, double size, sf::Color color) {
 	sf::CircleShape circle(size);
 	circle.setFillColor(color);
 	double diff = (TILE / 2.0) - size;

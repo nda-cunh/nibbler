@@ -22,6 +22,6 @@ void Background::init(sf::Vector2u size){
 	this->setTexture (texture->getTexture());
 }
 
-void Background::draw_self(sf::RenderWindow &window){
+void Background::draw_self(sf::RenderTexture &window){
 	window.draw(*this);
 }
