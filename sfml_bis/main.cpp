@@ -101,9 +101,12 @@ class Plugin : public IPlugin {
 			window->draw(text2);
 		}
 
-		void iteration () {
-			window->display();
+		void clear() {
 			window->clear();
+		}
+
+		void display () {
+			window->display();
 			for (int i = 0; i < _size.x; i++)
 				for (int j = 0; j < _size.y; j++)
 					this->rect(i, j, sf::Color(21, 21, 21));
