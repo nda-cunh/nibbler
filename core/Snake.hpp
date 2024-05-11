@@ -7,16 +7,18 @@
 
 class Snake {
 	public:
-		Snake(const int &width, const int &height) {
-			for (int j = 4; j > 0; j--)
-				_positions.push_front({width / 2, height / 2 - j});
-			_dir = Down;
-		}
+		Snake() {}
 		~Snake() {
 			this->_positions.clear();
 		}
 
-		std::deque<Position>	getPositions( void ) { return _positions; }
+		void create(const int &width, const int &height) {
+			for (int j = 4; j > 0; j--)
+				_positions.push_front({width / 2, height / 2 - j});
+			_dir = Down;
+		}
+
+		const std::deque<Position>	&getPositions( void )  const { return _positions; }
 
 		void	loseTail( void ) { _positions.pop_back(); }
 
