@@ -20,6 +20,10 @@ void Menu::create(int width, int height) {
 	best_score.setPosition({140, 10});
 }
 
+void Menu::draw_score(int n) {
+
+}
+
 void Menu::draw_self (sf::RenderWindow &surface) {
 	surface.draw(*this);
 	surface.draw(best_score);

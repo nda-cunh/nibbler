@@ -69,7 +69,7 @@ class Plugin : public IPlugin {
 		}
 
 		void draw_score(int n) {
-
+			menu.draw_score(n);
 		}
 
 		void draw_gameover() {
