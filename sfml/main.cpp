@@ -6,6 +6,7 @@
 #include "apple.hpp"
 #include "config.h"
 #include "background.hpp"
+#include "menu.hpp"
 
 class Plugin : public IPlugin {
 	private:
@@ -14,6 +15,7 @@ class Plugin : public IPlugin {
 		sf::Sprite game;
 		Snake snake;
 		Apple apple;
+		Menu menu;
 		Background background;
 	public:
 		virtual ~Plugin() {}
@@ -22,6 +24,7 @@ class Plugin : public IPlugin {
 			settings.antialiasingLevel = 8;
 
 			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Hello SFML", sf::Style::Default, settings);
+			menu.create(window->getSize().x, 80);
 			texture_game = std::make_shared<sf::RenderTexture>();
 			texture_game->create(TILE*x, TILE*y);
 			game.setTexture(texture_game->getTexture());
@@ -76,6 +79,7 @@ class Plugin : public IPlugin {
 
 		void draw_background() {
 			background.draw_self(*texture_game);
+			menu.draw_self(*window);
 		}
 
 		void iteration () {
