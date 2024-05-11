@@ -31,7 +31,8 @@ class IPlugin {
 		virtual void draw_food(Position &position) = 0;
 		virtual void draw_score(int n) = 0;
 		virtual void draw_gameover() = 0;
-		virtual void iteration () = 0;
+		virtual void clear () = 0;
+		virtual void display () = 0;
 		virtual Event poll_event() = 0;
 };
 #endif

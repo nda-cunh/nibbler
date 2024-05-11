@@ -34,8 +34,11 @@ class Plugin : public IPlugin {
 		Event poll_event() {
 			return game->poll_event();
 		}
-		void iteration() {
-			game->iteration();
+		void clear() {
+			game->clear();
+		}
+		void display() {
+			game->display();
 		}
 		void draw_snake(const std::deque<Position> &queue, Direction direction) {
 			game->draw_snake(queue, direction);
