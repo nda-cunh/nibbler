@@ -1,14 +1,14 @@
 NAME_SFML	= lib_nibbler_sfml.so
 NAME_SFML2	= lib_nibbler_sfml_bis.so
 NAME = nibbler
-CFLAGS = -Wall -Wextra -O3
+CFLAGS = -fPIC -Wall -Wextra -O3
 
 ############
 #  SOURCE  #
 ############
 CORE_SRCS = core/main.cpp core/main_utils.cpp 
 CORE_OBJS = $(CORE_SRCS:.cpp=.o) 
-SFML_SRCS = sfml/main.cpp sfml/snake.cpp sfml/animation.cpp sfml/apple.cpp sfml/background.cpp
+SFML_SRCS = sfml/main.cpp sfml/menu.cpp sfml/snake.cpp sfml/animation.cpp sfml/apple.cpp sfml/background.cpp
 SFML_OBJS = $(SFML_SRCS:.cpp=.o) 
 SFML2_SRCS = sfml_bis/main.cpp
 SFML2_OBJS = $(SFML2_SRCS:.cpp=.o) 
@@ -27,7 +27,7 @@ $(NAME): $(CORE_OBJS) $(NAME_SFML) $(NAME_SFML2)
 SFML_LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 $(NAME_SFML): $(SFML_OBJS)
-	clang++ $(SFML_SRCS)  $(SFML_LDFLAGS) --shared -fPIC -o $(NAME_SFML) 
+	clang++ $(SFML_OBJS)  $(SFML_LDFLAGS) --shared -fPIC -o $(NAME_SFML) 
 
 $(NAME_SFML2): $(SFML2_OBJS)
 	clang++ $(SFML2_SRCS)  $(SFML_LDFLAGS) --shared -fPIC -o $(NAME_SFML2) 
@@ -48,9 +48,10 @@ run2: $(NAME) $(NAME_SFML)
 	valgrind ./$(NAME) 8 20
 
 clean:
-	rm -f $(NAME) $(NAME_SFML)
+	rm -rf $(SFML_OBJS)
+	rm -rf $(CORE_OBJS)
 
 fclean: clean
-	rm -f *.o
+	rm -f $(NAME) $(NAME_SFML)
 
 re: fclean all
