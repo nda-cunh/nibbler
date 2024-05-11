@@ -21,6 +21,7 @@ class Plugin : public IPlugin {
 		void open(int w, int h){
 			_size = {w, h};
 			window = new sf::RenderWindow(sf::VideoMode((w + 2) * TILE_SIZE, (h + 2) * TILE_SIZE), "Hello SFML");
+			window->setFramerateLimit(60);
 		}
 
 		void close(){
