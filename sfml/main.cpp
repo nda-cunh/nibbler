@@ -6,6 +6,7 @@
 #include "apple.hpp"
 #include "config.h"
 #include "background.hpp"
+#include "menu.hpp"
 
 class Plugin : public IPlugin {
 	private:
@@ -14,6 +15,7 @@ class Plugin : public IPlugin {
 		sf::Sprite game;
 		Snake snake;
 		Apple apple;
+		Menu menu;
 		Background background;
 	public:
 		virtual ~Plugin() {}
@@ -67,7 +69,7 @@ class Plugin : public IPlugin {
 		}
 
 		void draw_score(int n) {
-
+			menu.draw_score(n);
 		}
 
 		void draw_gameover() {
@@ -77,6 +79,7 @@ class Plugin : public IPlugin {
 
 		void draw_background() {
 			background.draw_self(*texture_game);
+			menu.draw_self(*window);
 		}
 
 		void iteration () {
