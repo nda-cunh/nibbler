@@ -12,8 +12,10 @@ class Menu : public sf::RectangleShape
 		void draw_self (sf::RenderWindow &surface);
 		void draw_score (int n);
 	 private:
+		std::shared_ptr<sf::Font> font;
 		std::shared_ptr<sf::Texture> texture;
 		sf::Sprite food;
+		sf::Text text;
 		sf::Sprite best_score;
 		
 };
