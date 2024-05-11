@@ -45,6 +45,8 @@ class Plugin : public IPlugin {
 				return ENTER;
 			if (event.type == sf::Event::Closed)
 				return CLOSE;
+			if (event.key.code == sf::Keyboard::Escape)
+				return CLOSE;
 			return NONE;
 		}
 
@@ -56,7 +58,7 @@ class Plugin : public IPlugin {
 		}
 		
 		
-		void draw_snake(std::deque<Position> positions) {
+		void draw_snake(const std::deque<Position> &positions, Direction d) {
 			auto p = positions.begin();
 			
 			for (++p; p != positions.end(); p++) {
@@ -71,13 +73,14 @@ class Plugin : public IPlugin {
 
 		void draw_score(int n) {
 
+
 		}
 
 		void draw_gameover() {
 			sf::Text	text;
 			// Load the font from the URL
 			sf::Font font;
-			font.loadFromFile("/nfs/homes/thmarin/.local/share/fonts/agave regular Nerd Font Complete.ttf");
+			font.loadFromFile("./sfml_bis/game_paused.otf");
 			text.setFont(font); // font is a sf::Font
 			text.setString("Game Over!");
 			text.setCharacterSize(100); // in pixels, not points!
