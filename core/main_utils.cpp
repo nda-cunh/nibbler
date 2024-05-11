@@ -1,4 +1,5 @@
 #include "./main_utils.h"
+#include "Timer.hpp"
 
 static void display(const Game &game, Plugin &plugin, Direction &dir) {
 	// plugin.clear();
@@ -19,7 +20,7 @@ void	main_plugin_loop(int width, int height) {
 	Game		game(width, height);
 	Event		event = DOWN;
 	Direction	direction = Down;
-	clock_t		tick = clock();
+	Timer		timer;
 
 	while (event != CLOSE) {
 
@@ -50,9 +51,9 @@ void	main_plugin_loop(int width, int height) {
 		}
 
 		/* Move Snakes */
-		if (!game.over() && tick + CLOCK_FRAME < clock()) {
+		if (!game.over() && timer.elapsed() > 0.1) {
 			game.moveSnake(direction);
-			tick = clock();
+			timer.reset();
 		}
 
 		display(game, plugin, direction);	

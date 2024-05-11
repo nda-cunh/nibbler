@@ -22,6 +22,7 @@ class Plugin : public IPlugin {
 			settings.antialiasingLevel = 8;
 
 			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Hello SFML", sf::Style::Default, settings);
+			window->setFramerateLimit(60);
 			texture_game = std::make_shared<sf::RenderTexture>();
 			texture_game->create(TILE*x, TILE*y);
 			game.setTexture(texture_game->getTexture());
