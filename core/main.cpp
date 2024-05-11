@@ -1,62 +1,43 @@
-#include <iostream>
-#include <string>
-#include <unistd.h>
-#include <time.h>
-#include "Plugin.hpp"
-#include "Game.hpp"
-#include "../include/utils.hpp"
+#include "./main_utils.h"
 
-#define WIDTH 20
-#define HEIGHT 20
-
-void	init_new_game(Direction &direction, Game &game, Event &event) {
-	direction = Down;
-	game = Game(WIDTH, HEIGHT);
-	event = DOWN;
+inline bool is_number(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
 }
 
-// TODO handle params and arg error
-int	main(  void )
-{
-	Plugin		plugin("lib_nibbler_sfml.so", WIDTH, HEIGHT);
-	clock_t		tick = clock();
-	Direction	direction;
-	Event		event;
-	Game		game(WIDTH, HEIGHT);
 
-	init_new_game(direction, game, event);
-	while (true) {
+bool	check_args(int ac, char **av, int &w, int &h) {
+	if (ac != 3)
+		ERROR("Wrong args number");
+	else if (!is_number(av[1]) || !is_number(av[2]))
+		ERROR("Args must be integers");
+	else {
+		int	width = std::stoi(av[1]);
+		int	height = std::stoi(av[2]);
 
-		/* Event Part */
-		auto event = plugin.poll_event();
-		if (event == RIGHT)
-			direction = Right;
-		else if (event == LEFT)
-			direction = Left;
-		else if (event == UP)
-			direction = Up;
-		else if (event == DOWN)
-			direction = Down;
-		else if (event == ENTER) {
-			init_new_game(direction, game, event);
-			continue;
-		} else if (event == CLOSE)
-			break;
-		// std::cout << event << std::endl;
-
-		if (tick + 100000 < clock() && !game._is_over) {
-			game.moveSnake(direction);
-			tick = clock();
+		if (width < 8 || height < 8)
+			ERROR("Integers must be greater than 8");
+		else if (width > 42 || height > 42)
+			ERROR("Integers must be lower than 42");
+		else {
+			w = width;
+			h = height;
+			return true;
 		}
-		plugin.draw_snake(game.getSnakePositions(), direction);
-		plugin.draw_food(game.getFoodPositions());
-
-		if (game._is_over) {
-			plugin.draw_gameover();
-		}
-		plugin.iteration();
 	}
-	
+	return false;
+}
+
+int	main(int argc, char **argv)
+{
+	/* Check Arguments */
+	int width, height;
+	if (!check_args(argc, argv, width, height))
+		return -1;
+
+	main_plugin_loop(width, height);
 
 	return (0);
 }
