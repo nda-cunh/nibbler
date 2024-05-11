@@ -15,7 +15,7 @@ static void display(const Game &game, Plugin &plugin, Direction &dir) {
 }
 
 void	main_plugin_loop(int width, int height) {
-	Plugin		plugin("lib_nibbler_sfml_bis.so", width, height);
+	Plugin		plugin("lib_nibbler_sfml.so", width, height);
 	Game		game(width, height);
 	Event		event = DOWN;
 	Direction	direction = Down;
