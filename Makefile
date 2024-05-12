@@ -41,17 +41,18 @@ $(NAME_SFML2): $(SFML2_OBJS)
 %.o: %.cpp
 	clang++ $(CFLAGS) $< -c -o $@
 
-run: $(NAME) $(NAME_SFML)
+run: $(NAME) $(NAME_SFML) $(NAME_SFML2)
 	./$(NAME) 8 20
 
-run2: $(NAME) $(NAME_SFML)
+run2: $(NAME) $(NAME_SFML) $(NAME_SFML2)
 	valgrind ./$(NAME) 8 20
 
 clean:
 	rm -rf $(SFML_OBJS)
+	rm -rf $(SFML2_OBJS)
 	rm -rf $(CORE_OBJS)
 
 fclean: clean
-	rm -f $(NAME) $(NAME_SFML)
+	rm -f $(NAME) $(NAME_SFML) $(NAME_SFML2)
 
 re: fclean all
