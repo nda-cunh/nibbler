@@ -12,6 +12,7 @@ class Plugin : public IPlugin {
 	private:
 		sf::RenderWindow 	*window;
 		Position			_size;
+
 	public:
 		virtual ~Plugin () {
 		}
@@ -62,7 +63,7 @@ class Plugin : public IPlugin {
 			rec.setPosition((x + 1) * TILE_SIZE + BORDER, (y + 1) * TILE_SIZE + BORDER);
 			rec.setFillColor(c);
 			window->draw(rec);
-		}
+			}
 		
 		
 		void update_snake(const std::deque<Position> &positions, Direction d) {
@@ -80,47 +81,68 @@ class Plugin : public IPlugin {
 		}
 
 		void update_score(int n) {
-			(void) n;
+			sf::Font	font;
+			if (font.loadFromFile("./sfml_bis/pixel_emulator.ttf")) {
+				sf::Text	text;
+				char		score_str[20];
+
+				score_str[sprintf(score_str, " Score %3d", n)] = 0;
+
+				// select the font
+				text.setFont(font); // font is a sf::Font
+
+				// set the string to display
+				text.setString(score_str);
+
+				// set the character size
+				text.setCharacterSize(20); // in pixels, not points!
+
+				// set the color
+				text.setFillColor(sf::Color::White);
+
+				window->draw(text);
+			}
 		}
 
 		void update_bestscore(int n) {
-			(void) n;
+			sf::Font	font;
+			if (font.loadFromFile("./sfml_bis/pixel_emulator.ttf")) {
+				sf::Text	text;
+				char		score_str[20];
 
+				score_str[sprintf(score_str, "           Best %3d", n)] = 0;
+
+				// select the font
+				text.setFont(font); // font is a sf::Font
+
+				// set the string to display
+				text.setString(score_str);
+
+				// set the character size
+				text.setCharacterSize(20); // in pixels, not points!
+
+				// set the color
+				text.setFillColor(sf::Color::White);
+
+				window->draw(text);
+			}
 		}
 
 		void update_gameover() {
-			sf::Text	text;
-			// Load the font from the URL
-			sf::Font font;
-			font.loadFromFile("./sfml_bis/game_paused.otf");
-			text.setFont(font); // font is a sf::Font
-			text.setString("Game Over!");
-			text.setCharacterSize(100); // in pixels, not points!
-			text.setFillColor(sf::Color::White);
-			text.setStyle(sf::Text::Bold);
-			text.setPosition({100, 20});
-			sf::Text	text2;
-			// Load the font from the URL
-			text2.setFont(font); // font is a sf::Font
-			text2.setString("Press [ Enter ]\n To play again");
-			text2.setCharacterSize(50); // in pixels, not points!
-			text2.setFillColor(sf::Color::White);
-			text2.setStyle(sf::Text::Bold);
-			text2.setPosition({150, 400});
-
-			window->draw(text);
-			window->draw(text2);
+			for (int i = 0; i < _size.x; i++)
+				for (int j = 0; j < _size.y; j++)
+					this->rect(i, j, sf::Color(206, 0, 56, 60));
 		}
 
 		void clear() {
 			window->clear();
+			for (int i = 0; i < _size.x; i++)
+				for (int j = 0; j < _size.y; j++)
+					this->rect(i, j, sf::Color(21, 21, 21));
 		}
 
 		void display () {
 			window->display();
-			for (int i = 0; i < _size.x; i++)
-				for (int j = 0; j < _size.y; j++)
-					this->rect(i, j, sf::Color(21, 21, 21));
 		}
 };
 
