@@ -19,24 +19,20 @@ static void display(const Game &game, Plugin &plugin, Direction &dir) {
 	plugin.display();
 }
 
-enum Lib_magik {
-	LIB_1,
-	LIB_2,
-	LIB_3
-};
-
-
 // runGameLoop(...)
 void	main_plugin_loop(int width, int height) {
 	std::unique_ptr<Plugin> plugin;
 	Game		game(width, height);
 	Event		event = DOWN;
+	LIBS		lib = SFML;
+	const auto	lib_names = std::map<LIBS, std::string>({
+			{SFML, "./libsfml.so"},
+			{SFML_BIS, "./libsfml_bis.so"}
+	});
 	Direction	direction = Down;
 	Timer		timer;
 
-	Lib_magik lib;
-	lib = LIB_1;
-	plugin = std::make_unique<Plugin>("./libsfml.so", width, height);
+	plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 
 	while (event != CLOSE) {
 		/* Event Handling */
@@ -64,18 +60,18 @@ void	main_plugin_loop(int width, int height) {
 				direction = Down;
 				break;
 			case F1:
-				if (lib == LIB_1)
+				if (lib == SFML)
 					break;
-				lib = LIB_1;
+				lib = SFML;
 				plugin.reset();
-				plugin = std::make_unique<Plugin>("./libsfml.so", width, height);
+				plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 				break;
 			case F2:
-				if (lib == LIB_2)
+				if (lib == SFML_BIS)
 					break;
-				lib = LIB_2;
+				lib = SFML_BIS;
 				plugin.reset();
-				plugin = std::make_unique<Plugin>("./libsfml_bis.so", width, height);
+				plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 				break;
 			default:
 				break;
