@@ -79,6 +79,7 @@ class Plugin : public IPlugin {
 
 		void update_bestscore(int n) {
 			(void) n;
+
 		}
 
 		void update_gameover() {
