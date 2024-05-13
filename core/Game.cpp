@@ -61,6 +61,13 @@ void Game::moveSnake(const Direction &dir) {
 	}
 }
 
+Game	Game::newGame( void ) const {
+	Game	new_game = Game(_size.x, _size.y);
+
+	new_game._best_score = _best_score;
+	return new_game;
+}
+
 void	Game::generateFood() {
 	const auto 		snake_pos = getSnakePositions();
 	auto freePos = std::vector<Position>();

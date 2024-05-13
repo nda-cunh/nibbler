@@ -35,6 +35,7 @@ class Game {
 		const std::vector<Position> &getFoodPositions( void ) const;
 
 		/* ---- Methods ---- */
-		void moveSnake(const Direction &dir);
+		void moveSnake	(const Direction &dir);
+		Game newGame	( void ) const;
 };
 #endif

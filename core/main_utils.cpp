@@ -55,7 +55,7 @@ void	main_plugin_loop(int width, int height) {
 			case ENTER:
 				if (!game.over())
 					break;
-				game = Game(width, height);
+				game = game.newGame();
 				event = DOWN;
 				direction = Down;
 				break;
