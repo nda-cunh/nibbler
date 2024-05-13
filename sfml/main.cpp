@@ -22,11 +22,7 @@ class Plugin : public IPlugin {
 		void open(int x, int y){
 			sf::ContextSettings settings;
 			settings.antialiasingLevel = 8;
-<<<<<<< HEAD
-=======
-
 			printf("%d et %d\n", x, y);
->>>>>>> master
 			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Hello SFML", sf::Style::Default ^ sf::Style::Resize, settings);
 			menu.create(window->getSize().x, 80);
 			window->setFramerateLimit(60);
