@@ -12,8 +12,8 @@ Game::Game(const int width, const int height) {
 	_score = 0;
 	_best_score = 0;
 	_foods = std::vector<Position>();
-	for (int i = 0; i < width*height; ++i)
-		generateFood();
+	// for (int i = 0; i < width*height; ++i)
+	generateFood();
 }
 
 /* ____ ACCESSORS ____ */
