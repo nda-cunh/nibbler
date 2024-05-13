@@ -1,10 +1,14 @@
-# include "Plugin.hpp"
-
+#include "Plugin.hpp"
+#include <stdexcept>
 
 /* ____ CONSTRUCTORS ____ */
 Plugin::Plugin (std::string so, int x, int y) {
 	handler = dlopen(so.c_str(), RTLD_LAZY);
+	if (handler == NULL)
+		throw std::runtime_error("can't load " + so);
 	auto func = (IPlugin*(*)())dlsym(handler, "load");
+	if (func == NULL)
+		throw std::runtime_error("can't dlsym \"load\" function");
 	game = func();
 	this->open(x, y);
 }
@@ -12,8 +16,10 @@ Plugin::Plugin (std::string so, int x, int y) {
 Plugin::~Plugin(){
 	this->close();
 	auto func = (IPlugin*(*)())dlsym(handler, "unload");
-	func();
-	dlclose(handler);
+	if (func == NULL)
+		func();
+	if (dlclose(handler) != 0)
+		std::cerr << "dlclose have an error" << std::endl;
 }
 
 /* ____ LIB LOADING RELATED METHODS ____ */
