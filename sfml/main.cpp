@@ -55,6 +55,12 @@ class Plugin : public IPlugin {
 					return ENTER;
 				case sf::Keyboard::Escape:
 					return CLOSE;
+				case sf::Keyboard::F1:
+					return F1;
+				case sf::Keyboard::F2:
+					return F2;
+				case sf::Keyboard::F3:
+					return F3;
 				default:
 					return NONE;
 			}

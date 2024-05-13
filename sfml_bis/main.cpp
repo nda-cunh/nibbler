@@ -48,6 +48,12 @@ class Plugin : public IPlugin {
 				return CLOSE;
 			if (event.key.code == sf::Keyboard::Escape)
 				return CLOSE;
+			if (event.key.code == sf::Keyboard::F1)
+				return F1;
+			if (event.key.code == sf::Keyboard::F2)
+				return F2;
+			if (event.key.code == sf::Keyboard::F3)
+				return F3;
 			return NONE;
 		}
 
