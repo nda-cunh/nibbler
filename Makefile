@@ -3,6 +3,14 @@ NAME_SFML2	= lib_nibbler_sfml_bis.so
 NAME = nibbler
 CFLAGS = -fPIC -Wall -Wextra -O3
 
+
+all: build
+	ninja install -C build
+
+build:
+	meson build --prefix="${PWD}" --bindir="" --libdir="" --wipe
+
+
 ############
 #  SOURCE  #
 ############
@@ -16,7 +24,7 @@ SFML2_OBJS = $(SFML2_SRCS:.cpp=.o)
 ############
 #   CORE   #
 ############
-all: $(NAME)
+# all: $(NAME)
 
 $(NAME): $(CORE_OBJS) $(NAME_SFML) $(NAME_SFML2)
 	clang++ $(CORE_OBJS) -o $(NAME)
@@ -41,10 +49,10 @@ $(NAME_SFML2): $(SFML2_OBJS)
 %.o: %.cpp
 	clang++ $(CFLAGS) $< -c -o $@
 
-run: $(NAME) $(NAME_SFML) $(NAME_SFML2)
+run: all
 	./$(NAME) 8 20
 
-run2: $(NAME) $(NAME_SFML) $(NAME_SFML2)
+run2: all
 	valgrind ./$(NAME) 8 20
 
 clean:
