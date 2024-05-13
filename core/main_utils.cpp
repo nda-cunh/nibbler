@@ -19,16 +19,28 @@ static void display(const Game &game, Plugin &plugin, Direction &dir) {
 	plugin.display();
 }
 
+enum Lib_magik {
+	LIB_1,
+	LIB_2,
+	LIB_3
+};
 
-Event abc(Plugin &plugin, const int width, const int height) {
+
+// runGameLoop(...)
+void	main_plugin_loop(int width, int height) {
+	std::unique_ptr<Plugin> plugin;
 	Game		game(width, height);
 	Event		event = DOWN;
 	Direction	direction = Down;
 	Timer		timer;
 
+	Lib_magik lib;
+	lib = LIB_1;
+	plugin = std::make_unique<Plugin>("./libsfml.so", width, height);
+
 	while (event != CLOSE) {
 		/* Event Handling */
-		event = plugin.poll_event();
+		event = plugin->poll_event();
 		switch (event) {
 			case RIGHT:
 				direction = Right;
@@ -52,11 +64,19 @@ Event abc(Plugin &plugin, const int width, const int height) {
 				direction = Down;
 				break;
 			case F1:
-				return F1;
+				if (lib == LIB_1)
+					break;
+				lib = LIB_1;
+				plugin.reset();
+				plugin = std::make_unique<Plugin>("./libsfml.so", width, height);
+				break;
 			case F2:
-				return F2;
-			case F3:
-				return F3;
+				if (lib == LIB_2)
+					break;
+				lib = LIB_2;
+				plugin.reset();
+				plugin = std::make_unique<Plugin>("./libsfml_bis.so", width, height);
+				break;
 			default:
 				break;
 		}
@@ -67,37 +87,8 @@ Event abc(Plugin &plugin, const int width, const int height) {
 			timer.reset();
 		}
 
-		display(game, plugin, direction);	
+		display(game, *plugin, direction);	
 	}
-	return CLOSE;
-}
-
-
-// runGameLoop(...)
-void	main_plugin_loop(int width, int height) {
-	std::unique_ptr<Plugin> plugin;
-
-
-	plugin = std::make_unique<Plugin>("./libsfml.so", width, height);
-	Event event = F1;
-	while (event != CLOSE) {
-		printf("NEW\n");
-		event = abc(*plugin, width, height);
-		switch (event) {
-			case F1:
-				plugin.reset();
-				plugin = std::make_unique<Plugin>("./libsfml.so", width, height);
-				break;
-			case F2:
-				plugin.reset();
-				plugin = std::make_unique<Plugin>("./libsfml_bis.so", width, height);
-				break;
-			default:
-				break;
-		}
-		printf("%d\n", event);
-	}
-	printf("END\n");
 }
 
 
