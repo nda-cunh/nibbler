@@ -11,6 +11,7 @@ static void display(const Game &game, Plugin &plugin, Direction &dir) {
 	for (auto pos : game.getFoodPositions())
 		plugin.update_food(pos);
 
+	plugin.update_score(game.getScore());
 	plugin.update_bestscore(game.getBestScore());
 	if (game.over())
 		plugin.update_gameover();
