@@ -27,10 +27,10 @@ class IPlugin {
 	public:
 		virtual void open(int, int) = 0;
 		virtual void close() = 0;
-		virtual void draw_snake(const std::deque<Position> &snake, Direction direction) = 0;
-		virtual void draw_food(Position &position) = 0;
-		virtual void draw_score(int n) = 0;
-		virtual void draw_gameover() = 0;
+		virtual void update_snake(const std::deque<Position> &snake, Direction direction) = 0;
+		virtual void update_food(Position &position) = 0;
+		virtual void update_score(int n) = 0;
+		virtual void update_gameover() = 0;
 		virtual void clear () = 0;
 		virtual void display () = 0;
 		virtual Event poll_event() = 0;

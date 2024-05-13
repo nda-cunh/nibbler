@@ -14,7 +14,7 @@ class Apple : sf::Sprite{
 
 		void init(int x, int y);
 
-		void draw_food(sf::RenderTexture &window, Position &position);
+		void update_food(sf::RenderTexture &window, Position &position);
 
 	private:
 		bool is_up;

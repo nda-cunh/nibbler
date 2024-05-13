@@ -11,6 +11,15 @@
 #define COUNT(cont, elem) std::count(cont.begin(), cont.end(), elem)
 
 class Game {
+	private:
+		int						_score;
+		bool					_is_over;
+		Position				_size;
+		std::vector<Position>	_foods;
+		Snake					_snake;
+
+		void	generateFood();
+	
 	public:
 		/* ---- Constructors ---- */
 		Game();
@@ -25,13 +34,5 @@ class Game {
 
 		/* ---- Methods ---- */
 		void moveSnake(const Direction &dir);
-	private:
-		int						_score;
-		bool					_is_over;
-		Position				_size;
-		std::vector<Position>	_foods;
-		Snake					_snake;
-
-		void	generateFood();
 };
 #endif

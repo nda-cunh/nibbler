@@ -24,7 +24,7 @@ void Menu::create(int width, int height) {
 	text.setPosition({80, 20});
 }
 
-void Menu::draw_score(int n) {
+void Menu::update_score(int n) {
 	char buffer[8];
 	sprintf(buffer, "%d", n);
 	text.setString(std::string(buffer));

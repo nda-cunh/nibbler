@@ -59,7 +59,7 @@ class Plugin : public IPlugin {
 		}
 		
 		
-		void draw_snake(const std::deque<Position> &positions, Direction d) {
+		void update_snake(const std::deque<Position> &positions, Direction d) {
 			auto p = positions.begin();
 			
 			for (++p; p != positions.end(); p++) {
@@ -68,16 +68,16 @@ class Plugin : public IPlugin {
 			this->rect(positions.begin()->x, positions.begin()->y, sf::Color::Blue);
 		}
 
-		void draw_food(Position &pos) {
+		void update_food(Position &pos) {
 			this->rect(pos.x, pos.y, sf::Color::Red);
 		}
 
-		void draw_score(int n) {
+		void update_score(int n) {
 
 
 		}
 
-		void draw_gameover() {
+		void update_gameover() {
 			sf::Text	text;
 			// Load the font from the URL
 			sf::Font font;

@@ -9,7 +9,7 @@ class Snake
 {
 	 public:
 		Snake();
-		void draw_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction);
+		void update_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction);
 	protected:
 		inline void draw_segment(sf::RenderTexture& window, const Position begin, const Position end, double size, sf::Color color);
 	 private:

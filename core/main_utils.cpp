@@ -3,14 +3,14 @@
 
 static void display(const Game &game, Plugin &plugin, Direction &dir) {
 	plugin.clear();
-	plugin.draw_snake(game.getSnakePositions(), dir);
+	plugin.update_snake(game.getSnakePositions(), dir);
 
 	for (auto pos : game.getFoodPositions())
-		plugin.draw_food(pos);
+		plugin.update_food(pos);
 
-	plugin.draw_score(game.getScore());
+	plugin.update_score(game.getScore());
 	if (game.over())
-		plugin.draw_gameover();
+		plugin.update_gameover();
 	plugin.display();
 }
 

@@ -6,7 +6,7 @@ Snake::Snake () {
 	eyes.setTexture(texture_snake);
 }
 
-void Snake::draw_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction) {
+void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction) {
 
 	// sf::RenderTexture head;
 	// head.create(TILE, TILE);
