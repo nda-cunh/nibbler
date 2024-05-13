@@ -61,9 +61,11 @@ void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &
 	double size = size_head;
 	for (auto i : snake) {
 		draw_segment (window, i, last, size, color);
-		color.b -= 3;
+		if (color.b > 20.0)
+			color.b -= 3;
 		last = i;
-		size -= 0.2;
+		if (size > 6.0)
+			size -= 0.2;
 	}
 	draw_segment (window, snake[0], snake[1], size_head, color_head);
 
@@ -80,16 +82,16 @@ void Snake::draw_segment(sf::RenderTexture& window, const Position begin, const 
 		circle.setPosition(b.x + diff, b.y + diff);
 		window.draw(circle);
 		if (e.x > b.x)
-			b.x++;
+			++b.x;
 		else
-			b.x--;
+			--b.x;
 	}
 	while (b.y != e.y) {
 		circle.setPosition(b.x + diff, b.y + diff);
 		window.draw(circle);
 		if (e.y > b.y)
-			b.y++;
+			++b.y;
 		else
-			b.y--;
+			--b.y;
 	}
 }

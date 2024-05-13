@@ -14,10 +14,10 @@ void Apple::update_food(sf::RenderTexture &window, Position &position) {
 	if (Aapple.isElapsed())
 		is_up = !is_up;
 
-	if (is_up && this->getScale().x <= 1.5)
-		this->scale({1.0001, 1.0001});
-	else if (this->getScale().x >= 0.8)
-		this->scale({0.9999, 0.9999});
+	// if (is_up && this->getScale().x <= 1.5)
+		// this->scale({1.0001, 1.0001});
+	// else if (this->getScale().x >= 0.8)
+		// this->scale({0.9999, 0.9999});
 	this->setPosition(position.x * TILE + size.x / 2, position.y * TILE + size.y / 2);
 	window.draw(*this);
 }
