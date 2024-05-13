@@ -6,7 +6,7 @@ CFLAGS = -fPIC -Wall -Wextra -O3
 ############
 #  SOURCE  #
 ############
-CORE_SRCS = core/main.cpp core/main_utils.cpp 
+CORE_SRCS = core/main.cpp core/main_utils.cpp core/Game.cpp core/Plugin.cpp
 CORE_OBJS = $(CORE_SRCS:.cpp=.o) 
 SFML_SRCS = sfml/main.cpp sfml/menu.cpp sfml/snake.cpp sfml/animation.cpp sfml/apple.cpp sfml/background.cpp
 SFML_OBJS = $(SFML_SRCS:.cpp=.o) 

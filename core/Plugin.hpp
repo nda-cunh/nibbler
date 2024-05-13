@@ -10,47 +10,21 @@ class Plugin : public IPlugin {
 		IPlugin* game;
 		void* handler;
 	public:
-		~Plugin(){
-			this->close();
-			auto func = (IPlugin*(*)())dlsym(handler, "unload");
-			func();
-			dlclose(handler);
-		}
-		Plugin (std::string so, int x, int y) {
-			handler = dlopen(so.c_str(), RTLD_LAZY);
-			auto func = (IPlugin*(*)())dlsym(handler, "load");
-			game = func();
-			this->open(x, y);
-		}
+		/* ---- Constructors ---- */
+		~Plugin();
+		Plugin (std::string so, int x, int y);
 
-		void open (int x, int y) {
-			game->open(x, y);
-		}
-		void close() {
-			game->close();
-		}
+		/* ---- Lib loading related methods ---- */
+		void open (int x, int y);
+		void close();
 
-		/* API du jeu */
-		Event poll_event() {
-			return game->poll_event();
-		}
-		void clear() {
-			game->clear();
-		}
-		void display() {
-			game->display();
-		}
-		void draw_snake(const std::deque<Position> &queue, Direction direction) {
-			game->draw_snake(queue, direction);
-		}
-		void draw_food(Position &position) {
-			game->draw_food(position);
-		}
-		void draw_score(int n) {
-			game->draw_score(n);
-		}
-		void draw_gameover() {
-			game->draw_gameover();
-		}
+		/* ---- API related methods ---- */
+		Event poll_event();
+		void clear();
+		void display();
+		void update_snake(const std::deque<Position> &queue, Direction direction);
+		void update_food(Position &position);
+		void update_score(int n);
+		void update_gameover();
 };
 #endif
