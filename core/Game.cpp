@@ -10,6 +10,7 @@ Game::Game(const int width, const int height) {
 	_size = {width, height};
 	_is_over = false;
 	_score = 0;
+	_best_score = 0;
 	_foods = std::vector<Position>();
 	for (int i = 0; i < width*height; ++i)
 		generateFood();
@@ -24,6 +25,10 @@ int		Game::getScore() const {
 	return _score;
 }
 
+int		Game::getBestScore() const {
+	return _best_score;
+}
+
 const std::deque<Position> &Game::getSnakePositions( void ) const {
 	return _snake.getPositions(); 
 }
@@ -34,7 +39,7 @@ const std::vector<Position> &Game::getFoodPositions( void ) const {
 
 /* ____ METHODS ____ */
 void Game::moveSnake(const Direction &dir) {
-	const Position new_head_pos = _snake.move(dir);
+	const Position	new_head_pos = _snake.move(dir);
 	const auto		snake_pos = _snake.getPositions();
 	const auto		food_it = FIND(_foods, new_head_pos);
 
@@ -48,7 +53,8 @@ void Game::moveSnake(const Direction &dir) {
 	else if (food_it == _foods.end())
 		_snake.loseTail();
 	else {
-		_score++;
+		if (++_score > _best_score)
+			++_best_score;
 		_foods.erase(food_it);
 		generateFood();
 		generateFood();

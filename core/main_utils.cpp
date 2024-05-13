@@ -1,6 +1,9 @@
 #include "./main_utils.h"
 #include "Timer.hpp"
 
+// File: game_loop.cpp
+
+// updateAndDisplayGameState(...)
 static void display(const Game &game, Plugin &plugin, Direction &dir) {
 	plugin.clear();
 	plugin.update_snake(game.getSnakePositions(), dir);
@@ -8,12 +11,13 @@ static void display(const Game &game, Plugin &plugin, Direction &dir) {
 	for (auto pos : game.getFoodPositions())
 		plugin.update_food(pos);
 
-	plugin.update_score(game.getScore());
+	plugin.update_bestscore(game.getBestScore());
 	if (game.over())
 		plugin.update_gameover();
 	plugin.display();
 }
 
+// runGameLoop(...)
 void	main_plugin_loop(int width, int height) {
 	Plugin		plugin("lib_nibbler_sfml.so", width, height);
 	Game		game(width, height);

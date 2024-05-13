@@ -71,6 +71,10 @@ class Plugin : public IPlugin {
 			menu.update_score(n);
 		}
 
+		void update_bestscore(int n) {
+			(void) n;
+		}
+
 		void update_gameover() {
 
 		}

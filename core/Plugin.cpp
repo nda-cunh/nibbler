@@ -50,6 +50,10 @@ void Plugin::update_score(int n) {
 	game->update_score(n);
 }
 
+void Plugin::update_bestscore(int n) {
+	game->update_bestscore(n);
+}
+
 void Plugin::update_gameover() {
 	game->update_gameover();
 }
