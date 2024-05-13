@@ -13,7 +13,7 @@ class Plugin : public IPlugin {
 		sf::RenderWindow 	*window;
 		Position			_size;
 	public:
-		~Plugin () {
+		virtual ~Plugin () {
 		}
 		Plugin () {
 		}
@@ -60,6 +60,7 @@ class Plugin : public IPlugin {
 		
 		
 		void update_snake(const std::deque<Position> &positions, Direction d) {
+			(void) d;
 			auto p = positions.begin();
 			
 			for (++p; p != positions.end(); p++) {

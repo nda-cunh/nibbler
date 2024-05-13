@@ -7,6 +7,7 @@ Snake::Snake () {
 }
 
 void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction) {
+	(void) direction;
 
 	// sf::RenderTexture head;
 	// head.create(TILE, TILE);
