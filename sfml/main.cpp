@@ -61,19 +61,19 @@ class Plugin : public IPlugin {
 			return NONE;
 		}
 
-		void draw_snake(const std::deque<Position> &queue, Direction direction) {
-			snake.draw_snake(*texture_game, queue, direction);
+		void update_snake(const std::deque<Position> &queue, Direction direction) {
+			snake.update_snake(*texture_game, queue, direction);
 		}
 
-		void draw_food(Position &position) {
-			apple.draw_food (*texture_game, position);
+		void update_food(Position &position) {
+			apple.update_food (*texture_game, position);
 		}
 
-		void draw_score(int n) {
-			menu.draw_score(n);
+		void update_score(int n) {
+			menu.update_score(n);
 		}
 
-		void draw_gameover() {
+		void update_gameover() {
 
 		}
 

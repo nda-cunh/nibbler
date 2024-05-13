@@ -3,7 +3,6 @@
 
 #include <string>
 #include <iostream>
-#include "IPlugin.hpp"
 
 struct Position {
 	int x;

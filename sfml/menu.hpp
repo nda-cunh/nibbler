@@ -10,7 +10,7 @@ class Menu : public sf::RectangleShape
 		Menu();
 		void create (int width, int height);
 		void draw_self (sf::RenderWindow &surface);
-		void draw_score (int n);
+		void update_score (int n);
 	 private:
 		std::shared_ptr<sf::Font> font;
 		std::shared_ptr<sf::Texture> texture;
