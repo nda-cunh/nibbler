@@ -57,7 +57,7 @@ void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &
 	Position last = snake[0];
 	auto color_head = sf::Color(78, 125, 246, 255);
 	auto color = color_head;
-	double size_head = (TILE / 2.0 - 4.0);
+	double size_head = (TILE * 0.75);
 	double size = size_head;
 	for (auto i : snake) {
 		draw_segment (window, i, last, size, color);
@@ -71,27 +71,42 @@ void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &
 
 
 }
-void Snake::draw_segment(sf::RenderTexture& window, const Position begin, const Position end, double size, sf::Color color) {
-	sf::CircleShape circle(size);
-	circle.setFillColor(color);
-	double diff = (TILE / 2.0) - size;
 
-	Position b = {begin.x * TILE, begin.y * TILE};
-	Position e = {end.x * TILE, end.y * TILE};
-	while (b.x != e.x) {
-		circle.setPosition(b.x + diff, b.y + diff);
+# define TILEf static_cast<float>(TILE)
+
+void Snake::draw_segment(sf::RenderTexture& window, const Position begin, const Position end, double size, sf::Color color) {
+	sf::VertexArray vertices(sf::PrimitiveType::TriangleStrip, 4);
+	const float	sizef = static_cast<float>(size);
+
+	if (begin.x == end.x) {
+		vertices[0].position = {begin.x * TILEf + (TILEf - sizef) / 2.0f, begin.y * TILEf + TILEf / 2.0f};
+		vertices[1].position = {(begin.x + 1) * TILEf - (TILEf - sizef) / 2.0f, begin.y * TILEf + TILEf / 2.0f};
+		vertices[2].position = {end.x * TILEf + (TILEf - (sizef + 0.2f)) / 2.0f, end.y * TILEf + TILEf / 2.0f};
+		vertices[3].position = {(end.x + 1) * TILEf - (TILEf - (sizef + 0.2f)) / 2.0f, end.y * TILEf + TILEf / 2.0f};
+		vertices[0].color = color;
+		vertices[1].color = color;
+		vertices[2].color = color;
+		vertices[3].color = color;
+		window.draw(vertices);
+		sf::CircleShape circle(size / 2.0);
+		circle.setPosition({begin.x * TILEf + TILEf / 2.0f, begin.y * TILEf + TILEf / 2.0f});
+		circle.setOrigin({sizef / 2.0f, sizef / 2.0f});
+		circle.setFillColor(color);
 		window.draw(circle);
-		if (e.x > b.x)
-			++b.x;
-		else
-			--b.x;
-	}
-	while (b.y != e.y) {
-		circle.setPosition(b.x + diff, b.y + diff);
+	} else {
+		vertices[0].position = {begin.x * TILEf + TILEf / 2.0f, begin.y * TILEf + (TILEf - sizef) / 2.0f};
+		vertices[1].position = {begin.x * TILEf + TILEf / 2.0f, (begin.y + 1) * TILEf - (TILEf - sizef) / 2.0f};
+		vertices[2].position = {end.x * TILEf + TILEf / 2.0f, end.y * TILEf + (TILEf - (sizef + 0.2f)) / 2.0f};
+		vertices[3].position = {end.x * TILEf + TILEf / 2.0f, (end.y + 1) * TILEf - (TILEf - (sizef + 0.2f)) / 2.0f};
+		vertices[0].color = color;
+		vertices[1].color = color;
+		vertices[2].color = color;
+		vertices[3].color = color;
+		window.draw(vertices);
+		sf::CircleShape circle(size / 2.0);
+		circle.setPosition({begin.x * TILEf + TILEf / 2.0f, begin.y * TILEf + TILEf / 2.0f});
+		circle.setOrigin({sizef / 2.0f, sizef / 2.0f});
+		circle.setFillColor(color);
 		window.draw(circle);
-		if (e.y > b.y)
-			++b.y;
-		else
-			--b.y;
 	}
 }
