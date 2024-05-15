@@ -7,19 +7,7 @@ Snake::Snake () {
 }
 
 void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction) {
-	(void) direction;
 
-	// sf::RenderTexture head;
-	// head.create(TILE, TILE);
-	
-	// eyes.setTextureRect({1, 15, 28, 28});
-	// head.draw(eyes);
-	// head.setSmooth(true);
-	// head.display();
-	// sf::Sprite sprite;
-	// sprite.setTexture(head.getTexture());
-
-	// window.draw(sprite);
 	/* Draw Langue */
 	/*
 	auto boca = sf::Vector2f(snake[0].x * TILE, snake[0].y * TILE);
@@ -69,10 +57,12 @@ void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &
 	}
 	draw_segment (window, snake[0], snake[1], size_head, color_head);
 
+	/* draw Eyes */
+	draw_eye(window, snake[0], direction, TILEf / 7);
+	draw_eye(window, snake[0], direction, - TILEf / 2.5);
 
 }
 
-# define TILEf static_cast<float>(TILE)
 
 void Snake::draw_segment(sf::RenderTexture& window, const Position begin, const Position end, double size, sf::Color color) {
 	sf::VertexArray vertices(sf::PrimitiveType::TriangleStrip, 4);
@@ -109,4 +99,30 @@ void Snake::draw_segment(sf::RenderTexture& window, const Position begin, const 
 		circle.setFillColor(color);
 		window.draw(circle);
 	}
+}
+
+inline void Snake::draw_eye(sf::RenderTexture& window, const Position &pos, Direction dir, float shift) {
+	sf::Sprite sprite(eyes);
+
+	sprite.setTextureRect({1, 15, 28, 28});
+
+	
+	if (dir == Up) {
+		shift += TILEf / 4.0;
+		sprite.setRotation(270);
+		sprite.setPosition({static_cast<float>(pos.x * TILEf) + shift, static_cast<float>((pos.y + 1) * TILEf)});
+	}
+	else if (dir == Left){
+		sprite.setRotation(180);
+		sprite.setPosition({static_cast<float>((pos.x + 1) * TILEf), static_cast<float>((pos.y + 1) * TILEf) + shift});
+	}
+	else if (dir == Down) {
+		sprite.setRotation(90);
+		sprite.setPosition({static_cast<float>((pos.x + 1) * TILEf) + shift, static_cast<float>(pos.y * TILEf)});
+	} else {
+		shift += TILEf / 4.0;
+		sprite.setPosition({static_cast<float>(pos.x * TILEf), static_cast<float>(pos.y * TILEf) + shift});
+	}
+	
+	window.draw(sprite);
 }

@@ -12,6 +12,7 @@ class Snake
 		void update_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction);
 	protected:
 		inline void draw_segment(sf::RenderTexture& window, const Position begin, const Position end, double size, sf::Color color);
+		inline void draw_eye(sf::RenderTexture& window, const Position &pos, Direction dir, float shift);
 	 private:
 		sf::Texture texture_snake;
 		sf::Sprite tounge;
