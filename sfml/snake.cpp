@@ -1,9 +1,23 @@
 #include "snake.hpp"
+#include <SFML/Graphics/RenderTexture.hpp>
 
 Snake::Snake () {
 	texture_snake.loadFromFile("./sfml/snake.png");
 	tounge.setTexture(texture_snake);
 	eyes.setTexture(texture_snake);
+	s_eyes.setFrames({
+			{1, 15, 28, 28},
+			{30, 15, 28, 28},
+			{59, 15, 28, 28},
+			{88, 15, 28, 28},
+			{117, 15, 28, 28},
+			{146, 15, 28, 28},
+			{175, 15, 28, 28},
+			{204, 15, 28, 28},
+			{233, 15, 28, 28}
+		});
+	s_eyes.setFreq(5.0);
+	s_eyes.setSpeed(0.1);
 }
 
 void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction) {
@@ -58,8 +72,7 @@ void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &
 	draw_segment (window, snake[0], snake[1], size_head, color_head);
 
 	/* draw Eyes */
-	draw_eye(window, snake[0], direction, TILEf / 7);
-	draw_eye(window, snake[0], direction, - TILEf / 2.5);
+	this->draw_head(window, snake[0], direction);
 
 }
 
@@ -101,28 +114,38 @@ void Snake::draw_segment(sf::RenderTexture& window, const Position begin, const 
 	}
 }
 
-inline void Snake::draw_eye(sf::RenderTexture& window, const Position &pos, Direction dir, float shift) {
-	sf::Sprite sprite(eyes);
+inline void Snake::draw_head(sf::RenderTexture& window, const Position &pos, Direction dir) {
+	sf::RenderTexture	texture;
+	texture.create(TILE, TILE);
 
-	sprite.setTextureRect({1, 15, 28, 28});
+	/* Eyes */
 
+	sf::Sprite 			s_eye(eyes);
+	Rect	r = s_eyes.getFrame();
+
+	s_eye.setTextureRect({r.x, r.y, r.w, r.h});
+	s_eye.setPosition({0, - TILEf / 8.f});
+	texture.draw(s_eye);
+	s_eye.setPosition({0, TILEf / 2});
+	texture.draw(s_eye);
 	
-	if (dir == Up) {
-		shift += TILEf / 4.0;
-		sprite.setRotation(270);
-		sprite.setPosition({static_cast<float>(pos.x * TILEf) + shift, static_cast<float>((pos.y + 1) * TILEf)});
+	sf::Sprite 			s_tongue(eyes);
+	s_tongue.setTextureRect({1, 15, 28, 28});
+
+
+	/* Display head */
+	sf::Sprite		head(texture.getTexture());
+	head.setPosition({pos.x * TILEf, pos.y * TILEf});
+	if (dir == Left) {
+		head.setPosition({(pos.x + 1) * TILEf, (pos.y + 1) * TILEf});
+		head.setRotation(180);
+	} else if (dir == Down) {
+		head.setPosition({(pos.x + 1) * TILEf, pos.y * TILEf});
+		head.setRotation(90);
+	} else if (dir == Up) {
+		head.setPosition({pos.x * TILEf, (pos.y + 1) * TILEf});
+		head.setRotation(270);
 	}
-	else if (dir == Left){
-		sprite.setRotation(180);
-		sprite.setPosition({static_cast<float>((pos.x + 1) * TILEf), static_cast<float>((pos.y + 1) * TILEf) + shift});
-	}
-	else if (dir == Down) {
-		sprite.setRotation(90);
-		sprite.setPosition({static_cast<float>((pos.x + 1) * TILEf) + shift, static_cast<float>(pos.y * TILEf)});
-	} else {
-		shift += TILEf / 4.0;
-		sprite.setPosition({static_cast<float>(pos.x * TILEf), static_cast<float>(pos.y * TILEf) + shift});
-	}
-	
-	window.draw(sprite);
+
+	window.draw(head);
 }

@@ -9,5 +9,7 @@ shared_library('sfml',
            'main.cpp',
            'menu.cpp',
            'snake.cpp',
+           'Timer.cpp',
+           'Sprite.cpp',
            dependencies: deps,
            install : true)
