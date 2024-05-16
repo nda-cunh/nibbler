@@ -124,9 +124,9 @@ inline void Snake::draw_head(sf::RenderTexture& window, const Position &pos, Dir
 	Rect	r = s_eyes.getFrame();
 
 	s_eye.setTextureRect({r.x, r.y, r.w, r.h});
-	s_eye.setPosition({0, - TILEf / 8.f});
+	s_eye.setPosition({0, - TILEf / 10.f});
 	texture.draw(s_eye);
-	s_eye.setPosition({0, TILEf / 2});
+	s_eye.setPosition({0, TILEf / 2.7f});
 	texture.draw(s_eye);
 	
 	sf::Sprite 			s_tongue(eyes);
