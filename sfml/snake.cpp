@@ -15,9 +15,35 @@ Snake::Snake () {
 			{175, 15, 28, 28},
 			{204, 15, 28, 28},
 			{233, 15, 28, 28}
-		});
+	});
 	s_eyes.setFreq(5.0);
-	s_eyes.setSpeed(0.1);
+	s_eyes.setSpeed(0.07);
+	s_tongue.setFrames({
+			{1, 127, 48, 24},
+			{50, 127, 48, 24},
+			{99, 127, 48, 24},
+			{148, 127, 48, 24},
+			{197, 127, 48, 24},
+			{246, 127, 48, 24},
+			{295, 127, 48, 24},
+			{344, 127, 48, 24},
+			{393, 127, 48, 24},
+			{442, 127, 48, 24},
+			{491, 127, 48, 24},
+			{540, 127, 48, 24},
+			{589, 127, 48, 24},
+			{638, 127, 48, 24},
+			{687, 127, 48, 24},
+			{736, 127, 48, 24},
+			{785, 127, 48, 24},
+			{834, 127, 48, 24},
+			{883, 127, 48, 24},
+			{932, 127, 48, 24},
+			{981, 127, 48, 24},
+			{981, 127, 2, 2},
+	});
+	s_tongue.setFreq(5.0);
+	s_tongue.setSpeed(0.08);
 }
 
 void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction) {
@@ -116,22 +142,25 @@ void Snake::draw_segment(sf::RenderTexture& window, const Position begin, const 
 
 inline void Snake::draw_head(sf::RenderTexture& window, const Position &pos, Direction dir) {
 	sf::RenderTexture	texture;
-	texture.create(TILE, TILE);
+	texture.create(TILE * 2, TILE);
 
+	sf::Sprite 			sprite(eyes);
+	Rect	r;
 	/* Eyes */
+	r = s_eyes.getFrame();
 
-	sf::Sprite 			s_eye(eyes);
-	Rect	r = s_eyes.getFrame();
-
-	s_eye.setTextureRect({r.x, r.y, r.w, r.h});
-	s_eye.setPosition({0, - TILEf / 10.f});
-	texture.draw(s_eye);
-	s_eye.setPosition({0, TILEf / 2.7f});
-	texture.draw(s_eye);
+	sprite.setTextureRect({r.x, r.y, r.w, r.h});
+	sprite.setPosition({0, - TILEf / 10.f});
+	texture.draw(sprite);
+	sprite.setPosition({0, TILEf / 2.7f});
+	texture.draw(sprite);
 	
-	sf::Sprite 			s_tongue(eyes);
-	s_tongue.setTextureRect({1, 15, 28, 28});
+	/* Tongue */
+	r = s_tongue.getFrame();
 
+	sprite.setTextureRect({r.x, r.y, r.w, r.h});
+	sprite.setPosition({TILEf * 0.7f, TILEf / 6.0});
+	texture.draw(sprite);
 
 	/* Display head */
 	sf::Sprite		head(texture.getTexture());

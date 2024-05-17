@@ -19,6 +19,7 @@ class Snake
 		sf::Sprite tounge;
 		sf::Sprite eyes;
 		Sprite		s_eyes;
+		Sprite		s_tongue;
 };
 
 #endif
