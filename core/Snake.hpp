@@ -14,6 +14,7 @@ class Snake {
 
 		/* ---- Accessors ---- */
 		const std::deque<Position>	&getPositions( void )  const;
+		const Direction &getDirection( void ) const;
 
 		/* ---- Methods ---- */
 		void			loseTail( void );

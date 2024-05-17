@@ -5,7 +5,7 @@
 // File: game_loop.cpp
 
 // updateAndDisplayGameState(...)
-static void display(const Game &game, Plugin &plugin, Direction &dir) {
+static void display(const Game &game, Plugin &plugin, const Direction &dir) {
 	plugin.clear();
 	plugin.update_snake(game.getSnakePositions(), dir);
 
@@ -83,7 +83,7 @@ void	main_plugin_loop(int width, int height) {
 			timer.reset();
 		}
 
-		display(game, *plugin, direction);	
+		display(game, *plugin, game.getSnakeDirection());	
 	}
 }
 

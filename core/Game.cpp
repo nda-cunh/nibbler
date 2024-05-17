@@ -37,6 +37,10 @@ const std::vector<Position> &Game::getFoodPositions( void ) const {
 	return _foods;
 }
 
+const Direction &Game::getSnakeDirection( void ) const {
+	return _snake.getDirection();
+}
+
 /* ____ METHODS ____ */
 void Game::moveSnake(const Direction &dir) {
 	const Position	new_head_pos = _snake.move(dir);

@@ -14,6 +14,8 @@ void Snake::create(const int &width, const int &height) {
 /* ____ ACCESSORS ____ */
 const std::deque<Position>	&Snake::getPositions( void )  const { return _positions; }
 
+const Direction	&Snake::getDirection( void )  const { return _dir; }
+
 
 /* ____ METHODS ____ */
 void	Snake::loseTail( void ) { _positions.pop_back(); }

@@ -28,9 +28,10 @@ class Game {
 		~Game();
 
 		/* ---- Accessors ---- */
-		bool	over() const;
-		int		getScore() const;
-		int		getBestScore() const;
+		bool		over() const;
+		int			getScore() const;
+		const Direction	&getSnakeDirection() const;
+		int			getBestScore() const;
 		const std::deque<Position> &getSnakePositions( void ) const;
 		const std::vector<Position> &getFoodPositions( void ) const;
 
