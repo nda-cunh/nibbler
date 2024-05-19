@@ -17,6 +17,7 @@ class Plugin : public IPlugin {
 		Apple apple;
 		Menu menu;
 		Background background;
+		sf::Event event;
 	public:
 		virtual ~Plugin() {}
 		void open(int x, int y){
@@ -25,7 +26,7 @@ class Plugin : public IPlugin {
 			settings.stencilBits = 8;
 			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Hello SFML", sf::Style::Default ^ sf::Style::Resize, settings);
 			menu.create(window->getSize().x, 80);
-			window->setFramerateLimit(60);
+			window->setFramerateLimit(120);
 			texture_game = std::make_shared<sf::RenderTexture>();
 			texture_game->create(TILE*x, TILE*y);
 			game.setTexture(texture_game->getTexture());
@@ -38,32 +39,33 @@ class Plugin : public IPlugin {
 		}
 		
 		Event poll_event(){
-			sf::Event event;
 
 			window->pollEvent(event);
 			if (event.type == sf::Event::Closed)
 				return CLOSE;
-			switch(event.key.code) {
-				case sf::Keyboard::Left :
-					return LEFT;
-				case sf::Keyboard::Right:
-					return RIGHT;
-				case sf::Keyboard::Up:
-					return UP;
-				case sf::Keyboard::Down:
-					return DOWN;
-				case sf::Keyboard::Enter:
-					return ENTER;
-				case sf::Keyboard::Escape:
-					return CLOSE;
-				case sf::Keyboard::F1:
-					return F1;
-				case sf::Keyboard::F2:
-					return F2;
-				case sf::Keyboard::F3:
-					return F3;
-				default:
-					return NONE;
+			else if (event.type == sf::Event::KeyPressed) {
+				switch(event.key.code) {
+					case sf::Keyboard::Left :
+						return LEFT;
+					case sf::Keyboard::Right:
+						return RIGHT;
+					case sf::Keyboard::Up:
+						return UP;
+					case sf::Keyboard::Down:
+						return DOWN;
+					case sf::Keyboard::Enter:
+						return ENTER;
+					case sf::Keyboard::Escape:
+						return CLOSE;
+					case sf::Keyboard::F1:
+						return F1;
+					case sf::Keyboard::F2:
+						return F2;
+					case sf::Keyboard::F3:
+						return F3;
+					default:
+						return NONE;
+				}
 			}
 			return NONE;
 		}

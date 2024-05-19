@@ -9,7 +9,7 @@ $(NAME): build
 	ninja install -C build
 
 run: all
-	./$(NAME) 8 20
+	./$(NAME) 15 20
 
 run2: all
 	valgrind ./$(NAME) 8 20
