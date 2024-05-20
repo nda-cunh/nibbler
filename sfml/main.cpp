@@ -22,8 +22,6 @@ class Plugin : public IPlugin {
 		virtual ~Plugin() {}
 		void open(int x, int y){
 			sf::ContextSettings settings;
-			settings.antialiasingLevel = 8;
-			settings.stencilBits = 8;
 			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Hello SFML", sf::Style::Default ^ sf::Style::Resize, settings);
 			menu.create(window->getSize().x, 80);
 			window->setFramerateLimit(120);
@@ -91,6 +89,7 @@ class Plugin : public IPlugin {
 		}
 
 		void clear () {
+			texture_game->clear();
 			window->clear(sf::Color(87, 138, 52));
 			background.draw_self(*texture_game);
 			menu.draw_self(*window);
