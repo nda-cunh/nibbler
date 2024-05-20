@@ -14,6 +14,7 @@ class Snake
 	protected:
 		inline void draw_segment(sf::RenderTexture& window, const Position begin, const Position end, double size, sf::Color color);
 		inline void draw_head(sf::RenderTexture& window, const Position &pos, Direction dir);
+		inline void draw_body(sf::RenderTexture& window, const std::deque<Position> &positions);
 	 private:
 		sf::Texture texture_snake;
 		sf::Sprite tounge;

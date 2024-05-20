@@ -82,62 +82,71 @@ void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &
 	
 
 	/* Draw Body */
-	Position last = snake[0];
-	auto color_head = sf::Color(78, 125, 246, 255);
-	auto color = color_head;
-	double size_head = (TILE * 0.75);
-	double size = size_head;
-	for (auto i : snake) {
-		draw_segment (window, i, last, size, color);
-		if (color.b > 20.0)
-			color.b -= 3;
-		last = i;
-		if (size > 6.0)
-			size -= 0.2;
-	}
-	draw_segment (window, snake[0], snake[1], size_head, color_head);
+	this->draw_body(window, snake);
 
 	/* draw Eyes */
 	this->draw_head(window, snake[0], direction);
 
 }
 
-
-void Snake::draw_segment(sf::RenderTexture& window, const Position begin, const Position end, double size, sf::Color color) {
-	sf::VertexArray vertices(sf::PrimitiveType::TriangleStrip, 4);
-	const float	sizef = static_cast<float>(size);
-
-	if (begin.x == end.x) {
-		vertices[0].position = {begin.x * TILEf + (TILEf - sizef) / 2.0f, begin.y * TILEf + TILEf / 2.0f};
-		vertices[1].position = {(begin.x + 1) * TILEf - (TILEf - sizef) / 2.0f, begin.y * TILEf + TILEf / 2.0f};
-		vertices[2].position = {end.x * TILEf + (TILEf - (sizef + 0.2f)) / 2.0f, end.y * TILEf + TILEf / 2.0f};
-		vertices[3].position = {(end.x + 1) * TILEf - (TILEf - (sizef + 0.2f)) / 2.0f, end.y * TILEf + TILEf / 2.0f};
-		vertices[0].color = color;
-		vertices[1].color = color;
-		vertices[2].color = color;
-		vertices[3].color = color;
-		window.draw(vertices);
-		sf::CircleShape circle(size / 2.0);
-		circle.setPosition({begin.x * TILEf + TILEf / 2.0f, begin.y * TILEf + TILEf / 2.0f});
-		circle.setOrigin({sizef / 2.0f, sizef / 2.0f});
-		circle.setFillColor(color);
-		window.draw(circle);
+static inline sf::Vector2f	get_position(Position pos, bool is_vertical, bool is_first, float width) {
+	if (is_vertical) {
+		if (is_first)
+			return sf::Vector2f(pos.x * TILEf + (TILEf - width) / 2.0f, pos.y * TILEf + TILEf / 2.0f);
+		else
+			return sf::Vector2f((pos.x + 1) * TILEf - (TILEf - width) / 2.0f, pos.y * TILEf + TILEf / 2.0f);
 	} else {
-		vertices[0].position = {begin.x * TILEf + TILEf / 2.0f, begin.y * TILEf + (TILEf - sizef) / 2.0f};
-		vertices[1].position = {begin.x * TILEf + TILEf / 2.0f, (begin.y + 1) * TILEf - (TILEf - sizef) / 2.0f};
-		vertices[2].position = {end.x * TILEf + TILEf / 2.0f, end.y * TILEf + (TILEf - (sizef + 0.2f)) / 2.0f};
-		vertices[3].position = {end.x * TILEf + TILEf / 2.0f, (end.y + 1) * TILEf - (TILEf - (sizef + 0.2f)) / 2.0f};
-		vertices[0].color = color;
-		vertices[1].color = color;
-		vertices[2].color = color;
-		vertices[3].color = color;
-		window.draw(vertices);
-		sf::CircleShape circle(size / 2.0);
-		circle.setPosition({begin.x * TILEf + TILEf / 2.0f, begin.y * TILEf + TILEf / 2.0f});
-		circle.setOrigin({sizef / 2.0f, sizef / 2.0f});
-		circle.setFillColor(color);
-		window.draw(circle);
+		if (is_first)
+			return sf::Vector2f(pos.x * TILEf + TILEf / 2.0f, pos.y * TILEf + (TILEf - width) / 2.0f);
+		else
+			return sf::Vector2f(pos.x * TILEf + TILEf / 2.0f, (pos.y + 1) * TILEf - (TILEf - width) / 2.0f);
 	}
+
+}
+void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &positions) {
+	Position	last_pos = positions[0];
+	sf::VertexArray	vertices(sf::PrimitiveType::TriangleStrip, positions.size() * 4);
+	unsigned int i;
+	double	width = 0.8 * TILE;
+	double	min_width;
+	bool	is_vertical = true;
+	double	w_step;
+
+	if (positions.size() < 12)
+		min_width = TILE * 0.7;
+	else if (positions.size() < 22)
+		min_width = TILE * 0.65;
+	else
+		min_width = TILE * 0.5;
+
+	w_step = (width - min_width) / positions.size();
+	vertices[0].position = get_position(positions[0], true, true, width);
+	vertices[1].position = get_position(positions[0], true, false, width);
+	vertices[2].position = get_position(positions[0], true, true, width);
+	vertices[3].position = get_position(positions[0], true, false, width);
+
+	for (i = 1; i < positions.size(); ++i) {
+		if (i == 1 || is_vertical != (positions[i - 1].x == positions[i].x)) {
+			is_vertical = (positions[i - 1].x == positions[i].x);
+			sf::CircleShape	circle(width / 2);
+
+			circle.setPosition(sf::Vector2f(positions[i - 1].x * TILEf + TILEf / 2.0, positions[i - 1].y * TILEf + TILEf / 2.0));
+			circle.setOrigin(sf::Vector2f(width / 2.0, width / 2.0));
+			window.draw(circle);
+		}
+		vertices[i * 4].position = get_position(positions[i - 1], is_vertical, true, width);
+		vertices[i * 4 + 1].position = get_position(positions[i - 1], is_vertical, false, width);
+		width -= w_step;
+		vertices[i * 4 + 2].position = get_position(positions[i], is_vertical, true, width);
+		vertices[i * 4 + 3].position = get_position(positions[i], is_vertical, false, width);
+	}
+
+	sf::CircleShape	circle(width / 2);
+	circle.setPosition(sf::Vector2f(positions[i - 1].x * TILEf + TILEf / 2.0, positions[i - 1].y * TILEf + TILEf / 2.0));
+	circle.setOrigin(sf::Vector2f(width / 2.0, width / 2.0));
+	window.draw(circle);
+
+	window.draw(vertices);
 }
 
 inline void Snake::draw_head(sf::RenderTexture& window, const Position &pos, Direction dir) {
