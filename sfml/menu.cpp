@@ -5,7 +5,6 @@ Menu::Menu () {
 }
 
 void Menu::create(int width, int height) {
-	printf("menu create\n");
 	this->setSize({(float)width, (float)height});
 	this->setFillColor({74,117,44});
 	texture = std::make_shared<sf::Texture>();
