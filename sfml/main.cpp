@@ -7,6 +7,7 @@
 #include "config.h"
 #include "background.hpp"
 #include "menu.hpp"
+#include "gameover.hpp"
 
 class Plugin : public IPlugin {
 	private:
@@ -18,6 +19,8 @@ class Plugin : public IPlugin {
 		Menu menu;
 		Background background;
 		sf::Event event;
+		GameOver gameover;
+		sf::RectangleShape dark_background;
 	public:
 		virtual ~Plugin() {}
 		void open(int x, int y){
@@ -30,6 +33,10 @@ class Plugin : public IPlugin {
 			game.setTexture(texture_game->getTexture());
 			game.setPosition(40, 120);
 			background.init(window->getSize());
+			gameover.setPosition(TILE*x/2, TILE*y/2);
+			dark_background.setFillColor({0,0,0,150});
+			dark_background.setSize({TILEf*x, TILEf*y});
+
 		}
 
 		void close(){
@@ -77,15 +84,13 @@ class Plugin : public IPlugin {
 		}
 
 		void update_score(int n) {
+			gameover.update_score(n); 
 			menu.update_score(n);
 		}
 
 		void update_bestscore(int n) {
+			gameover.update_score_max(n); 
 			menu.update_best_score(n);
-		}
-
-		void update_gameover() {
-
 		}
 
 		void clear () {
@@ -95,9 +100,16 @@ class Plugin : public IPlugin {
 			menu.draw_self(*window);
 		}
 
-		void display () {
+		void update_gameover() {
+			texture_game->draw(dark_background);
+			texture_game->draw(gameover);
+		}
 
+		void display () {
+			gameover.update();
 			texture_game->display();
+			game.setTexture(texture_game->getTexture());
+
 			window->draw(game);
 			window->display();
 		}
