@@ -18,9 +18,13 @@ class Snake
 	 private:
 		sf::Texture texture_snake;
 		sf::Sprite tounge;
-		sf::Sprite eyes;
-		Sprite		s_eyes;
+		sf::Sprite eyes_left;
+		sf::Sprite eyes_right;
+		sf::Sprite mouth;
+		Sprite		s_eyes_left;
+		Sprite		s_eyes_right;
 		Sprite		s_tongue;
+		Sprite		s_mouth;
 };
 
 #endif
