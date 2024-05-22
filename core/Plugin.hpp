@@ -11,7 +11,7 @@ class Plugin : public IPlugin {
 		void* handler;
 	public:
 		/* ---- Constructors ---- */
-		~Plugin();
+		virtual ~Plugin();
 		Plugin (std::string so, int x, int y);
 
 		/* ---- Lib loading related methods ---- */
