@@ -17,8 +17,8 @@ bool	check_args(int ac, char **av, int &w, int &h) {
 		int	width = std::stoi(av[1]);
 		int	height = std::stoi(av[2]);
 
-		if (width < 8 || height < 8)
-			ERROR("Integers must be greater than 8");
+		if (width < 10 || height < 10)
+			ERROR("Integers must be greater than 10");
 		else if (width > 42 || height > 42)
 			ERROR("Integers must be lower than 42");
 		else {
