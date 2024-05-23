@@ -63,6 +63,7 @@ Snake::Snake () {
 	s_mouth.setFrames({
 		{1, 58, 35, 54}
 	});
+	texture_head.create(TILE * 2, TILE * 1.10);
 }
 
 void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction) {
@@ -179,47 +180,44 @@ void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &pos
 }
 
 inline void Snake::draw_head(sf::RenderTexture& window, const Position &pos, Direction dir) {
-	sf::RenderTexture	texture;
-	texture.create(TILE * 2, TILE * 1.10);
-
 	sf::Sprite 			sprite(eyes_left);
 	Rect	r;
 	/* Eyes */
-	texture.clear({0,0,0,0});
+	texture_head.clear({0,0,0,0});
 	r = s_eyes_left.getFrame();
 	sprite.setTextureRect({r.x, r.y, r.w, r.h});
 	sprite.setPosition({-3.0, -4.0});
-	texture.draw(sprite);
+	texture_head.draw(sprite);
 	
 	r = s_eyes_right.getFrame();
 	sprite.setTextureRect({r.x, r.y, r.w, r.h});
 	sprite.setPosition({-3.6, TILEf / 2.0f});
-	texture.draw(sprite);
+	texture_head.draw(sprite);
 	
 	/* Tongue */
 	r = s_tongue.getFrame();
 
 	sprite.setTextureRect({r.x, r.y, r.w, r.h});
 	sprite.setPosition({TILEf * 0.7f, TILEf / 4.0});
-	texture.draw(sprite);
+	texture_head.draw(sprite);
 	
 	/* Mouth */
 	r = s_mouth.getFrame();
 
 	sprite.setTextureRect({r.x, r.y, r.w, r.h});
 	sprite.setPosition({TILEf * 0.4f, -4.0});
-	texture.draw(sprite);
-	texture.display();
+	texture_head.draw(sprite);
+	texture_head.display();
 
 	/* Display head */
-	sf::Sprite		head(texture.getTexture());
+	sf::Sprite		head(texture_head.getTexture());
 	head.setPosition({pos.x * TILEf, pos.y * TILEf - 2.0f});
 	if (dir == Left) {
 		head.setPosition({(pos.x + 1) * TILEf, (pos.y + 1) * TILEf + 2.0f});
 		head.setRotation(180);
 	} else if (dir == Down) {
 		head.setPosition({(pos.x + 1) * TILEf + 2.0f, pos.y * TILEf});
-		head.setRotation(90);
+	head.setRotation(90);
 	} else if (dir == Up) {
 		head.setPosition({pos.x * TILEf - 2.0f, (pos.y + 1) * TILEf});
 		head.setRotation(270);

@@ -16,6 +16,7 @@ class Snake
 		inline void draw_head(sf::RenderTexture& window, const Position &pos, Direction dir);
 		inline void draw_body(sf::RenderTexture& window, const std::deque<Position> &positions);
 	 private:
+		sf::RenderTexture texture_head;
 		sf::Texture texture_snake;
 		sf::Sprite tounge;
 		sf::Sprite eyes_left;
