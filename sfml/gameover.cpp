@@ -7,7 +7,8 @@ GameOver::GameOver() {
 	texture_gameover = std::make_unique<sf::Texture>();
 	surface = std::make_unique<sf::RenderTexture>();
 
-	texture_gameover->loadFromFile("./sfml/gameover.png");
+	if (texture_gameover->loadFromFile("./sfml/gameover.bmp") == false)
+		throw std::runtime_error("can't load gameover.bmp");
 	auto size = texture_gameover->getSize();
 	surface->create(size.x, size.y);
 	this->setTexture(surface->getTexture());

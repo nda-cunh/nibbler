@@ -9,10 +9,12 @@ void Menu::create(int width, int height) {
 	this->setFillColor({74,117,44});
 	texture = std::make_shared<sf::Texture>();
 	font = std::make_shared<sf::Font>();
-	font->loadFromFile("./sfml/Answer.ttf");
+	if (font->loadFromFile("./sfml/Answer.ttf") == false)
+		throw std::runtime_error("can't load Answer.bmp");
 	text_score.setFont(*font);
 	text_best.setFont(*font);
-	texture->loadFromFile("./sfml/trophies.png");
+	if (texture->loadFromFile("./sfml/trophies.bmp") == false)
+		throw std::runtime_error("can't load trophies.bmp");
 	food.setTexture(*texture);
 	best_score.setTexture(*texture);
 	food.setTextureRect({0, 0, 80, 80});

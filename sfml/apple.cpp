@@ -4,7 +4,8 @@
 Apple::Apple () {
 	Aapple.time_ms(500);
 	texture = std::make_shared<sf::Texture>();
-	texture->loadFromFile("./sfml/food.png");
+	if (texture->loadFromFile("./sfml/food.bmp") == false)
+		throw std::runtime_error("can't load food.bmp");
 	this->setTexture(*texture);
 	this->setOrigin({static_cast<float>(texture->getSize().x / 2.0), static_cast<float>(texture->getSize().y / 2.0)});
 }

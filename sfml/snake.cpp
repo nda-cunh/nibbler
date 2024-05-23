@@ -2,7 +2,8 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 
 Snake::Snake () {
-	texture_snake.loadFromFile("./sfml/snake.png");
+	if (texture_snake.loadFromFile("./sfml/snake.bmp") == false)
+		throw std::runtime_error("can't load snake.bmp");
 	tounge.setTexture(texture_snake);
 	mouth.setTexture(texture_snake);
 	eyes_right.setTexture(texture_snake);
