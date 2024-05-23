@@ -1,7 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include "../include/IPlugin.hpp"
 #include <memory>
+#include <stdexcept>
+#include "../include/IPlugin.hpp"
 #include "snake.hpp"
 #include "apple.hpp"
 #include "config.h"
@@ -120,8 +121,12 @@ extern "C" {
 	Plugin *game = NULL;
 
 	IPlugin *load() {
+		try {
 		if (game == NULL)
 			game = new Plugin();
+		} catch (...) {
+			return NULL;
+		}
 		return game;
 	}
 	

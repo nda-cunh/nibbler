@@ -32,12 +32,16 @@ bool	check_args(int ac, char **av, int &w, int &h) {
 
 int	main(int argc, char **argv)
 {
-	/* Check Arguments */
-	int width, height;
-	if (!check_args(argc, argv, width, height))
-		return -1;
+	try {
+		/* Check Arguments */
+		int width, height;
+		if (!check_args(argc, argv, width, height))
+			return -1;
 
-	main_plugin_loop(width, height);
+		main_plugin_loop(width, height);
+	} catch (...) {
+		std::cerr << "Error runtime" << std::endl;
+	}
 
 	return (0);
 }
