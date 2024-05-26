@@ -29,7 +29,9 @@ void	main_plugin_loop(int width, int height) {
 	LIBS		lib = SFML;
 	const auto	lib_names = std::map<LIBS, std::string>({
 			{SFML, "./libsfml.so"},
-			{SFML_BIS, "./libsfml_bis.so"}
+			{SFML_BIS, "./libsfml_bis.so"},
+			{SDL, "./libsdl.so"},
+			{RAYLIB, "./libraylib.so"}
 			});
 	Direction	direction = Down;
 	Timer		timer;
@@ -77,9 +79,16 @@ void	main_plugin_loop(int width, int height) {
 					plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 					break;
 				case F2:
-					if (lib == SFML_BIS)
+					if (lib == RAYLIB)
 						break;
-					lib = SFML_BIS;
+					lib = RAYLIB;
+					plugin.reset();
+					plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
+					break;
+				case F3:
+					if (lib == SDL)
+						break;
+					lib = SDL;
 					plugin.reset();
 					plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 					break;

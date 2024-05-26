@@ -15,6 +15,8 @@
 
 enum LIBS {
 	SFML,
+	RAYLIB,
+	SDL,
 	SFML_BIS
 };
 
