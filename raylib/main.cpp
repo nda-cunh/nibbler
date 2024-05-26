@@ -12,6 +12,7 @@ class Plugin : public IPlugin {
 		void open(int x, int y){
 			width = x * 32;
 			height = y * 32;
+			SetTraceLogLevel(LOG_ERROR);
 			InitWindow(width, height, "nibbler - raylib");
 		}
 
