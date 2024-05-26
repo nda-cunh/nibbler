@@ -15,10 +15,10 @@ run2: all
 	valgrind ./$(NAME) 8 20
 
 clean:
-	ninja -C build clean
+	ninja -C build clean || true
 
 fclean: clean 
-	ninja -C build uninstall
+	ninja -C build uninstall || true
 
 re: fclean all
 
