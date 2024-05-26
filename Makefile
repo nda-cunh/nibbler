@@ -2,10 +2,10 @@ NAME = nibbler
 
 all: $(NAME)
 	
-build/ninja:
-	meson build --prefix="${PWD}" --bindir="" --libdir="" --wipe
+build:
+	meson build --prefix="${PWD}" --bindir="" --libdir="" 
 
-$(NAME): build/ninja
+$(NAME): build
 	ninja install -C build
 
 run: all
