@@ -1,6 +1,4 @@
 #include <raylib.h>
-#include <memory>
-#include <stdexcept>
 #include "../include/IPlugin.hpp"
 
 class Plugin : public IPlugin {
@@ -10,8 +8,8 @@ class Plugin : public IPlugin {
 	public:
 		virtual ~Plugin() {}
 		void open(int x, int y){
-			width = x * 32;
-			height = y * 32;
+			width = (x + 2) * 32;
+			height = (y + 1) * 32;
 			SetTraceLogLevel(LOG_ERROR);
 			InitWindow(width, height, "nibbler - raylib");
 		}
@@ -26,6 +24,8 @@ class Plugin : public IPlugin {
 			int key = 42;
 			while (key != 0) {
 				key = GetKeyPressed();
+				if (WindowShouldClose())
+					key = KEY_ESCAPE;
 				switch(key) {
 					case KEY_LEFT:
 						return LEFT;
