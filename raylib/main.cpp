@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <raylib.h>
 
+#define BG_COLOR GetColor(0x42424242)
 #define TILE_SIZE 32
 #define SHIFT 0.1 * TILE_SIZE
 
@@ -58,6 +59,9 @@ public:
     auto pos = snake.begin();
     auto color = GetColor(0x21AA21FF);
 
+    DrawRectangle((pos->x + 1) * TILE_SIZE,
+                  (pos->y + 2) * TILE_SIZE,
+				  TILE_SIZE, TILE_SIZE, BLACK);
     DrawCircle(TILE_SIZE * (pos->x + 1) + TILE_SIZE / 2.0,
                TILE_SIZE * (pos->y + 2) + TILE_SIZE / 2.0,
                (TILE_SIZE - 2 * SHIFT) / 2.0, color);
@@ -68,10 +72,13 @@ public:
     }
   }
 
-  void update_food(Position &pos) {
-    DrawRectangle((pos.x + 1) * TILE_SIZE + SHIFT,
-                  (pos.y + 2) * TILE_SIZE + SHIFT, TILE_SIZE - SHIFT * 2.0,
-                  TILE_SIZE - SHIFT * 2.0, RED);
+  void update_food(Position &pos)  {
+    DrawRectangle((pos.x + 1) * TILE_SIZE,
+                  (pos.y + 2) * TILE_SIZE,
+				  TILE_SIZE, TILE_SIZE, BLACK);
+    DrawCircle(TILE_SIZE * (pos.x + 1) + TILE_SIZE / 2.0,
+               TILE_SIZE * (pos.y + 2) + TILE_SIZE / 2.0,
+               (TILE_SIZE - 2 * SHIFT) / 2.0, RED);
   }
 
   void update_score(int n) {
@@ -107,7 +114,7 @@ public:
       for (int y = 2; y < this->height / TILE_SIZE - 1; y++)
         DrawRectangle(x * TILE_SIZE + SHIFT, y * TILE_SIZE + SHIFT,
                       TILE_SIZE - SHIFT * 2, TILE_SIZE - SHIFT * 2,
-                      GetColor(0x42424242));
+                      BG_COLOR);
   }
 
   void display() { EndDrawing(); }
