@@ -12,7 +12,7 @@ run: all
 	./$(NAME) 15 20
 
 run2: all
-	valgrind ./$(NAME) 8 20
+	valgrind ./$(NAME) 15 20
 
 clean:
 	ninja -C build clean || true
