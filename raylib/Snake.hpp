@@ -8,6 +8,7 @@ class Snake {
 	const std::deque<Position>	*_positions;
 
 	public:
+		/* ---- Constructors ---- */
 		Snake();
 		Snake(std::deque<Position> *snake);
 		~Snake();
