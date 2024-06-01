@@ -1,27 +1,29 @@
+#include "utils.hpp"
 #include "../include/IPlugin.hpp"
-#include <cstdio>
-#include <raylib.h>
-
-#define BG_COLOR GetColor(0x42424242)
-#define TILE_SIZE 32
-#define SHIFT 0.1 * TILE_SIZE
+#include "Game.hpp"
 
 class Plugin : public IPlugin {
 	private:
-		int width;
-		int height;
+		int 	width;
+		int 	height;
+		Game	_game;
 
 	public:
-		virtual ~Plugin() {}
+		virtual ~Plugin() {
+			CloseWindow();
+		}
 		void open(int x, int y) {
 			width = (x + 2) * TILE_SIZE;
 			height = (y + 3) * TILE_SIZE;
+			_game = Game(x, y);
 			SetTraceLogLevel(LOG_ERROR);
 			SetTargetFPS(120);
 			InitWindow(width, height, "nibbler - raylib");
 		}
 
-		void close() { CloseWindow(); }
+		void close() { 
+			CloseWindow();
+		}
 
 		Event poll_event() {
 			if (WindowShouldClose())
@@ -57,37 +59,20 @@ class Plugin : public IPlugin {
 		}
 
 		void update_snake(const std::deque<Position> &snake, Direction direction) {
-			auto pos = snake.begin();
-			auto color = GetColor(0x21AA21FF);
-			
-			DrawRectangle(TILE_SIZE * (pos->x + 1) + SHIFT, TILE_SIZE * (pos->y + 2) + SHIFT,
-					TILE_SIZE - 2.0 * SHIFT, TILE_SIZE - 2.0 * SHIFT, color);
-			color = GetColor(0x126612FF);
-			for (++pos; pos != snake.end(); ++pos) {
-				DrawRectangle(TILE_SIZE * (pos->x + 1) + SHIFT, TILE_SIZE * (pos->y + 2) + SHIFT,
-						TILE_SIZE - 2.0 * SHIFT, TILE_SIZE - 2.0 * SHIFT, color);
-			}
+			(void) direction;
+			_game.setSnake(snake);
 		}
 
 		void update_food(Position &pos)  {
-			DrawRectangle((pos.x + 1) * TILE_SIZE + SHIFT,
-					(pos.y + 2) * TILE_SIZE + SHIFT,
-					TILE_SIZE - 2.0 * SHIFT, TILE_SIZE - 2.0 * SHIFT, GetColor(0xFF2222FF));
+			_game.setFood(pos);
 		}
 
-		void update_score(int n) {
-			auto beg = width * 0.10;
-			char score[10] = "";
-			sprintf(score, "SCORE %3d", n);
-			DrawText(score, beg, 0.5 * TILE_SIZE, 32, WHITE);
+		void update_score(int n){
+			_game.setScore(n);
 		}
 
 		void update_bestscore(int n) {
-			auto beg = width * 0.5;
-			char score[10] = "";
-			sprintf(score, "BEST %3d", n);
-			DrawText(score, beg, 0.5 * TILE_SIZE, 32,
-					GetColor(0xFFD700FF));
+			_game.setBestScore(n);
 		}
 
 		void update_gameover() {
@@ -101,24 +86,12 @@ class Plugin : public IPlugin {
 		void clear() {
 			BeginDrawing();
 			ClearBackground(BLACK);
-
-			bool	is_dark = true;
-			Color	colors[2] = {
-				GetColor(0xDBD1B4FF),
-				GetColor(0xC2B280FF)
-			};
-			for (int x = 1; x < this->width / TILE_SIZE - 1; x++) {
-				is_dark = (x % 2 == 1);
-				for (int y = 2; y < this->height / TILE_SIZE - 1; y++) {
-					is_dark = !is_dark;
-					DrawRectangle(x * TILE_SIZE, y * TILE_SIZE,
-							TILE_SIZE, TILE_SIZE,
-							colors[static_cast<int>(is_dark)]);
-				}
-			}
 		}
 
-		void display() { EndDrawing(); }
+		void display() {
+			_game.draw();
+			EndDrawing();
+		}
 };
 
 extern "C" {
