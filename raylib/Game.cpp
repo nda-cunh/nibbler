@@ -4,12 +4,10 @@
 /* ____ CONSTRUCTORS ____ */
 Game::Game() {
 	this->_size = {1, 1};
-	this->_on_menu = false;
 }
 
 Game::Game(int w, int h) {
 	this->_size = {(w + 2) * TILE_SIZE, (h + 3) * TILE_SIZE};
-	this->_on_menu = false;
 }
 
 
@@ -21,9 +19,8 @@ Game::~Game() {}
 void Game::setSnake(const std::deque<Position> &snake) { _snake.update(&snake); }
 void Game::setFood(Position pos) { _food = pos; }
 void Game::setScore(int score) { _score = score; }
+void Game::setIsOver(bool is_over) { _is_over = is_over; }
 void Game::setBestScore(int score) { _best_score = score; }
-void Game::setOnMenu(bool b) { _on_menu = b; }
-bool Game::getOnMenu() const { return _on_menu; }
 
 
 /* ____ DRAW METHODS ____ */
@@ -79,10 +76,23 @@ void Game::draw_best_score() {
 			GetColor(0xFFD700FF));
 }
 
+void	Game::draw_game_over() {
+	int width = _size.x;
+	int	height = _size.y;
+
+	Position beg = {static_cast<int>(0.2 * width), static_cast<int>(0.4 * height)};
+	DrawRectangle(0, 0, width, height, GetColor(0x00000084));
+	DrawRectangle(beg.x, beg.y, width - 2 * beg.x, 6 * TILE_SIZE, GetColor(0x131313FF));
+	DrawText("Game Over", beg.x + TILE_SIZE * 1.8, beg.y + TILE_SIZE, 42, WHITE);
+	DrawText("Press [Enter]", beg.x + TILE_SIZE * 2.7, beg.y + TILE_SIZE * 4, 22, WHITE);
+}
+
 void Game::draw() {
 	this->draw_background();
 	this->draw_score();
 	this->draw_best_score();
 	this->_snake.draw();
 	this->draw_food();
+	if (this->_is_over)
+		this->draw_game_over();
 }

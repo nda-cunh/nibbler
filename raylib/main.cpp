@@ -76,14 +76,11 @@ class Plugin : public IPlugin {
 		}
 
 		void update_gameover() {
-			Position beg = {static_cast<int>(0.2 * width), static_cast<int>(0.4 * height)};
-			DrawRectangle(0, 0, width, height, GetColor(0x00000084));
-			DrawRectangle(beg.x, beg.y, width - 2 * beg.x, 6 * TILE_SIZE, GetColor(0x131313FF));
-			DrawText("Game Over", beg.x + TILE_SIZE * 1.8, beg.y + TILE_SIZE, 42, WHITE);
-			DrawText("Press [Enter]", beg.x + TILE_SIZE * 2.7, beg.y + TILE_SIZE * 4, 22, WHITE);
+			_game.setIsOver(true);
 		}
 
 		void clear() {
+			_game.setIsOver(false);
 			BeginDrawing();
 			ClearBackground(BLACK);
 		}

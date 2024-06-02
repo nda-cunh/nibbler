@@ -10,8 +10,8 @@ class Game {
 		Position		_size;
 		Position		_food;
 		Snake			_snake;
-		bool			_on_menu;
 		int				_score;
+		bool			_is_over;
 		int				_best_score;
 
 
@@ -21,6 +21,7 @@ class Game {
 		void	draw_score();
 		void	draw_food();
 		void	draw_best_score();
+		void	draw_game_over();
 
 	public:
 		/* ---- Constructors ---- */
@@ -32,9 +33,8 @@ class Game {
 		void setSnake(const std::deque<Position> &snake);
 		void setFood(Position pos);
 		void setScore(int score);
+		void setIsOver(bool is_over);
 		void setBestScore(int score);
-		void setOnMenu(bool b);
-		bool getOnMenu() const;
 
 		/* ---- Draw Methods ---- */
 		void draw();

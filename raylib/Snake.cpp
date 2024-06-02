@@ -38,7 +38,7 @@ void Snake::draw() {
 	auto prev = pos;
 	Rectangle	rect;
 	Color color;
-	
+
 	/* Draw body */
 	color = GetColor(0x218821FF);
 	for (++pos; pos != _positions->end(); ++pos) {
