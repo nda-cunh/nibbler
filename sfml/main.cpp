@@ -28,7 +28,6 @@ class Plugin : public IPlugin {
 			sf::ContextSettings settings;
 			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Nibbler", sf::Style::Default ^ sf::Style::Resize, settings);
 			menu.create(window->getSize().x, 80);
-			window->setFramerateLimit(120);
 			texture_game = std::make_shared<sf::RenderTexture>();
 			texture_game->create(TILE*x, TILE*y);
 			game.setTexture(texture_game->getTexture());
@@ -122,8 +121,8 @@ extern "C" {
 
 	IPlugin *load() {
 		try {
-		if (game == NULL)
-			game = new Plugin();
+			if (game == NULL)
+				game = new Plugin();
 		} catch (...) {
 			return NULL;
 		}

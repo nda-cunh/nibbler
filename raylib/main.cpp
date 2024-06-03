@@ -17,7 +17,6 @@ class Plugin : public IPlugin {
 			height = (y + 3) * TILE_SIZE;
 			_game = Game(x, y);
 			SetTraceLogLevel(LOG_ERROR);
-			SetTargetFPS(120);
 			InitWindow(width, height, "nibbler - raylib");
 		}
 

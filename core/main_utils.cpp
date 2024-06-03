@@ -3,6 +3,7 @@
 #include <memory>
 #include <deque>
 #include <stack>
+#include <thread>
 
 // File: game_loop.cpp
 
@@ -26,7 +27,7 @@ void	main_plugin_loop(int width, int height) {
 	std::unique_ptr<Plugin> plugin;
 	Game		game(width, height);
 	Event		event = DOWN;
-	LIBS		lib = SFML;
+	LIBS		lib = SDL;
 	const auto	lib_names = std::map<LIBS, std::string>({
 			{SFML, "./libsfml.so"},
 			{SFML_BIS, "./libsfml_bis.so"},
@@ -35,11 +36,19 @@ void	main_plugin_loop(int width, int height) {
 			});
 	Direction	direction = Down;
 	Timer		timer;
+	
+
+	const int FPS = 120;
+	const int frameDelay = 1000 / FPS;
+
+	std::chrono::time_point<std::chrono::high_resolution_clock> frameStart;
+	int frameTime;
 
 	plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 
 	while (event != CLOSE) {
 		/* Event Handling */
+		frameStart = std::chrono::high_resolution_clock::now();
 
 		while (true) {
 			Event last = event;
@@ -98,11 +107,17 @@ void	main_plugin_loop(int width, int height) {
 		}	
 
 		/* Move Snakes */
-		if (!game.over() && timer.elapsed() > 0.08) {
-			game.moveSnake(direction);
+		if (timer.elapsed() > 0.08) {
+			if (!game.over())
+				game.moveSnake(direction);
 			timer.reset();
 		}
+		frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - frameStart).count();
+		if (frameDelay > frameTime) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(frameDelay - frameTime));
 
+		}
 		display(game, *plugin, game.getSnakeDirection());	
+
 	}
 }
