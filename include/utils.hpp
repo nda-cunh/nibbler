@@ -22,4 +22,12 @@ struct Rect {
 	int h;
 };
 
+
+typedef enum e_Activity {
+	ON_NONE,
+	ON_GAME,
+	ON_GAME_OVER,
+	ON_MENU
+} Activity;
+
 #endif

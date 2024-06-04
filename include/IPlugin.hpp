@@ -9,6 +9,8 @@ enum Event {
 	RIGHT,
 	UP,
 	DOWN,
+	CLICK_MENU,
+	CLICK_1P,
 	ENTER, // enter-key
 	CLOSE, // Alt+F4 or cross window
 	F1,
@@ -33,7 +35,7 @@ class IPlugin {
 		virtual void update_bestscore(int n) = 0;
 		virtual void update_gameover() = 0;
 		virtual void clear () = 0;
-		virtual void display () = 0;
-		virtual Event poll_event() = 0;
+		virtual void display (const Activity) = 0;
+		virtual Event poll_event(const Activity) = 0;
 };
 #endif

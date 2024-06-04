@@ -32,16 +32,16 @@ void Plugin::close() {
 }
 
 /* ____ API RELATED METHODS ____ */
-Event Plugin::poll_event() {
-	return game->poll_event();
+Event Plugin::poll_event(Activity current_activity) {
+	return game->poll_event(current_activity);
 }
 
 void Plugin::clear() {
 	game->clear();
 }
 
-void Plugin::display() {
-	game->display();
+void Plugin::display(const Activity act) {
+	game->display(act);
 }
 
 void Plugin::update_snake(const std::deque<Position> &queue, Direction direction) {

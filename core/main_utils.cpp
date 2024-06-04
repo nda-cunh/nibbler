@@ -8,26 +8,29 @@
 // File: game_loop.cpp
 
 // updateAndDisplayGameState(...)
-static void display(const Game &game, Plugin &plugin, const Direction &dir) {
+static void display(const Game &game, Plugin &plugin, const Direction &dir, Activity &act) {
 	plugin.clear();
-	plugin.update_snake(game.getSnakePositions(), dir);
+	if (act == ON_GAME) {
+		plugin.update_snake(game.getSnakePositions(), dir);
 
-	for (auto pos : game.getFoodPositions())
-		plugin.update_food(pos);
+		for (auto pos : game.getFoodPositions())
+			plugin.update_food(pos);
 
-	plugin.update_score(game.getScore());
-	plugin.update_bestscore(game.getBestScore());
-	if (game.over())
-		plugin.update_gameover();
-	plugin.display();
+		plugin.update_score(game.getScore());
+		plugin.update_bestscore(game.getBestScore());
+		if (game.over())
+			act = ON_GAME_OVER;
+	}
+	plugin.display(act);
 }
 
 // runGameLoop(...)
 void	main_plugin_loop(int width, int height) {
 	std::unique_ptr<Plugin> plugin;
 	Game		game(width, height);
+	Activity	current_act = ON_GAME;
 	Event		event = DOWN;
-	LIBS		lib = SFML;
+	LIBS		lib = RAYLIB;
 	const auto	lib_names = std::map<LIBS, std::string>({
 			{SFML, "./libsfml.so"},
 			{SFML_BIS, "./libsfml_bis.so"},
@@ -70,15 +73,27 @@ void	main_plugin_loop(int width, int height) {
 			case DOWN:
 				direction = Down;
 				break;
-			case CLOSE:
-				return;
-			case ENTER:
-				if (!game.over())
+				case CLOSE:
+					return;
+				case ENTER:
+					if (!game.over())
+						break;
+					game = game.newGame();
+					event = DOWN;
+					direction = Down;
+					current_act = ON_GAME;
 					break;
-				game = game.newGame();
-				event = DOWN;
-				direction = Down;
-				break;
+				case CLICK_1P:
+					if (!game.over())
+						break;
+					game = game.newGame();
+					event = DOWN;
+					direction = Down;
+					current_act = ON_GAME;
+					break;
+				case CLICK_MENU:
+					current_act = ON_MENU;
+					break;
 			case F1:
 				if (lib == SFML)
 					break;
@@ -105,17 +120,17 @@ void	main_plugin_loop(int width, int height) {
 		}
 
 		/* Move Snakes */
-		if (timer.elapsed() > 0.08) {
-			if (!game.over())
-				game.moveSnake(direction);
-			timer.reset();
-		}
 		frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - frameStart).count();
 		if (frameDelay > frameTime) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(frameDelay - frameTime));
 
 		}
-		display(game, *plugin, game.getSnakeDirection());	
+		/* Move Snakes */
+		if (!game.over() && timer.elapsed() > 0.08) {
+			game.moveSnake(direction);
+			timer.reset();
+		}
 
+		display(game, *plugin, game.getSnakeDirection(), current_act);	
 	}
 }

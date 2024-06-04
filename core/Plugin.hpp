@@ -19,9 +19,9 @@ class Plugin : public IPlugin {
 		void close();
 
 		/* ---- API related methods ---- */
-		Event poll_event();
+		Event poll_event(Activity current_activity);
 		void clear();
-		void display();
+		void display(const Activity);
 		void update_snake(const std::deque<Position> &queue, Direction direction);
 		void update_food(Position &position);
 		void update_score(int n);

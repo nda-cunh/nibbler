@@ -41,7 +41,8 @@ class Plugin : public IPlugin {
 			window->close();
 		}
 		
-		Event poll_event() {
+		Event poll_event(Activity act){
+			(void) act;
 			sf::Event event;
 			Event e = NONE;
 			while (window->pollEvent(event)) {
@@ -116,7 +117,8 @@ class Plugin : public IPlugin {
 			texture_game->draw(gameover);
 		}
 
-		void display () {
+		void display (const Activity act) {
+			(void) act;
 			gameover.update();
 			texture_game->display();
 			game.setTexture(texture_game->getTexture());
