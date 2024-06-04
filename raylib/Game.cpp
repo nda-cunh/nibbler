@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "Button.hpp"
 #include <raylib.h>
 
 /* ____ CONSTRUCTORS ____ */
@@ -79,12 +80,8 @@ void Game::draw_best_score() {
 void	Game::draw_game_over() {
 	int width = _size.x;
 	int	height = _size.y;
-
-	Position beg = {static_cast<int>(0.2 * width), static_cast<int>(0.4 * height)};
 	DrawRectangle(0, 0, width, height, GetColor(0x00000084));
-	DrawRectangle(beg.x, beg.y, width - 2 * beg.x, 6 * TILE_SIZE, GetColor(0x131313FF));
-	DrawText("Game Over", beg.x + TILE_SIZE * 1.8, beg.y + TILE_SIZE, 42, WHITE);
-	DrawText("Press [Enter]", beg.x + TILE_SIZE * 2.7, beg.y + TILE_SIZE * 4, 22, WHITE);
+	
 }
 
 void Game::draw() {

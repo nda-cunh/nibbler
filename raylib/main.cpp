@@ -1,12 +1,14 @@
 #include "utils.hpp"
 #include "../include/IPlugin.hpp"
 #include "Game.hpp"
+#include "Menu.hpp"
 
 class Plugin : public IPlugin {
 	private:
 		int 	width;
 		int 	height;
 		Game	_game;
+		Menu	_menu;
 
 	public:
 		virtual ~Plugin() {
@@ -16,6 +18,7 @@ class Plugin : public IPlugin {
 			width = (x + 2) * TILE_SIZE;
 			height = (y + 3) * TILE_SIZE;
 			_game = Game(x, y);
+			_menu = Menu(width, height);
 			SetTraceLogLevel(LOG_ERROR);
 			InitWindow(width, height, "nibbler - raylib");
 		}
@@ -23,12 +26,23 @@ class Plugin : public IPlugin {
 		void close() { 
 		}
 
-		Event poll_event() {
+		Event poll_event(Activity current_activity) {
 			if (WindowShouldClose())
 				return CLOSE;
 
 			int key = 42;
 			while (key != 0) {
+				if (IsMouseButtonReleased(0)) {
+					switch (_menu.checkCollision(ON_GAME_OVER,
+								GetMouseX(), GetMouseY())) {
+						case ON_MENU:
+							return CLICK_MENU;
+						case ON_GAME:
+							return CLICK_1P;
+						default:
+							break;
+					}
+				}
 				key = GetKeyPressed();
 				switch (key) {
 					case KEY_LEFT:
@@ -83,8 +97,10 @@ class Plugin : public IPlugin {
 			ClearBackground(BLACK);
 		}
 
-		void display() {
-			_game.draw();
+		void display(const Activity act) {
+			if (act != ON_MENU)
+				_game.draw();
+			_menu.draw(act);
 			EndDrawing();
 		}
 };
