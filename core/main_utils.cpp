@@ -72,7 +72,6 @@ void	main_plugin_loop(int width, int height) {
 				break;
 			case DOWN:
 				direction = Down;
-				break;
 				case CLOSE:
 					return;
 				case ENTER:

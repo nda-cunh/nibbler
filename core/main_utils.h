@@ -10,7 +10,6 @@
 #include "Game.hpp"
 #include "../include/utils.hpp"
 
-#define CLOCK_FRAME	100000 
 #define ERROR(msg)	std::cerr<<"\033[91;1mERROR \033[0;91m"<<msg<<".\033[m"<<std::endl
 
 enum LIBS {
