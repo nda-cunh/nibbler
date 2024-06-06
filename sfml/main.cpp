@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: thmarin <thmarin@student.42angouleme.      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/06 04:20:25 by thmarin           #+#    #+#             */
+/*   Updated: 2024/06/08 23:48:10 by nda-cunh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <memory>
@@ -7,8 +19,9 @@
 #include "apple.hpp"
 #include "config.h"
 #include "background.hpp"
-#include "menu.hpp"
+#include "header.hpp"
 #include "gameover.hpp"
+#include "Menu.hpp"
 
 class Plugin : public IPlugin {
 	private:
@@ -17,15 +30,17 @@ class Plugin : public IPlugin {
 		sf::Sprite game;
 		Snake snake;
 		Apple apple;
-		Menu menu;
+		Menu	menu;
+		Header header;
 		Background background;
 		GameOver gameover;
 		sf::RectangleShape dark_background;
 	public:
 		virtual ~Plugin() {}
-		void open(int x, int y) {
-			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Nibbler", sf::Style::Default ^ sf::Style::Resize);
-			menu.create(window->getSize().x, 80);
+		void open(int x, int y){
+			sf::ContextSettings settings;
+			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Nibbler", sf::Style::Default ^ sf::Style::Resize, settings);
+			header.create(window->getSize().x, 80);
 			texture_game = std::make_shared<sf::RenderTexture>();
 			texture_game->create(TILE * x, TILE * y);
 			game.setTexture(texture_game->getTexture());
@@ -34,7 +49,7 @@ class Plugin : public IPlugin {
 			gameover.setPosition(TILEf * x / 2.0, TILEf * y / 2.0);
 			dark_background.setFillColor({0,0,0,150});
 			dark_background.setSize({TILEf*x, TILEf*y});
-
+			menu = Menu(TILEf*x, TILEf*y);
 		}
 
 		void close(){
@@ -97,29 +112,30 @@ class Plugin : public IPlugin {
 
 		void update_score(int n) {
 			gameover.update_score(n); 
-			menu.update_score(n);
+			header.update_score(n);
 		}
 
 		void update_bestscore(int n) {
 			gameover.update_score_max(n); 
-			menu.update_best_score(n);
+			header.update_best_score(n);
 		}
 
 		void clear () {
 			texture_game->clear();
 			window->clear(sf::Color(87, 138, 52));
 			background.draw_self(*texture_game);
-			menu.draw_self(*window);
+			header.draw_self(*window);
 		}
 
 		void update_gameover() {
-			texture_game->draw(dark_background);
-			texture_game->draw(gameover);
+			// texture_game->draw(dark_background);
+			// texture_game->draw(gameover);
 		}
 
 		void display (const Activity act) {
-			(void) act;
 			gameover.update();
+			menu.draw(act, *texture_game);
+
 			texture_game->display();
 			game.setTexture(texture_game->getTexture());
 

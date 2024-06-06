@@ -1,10 +1,10 @@
-#include "menu.hpp"
+#include "header.hpp"
 
-Menu::Menu () {
+Header::Header () {
 
 }
 
-void Menu::create(int width, int height) {
+void Header::create(int width, int height) {
 	this->setSize({(float)width, (float)height});
 	this->setFillColor({74,117,44});
 	texture = std::make_shared<sf::Texture>();
@@ -27,21 +27,21 @@ void Menu::create(int width, int height) {
 	text_score.setPosition({80, 20});
 }
 
-void Menu::update_score(int n) {
+void Header::update_score(int n) {
 	char buffer[8];
 	sprintf(buffer, "%d", n);
 	if (buffer != text_score.getString())
 		text_score.setString(std::string(buffer));
 }
 
-void Menu::update_best_score(int n) {
+void Header::update_best_score(int n) {
 	char buffer[8];
 	sprintf(buffer, "%d", n);
 	if (buffer != text_best.getString())
 		text_best.setString(std::string(buffer));
 }
 
-void Menu::draw_self (sf::RenderWindow &surface) {
+void Header::draw_self (sf::RenderWindow &surface) {
 	surface.draw(*this);
 	surface.draw(best_score);
 	surface.draw(food);

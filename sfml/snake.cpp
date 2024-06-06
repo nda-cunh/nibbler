@@ -17,10 +17,10 @@ Snake::Snake () {
 			{175, 15, 28, 28},
 			{204, 15, 28, 28},
 			{233, 15, 28, 28}
-	});
+			});
 	s_eyes_right.setFreq(3.0);
 	s_eyes_right.setSpeed(0.07);
-	
+
 	eyes_left.setTexture(texture_snake);
 	s_eyes_left.setFrames({
 			{301, 15, 28, 28},
@@ -32,7 +32,7 @@ Snake::Snake () {
 			{475, 15, 28, 28},
 			{504, 15, 28, 28},
 			{533, 15, 28, 28}
-	});
+			});
 	s_eyes_left.setFreq(3.0);
 	s_eyes_left.setSpeed(0.07);
 	s_tongue.setFrames({
@@ -62,8 +62,8 @@ Snake::Snake () {
 	s_tongue.setFreq(6.0);
 	s_tongue.setSpeed(0.08);
 	s_mouth.setFrames({
-		{1, 58, 35, 54}
-	});
+			{1, 58, 35, 54}
+			});
 	texture_head.create(TILE * 2, TILE * 1.10);
 }
 
@@ -71,36 +71,36 @@ void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &
 
 	/* Draw Langue */
 	/*
-	auto boca = sf::Vector2f(snake[0].x * TILE, snake[0].y * TILE);
+	   auto boca = sf::Vector2f(snake[0].x * TILE, snake[0].y * TILE);
 
-	switch (direction) {
-		case Up:
-			tounge.setRotation(-95.0f);
-			boca.x += TILE/2;
-			break;
-		case Down:
-			boca.x += TILE/2;
-			boca.y += TILE;
-			tounge.setRotation(95.f);
-			break;
-		case Left:
-			boca.y += TILE/2;
-			tounge.setRotation(180.f);
-			break;
-		case Right:
-			boca.y += TILE/2;
-			boca.x += TILE;
-			tounge.setRotation(0.f);
-			break;
-		default:
-			break;
-	}
-	tounge.setOrigin(10, 10);
-	tounge.setTextureRect({884,129, 45, 21});
-	tounge.setPosition(boca);
-	window.draw(tounge);
-	*/
-	
+	   switch (direction) {
+	   case Up:
+	   tounge.setRotation(-95.0f);
+	   boca.x += TILE/2;
+	   break;
+	   case Down:
+	   boca.x += TILE/2;
+	   boca.y += TILE;
+	   tounge.setRotation(95.f);
+	   break;
+	   case Left:
+	   boca.y += TILE/2;
+	   tounge.setRotation(180.f);
+	   break;
+	   case Right:
+	   boca.y += TILE/2;
+	   boca.x += TILE;
+	   tounge.setRotation(0.f);
+	   break;
+	   default:
+	   break;
+	   }
+	   tounge.setOrigin(10, 10);
+	   tounge.setTextureRect({884,129, 45, 21});
+	   tounge.setPosition(boca);
+	   window.draw(tounge);
+	   */
+
 
 	/* Draw Body */
 	this->draw_body(window, snake);
@@ -113,14 +113,18 @@ void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &
 static inline sf::Vector2f	get_position(Position pos, bool is_vertical, bool is_first, float width) {
 	if (is_vertical) {
 		if (is_first)
-			return sf::Vector2f(pos.x * TILEf + (TILEf - width) / 2.0f, pos.y * TILEf + TILEf / 2.0f);
+			return sf::Vector2f(pos.x * TILEf + (TILEf - width) / 2.0f,
+					pos.y * TILEf + TILEf / 2.0f);
 		else
-			return sf::Vector2f((pos.x + 1) * TILEf - (TILEf - width) / 2.0f, pos.y * TILEf + TILEf / 2.0f);
+			return sf::Vector2f((pos.x + 1) * TILEf - (TILEf - width) / 2.0f,
+					pos.y * TILEf + TILEf / 2.0f);
 	} else {
 		if (is_first)
-			return sf::Vector2f(pos.x * TILEf + TILEf / 2.0f, pos.y * TILEf + (TILEf - width) / 2.0f);
+			return sf::Vector2f(pos.x * TILEf + TILEf / 2.0f,
+					pos.y * TILEf + (TILEf - width) / 2.0f);
 		else
-			return sf::Vector2f(pos.x * TILEf + TILEf / 2.0f, (pos.y + 1) * TILEf - (TILEf - width) / 2.0f);
+			return sf::Vector2f(pos.x * TILEf + TILEf / 2.0f,
+					(pos.y + 1) * TILEf - (TILEf - width) / 2.0f);
 	}
 
 }
@@ -189,19 +193,19 @@ inline void Snake::draw_head(sf::RenderTexture& window, const Position &pos, Dir
 	sprite.setTextureRect({r.x, r.y, r.w, r.h});
 	sprite.setPosition({-3.0, -4.0});
 	texture_head.draw(sprite);
-	
+
 	r = s_eyes_right.getFrame();
 	sprite.setTextureRect({r.x, r.y, r.w, r.h});
 	sprite.setPosition({-3.6, TILEf / 2.0f});
 	texture_head.draw(sprite);
-	
+
 	/* Tongue */
 	r = s_tongue.getFrame();
 
 	sprite.setTextureRect({r.x, r.y, r.w, r.h});
 	sprite.setPosition({TILEf * 0.7f, TILEf / 4.0});
 	texture_head.draw(sprite);
-	
+
 	/* Mouth */
 	r = s_mouth.getFrame();
 
@@ -218,7 +222,7 @@ inline void Snake::draw_head(sf::RenderTexture& window, const Position &pos, Dir
 		head.setRotation(180);
 	} else if (dir == Down) {
 		head.setPosition({(pos.x + 1) * TILEf + 2.0f, pos.y * TILEf});
-	head.setRotation(90);
+		head.setRotation(90);
 	} else if (dir == Up) {
 		head.setPosition({pos.x * TILEf - 2.0f, (pos.y + 1) * TILEf});
 		head.setRotation(270);
