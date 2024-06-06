@@ -52,7 +52,10 @@ void	Button::reset() {
 }
 
 void	Button::draw() {
-	DrawRectangleRec(_rect, _bg_color);
+	if (_click_event != ON_NONE)
+		DrawRectangleRounded(_rect, 0.3f, 10, _bg_color);
+	else
+		DrawRectangleRec(_rect, _bg_color);
 	DrawText(_txt.c_str(),
 			_rect.x + _offset.x, _rect.y + _offset.y,
 			_txt_size, _txt_color);

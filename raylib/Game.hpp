@@ -21,7 +21,6 @@ class Game {
 		void	draw_score();
 		void	draw_food();
 		void	draw_best_score();
-		void	draw_game_over();
 
 	public:
 		/* ---- Constructors ---- */

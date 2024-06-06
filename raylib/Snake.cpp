@@ -40,16 +40,16 @@ void Snake::draw() {
 	Color color;
 
 	/* Draw body */
-	color = GetColor(0x218821FF);
+	color = GetColor(0x315ec9ff);
 	for (++pos; pos != _positions->end(); ++pos) {
 		rect= getRect(*pos, *prev);
-		DrawRectangleRounded(rect, 0.4f, 10, color);
+		DrawRectangleRounded(rect, 0.5f, 10, color);
 		++prev;
 	}
 
 	/* Draw head */
 	pos = _positions->begin();
-	color = GetColor(0x126612FF);
+	color = GetColor(0x4e7cf6ff);
 	DrawCircleV({TILE_SIZE * (pos->x + 1.5f), TILE_SIZE * (pos->y + 2.5f)},
 			TILE_SIZE * 0.5f - SHIFT, color);
 }

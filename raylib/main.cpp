@@ -32,9 +32,11 @@ class Plugin : public IPlugin {
 
 			int key = 42;
 			while (key != 0) {
-				if (IsMouseButtonReleased(0)) {
-					switch (_menu.checkCollision(ON_GAME_OVER,
-								GetMouseX(), GetMouseY())) {
+				if (IsMouseButtonPressed(0)) {
+					Activity	act = _menu.checkCollision(current_activity,
+							GetMouseX(), GetMouseY());
+
+					switch (act) {
 						case ON_MENU:
 							return CLICK_MENU;
 						case ON_GAME:
@@ -100,6 +102,7 @@ class Plugin : public IPlugin {
 		void display(const Activity act) {
 			if (act != ON_MENU)
 				_game.draw();
+
 			_menu.draw(act);
 			EndDrawing();
 		}

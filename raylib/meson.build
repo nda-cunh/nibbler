@@ -5,6 +5,7 @@ shared_library('raylib',
            'Snake.cpp',
            'Button.cpp',
            'Menu.cpp',
+           'Timer.cpp',
            'Game.cpp',
            dependencies: dep,
            install : true)

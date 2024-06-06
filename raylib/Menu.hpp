@@ -4,11 +4,13 @@
 # include <vector>
 # include <map>
 # include "Button.hpp"
+# include "Timer.hpp"
 
 class Menu {
 	private:
 		std::map<Activity, std::vector<Button>> _buttons;
 		Activity		_current_activity;
+		Timer			_last_click;
 	
 		void	init_game_over(int width, int height);
 		void	init_menu(int width, int height);

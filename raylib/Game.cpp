@@ -29,14 +29,14 @@ void Game::setBestScore(int score) { _best_score = score; }
 void Game::init_background() {
 	bool is_dark = true;
 	Color colors[2] = {
-		GetColor(0xDBD1B4FF),
-		GetColor(0xC2B280FF)
+		GetColor(0xA2D149FF),
+		GetColor(0xAAD751FF)
 	};
 	_background = LoadRenderTexture(_size.x, _size.y);
 
 	BeginTextureMode(_background);
 	{
-		ClearBackground(BLACK);
+		ClearBackground(GetColor(0x578a34ff));
 		for (int x = 1; x < _size.x / TILE_SIZE - 1; x++) {
 			is_dark = (x % 2 == 1);
 			for (int y = 1; y < _size.y / TILE_SIZE - 2; y++) {
@@ -59,7 +59,7 @@ void	Game::draw_background() {
 void Game::draw_food() {
 	DrawCircleV(
 			{TILE_SIZE * (_food.x + 1.5f), TILE_SIZE * (_food.y + 2.5f)},
-			TILE_SIZE * 0.5f - SHIFT, GetColor(0xFF2222FF));
+			TILE_SIZE * 0.5f - SHIFT, GetColor(0xD51313FF));
 }
 
 void Game::draw_score() {
@@ -77,19 +77,10 @@ void Game::draw_best_score() {
 			GetColor(0xFFD700FF));
 }
 
-void	Game::draw_game_over() {
-	int width = _size.x;
-	int	height = _size.y;
-	DrawRectangle(0, 0, width, height, GetColor(0x00000084));
-	
-}
-
 void Game::draw() {
 	this->draw_background();
 	this->draw_score();
 	this->draw_best_score();
 	this->_snake.draw();
 	this->draw_food();
-	if (this->_is_over)
-		this->draw_game_over();
 }
