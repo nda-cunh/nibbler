@@ -24,4 +24,14 @@ class Menu {
 		void	draw(const Activity &act, sf::RenderTarget &win);
 };
 
-#endif
+inline std::ostream& operator << (std::ostream& os, sf::Rect<float> rect)
+{
+	os << "[x: "<< rect.getPosition().x;
+	os << ", y: "<< rect.getPosition().y;
+	os << ", w: "<< rect.getSize().x;
+	os << ", h: "<< rect.getSize().y;
+	os << "]";
+	return os;
+}
+
+#endifPressed

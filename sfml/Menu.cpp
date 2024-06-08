@@ -31,13 +31,21 @@ void	Menu::init_game_over(int width, int height) {
 	// Set Button Activty
 	new_pair.first = ON_GAME_OVER;
 
-	b.setTxt("LOL");
-	b.setRect(0, 0, 200, 100);
-	b.setBgColor(sf::Color::Green);
-	// b.setTxtColor(sf::Color::Magenta);
-	// b.centerText();
+	b.setTxt("Try Again");
+	b.setRect(0.22 * width, 0.80 * height, 150, 60);
+	b.setOffSet(20, 10);
+	b.setBgColor(sf::Color(0x4dc1f9ff));
+	b.setTxtColor(sf::Color::White);
+	b.setClickEvent(ON_GAME);
 	new_pair.second.push_back(b);
 
+	b.setTxt("Menu");
+	b.setRect((1. - 0.22) * width - 150, 0.80 * height, 150, 60);
+	b.setOffSet(45, 10);
+	b.setBgColor(sf::Color(0x4dc1f9ff));
+	b.setTxtColor(sf::Color::White);
+	b.setClickEvent(Activity::ON_MENU);
+	new_pair.second.push_back(b);
 
 	_buttons.insert(new_pair);
 }
@@ -48,6 +56,24 @@ void	Menu::init_menu(int width, int height) {
 
 	// Set Button Activty
 	new_pair.first = ON_MENU;
+
+	b.setTxt("SNAKE");
+	b.setTxtSize(84);
+	b.setTxtColor(sf::Color(0x4df9c1ff));
+	b.setOffSet(0.35 * width, 0.3 * height);
+	b.setRect(0, 0, width, height);
+	b.setBgColor(sf::Color::Black);
+	new_pair.second.push_back(b);
+
+	b.setTxt("Play 1P");
+	b.setRect(0.25 * width, 0.5 * height, 0.5 * width, 50);
+	b.setTxtSize(42);
+	b.setBgColor(sf::Color(0x4df9c1ff));
+	b.setOffSet(0.18 * width, 0);
+	b.setTxtColor(sf::Color::Black);
+	b.setClickEvent(Activity::ON_GAME);
+	new_pair.second.push_back(b);
+
 
 	_buttons.insert(new_pair);
 }

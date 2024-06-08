@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: thmarin <thmarin@student.42angouleme.      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/06 04:20:25 by thmarin           #+#    #+#             */
-/*   Updated: 2024/06/08 23:48:10 by nda-cunh         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <memory>
@@ -49,53 +37,73 @@ class Plugin : public IPlugin {
 			gameover.setPosition(TILEf * x / 2.0, TILEf * y / 2.0);
 			dark_background.setFillColor({0,0,0,150});
 			dark_background.setSize({TILEf*x, TILEf*y});
-			menu = Menu(TILEf*x, TILEf*y);
+			menu = Menu(TILE * x + 80, TILE * y + 160);
 		}
 
 		void close(){
 			window->close();
 		}
 		
+		Event	handle_keyboard_event(sf::Event	event) {
+			switch(event.key.code) {
+				case sf::Keyboard::Left :
+					return LEFT;
+				case sf::Keyboard::Right:
+					return RIGHT;
+				case sf::Keyboard::Up:
+					return UP;
+				case sf::Keyboard::Down:
+					return DOWN;
+				case sf::Keyboard::Enter:
+					return ENTER;
+				case sf::Keyboard::Escape:
+					return CLOSE;
+				case sf::Keyboard::F1:
+					return F1;
+				case sf::Keyboard::F2:
+					return F2;
+				case sf::Keyboard::F3:
+					return F3;
+				default:
+					return NONE;
+			}
+		}
+
+		Event	handle_mouse_event(const sf::Event &event, const Activity &act) {
+			if (event.mouseButton.button != sf::Mouse::Left)
+				return NONE;
+			std::cerr << "Event mouse!!" << std::endl;
+			sf::Vector2i position = sf::Mouse::getPosition(*this->window);
+			Activity	act2 = menu.checkCollision(act, position.x, position.y);
+
+			switch (act2) {
+				case ON_MENU:
+					return CLICK_MENU;
+				case ON_GAME:
+					return CLICK_1P;
+				default:
+					return NONE;
+			}
+		}
+
 		Event poll_event(Activity act){
 			(void) act;
 			sf::Event event;
 			Event e = NONE;
 			while (window->pollEvent(event)) {
-				if (event.type == sf::Event::Closed) {
-					e = CLOSE;
-				} else if (event.type == sf::Event::KeyPressed) {
-					switch (event.key.code) {
-						case sf::Keyboard::Left:
-							e = LEFT;
-							break;
-						case sf::Keyboard::Right:
-							e = RIGHT;
-							break;
-						case sf::Keyboard::Up:
-							e = UP;
-							break;
-						case sf::Keyboard::Down:
-							e = DOWN;
-							break;
-						case sf::Keyboard::Enter:
-							e = ENTER;
-							break;
-						case sf::Keyboard::Escape:
-							e = CLOSE;
-							break;
-						case sf::Keyboard::F1:
-							e = F1;
-							break;
-						case sf::Keyboard::F2:
-							e = F2;
-							break;
-						case sf::Keyboard::F3:
-							e = F3;
-							break;
-						default:
-							e = NONE;
-							break;
-					}
+				// Handle the event
+				switch (event.type) {
+					case sf::Event::Closed:
+						return CLOSE;
+					case sf::Event::KeyPressed:
+						e = handle_keyboard_event(event);
+						break;
+					case sf::Event::MouseButtonPressed:
+						e = handle_keyboard_event(event);
+						break;
+					default:
+						e = NONE;
+						break;
 				}
 			}
 			return e;
@@ -134,12 +142,17 @@ class Plugin : public IPlugin {
 
 		void display (const Activity act) {
 			gameover.update();
-			menu.draw(act, *texture_game);
+
+			if (act == Activity::ON_GAME_OVER) {
+				texture_game->draw(dark_background);
+				texture_game->draw(gameover);
+			}
 
 			texture_game->display();
 			game.setTexture(texture_game->getTexture());
 
 			window->draw(game);
+			menu.draw(act, *window);
 			window->display();
 		}
 };
@@ -157,7 +170,7 @@ extern "C" {
 		}
 		return game;
 	}
-	
+
 	void unload() {
 		delete game;
 	}
