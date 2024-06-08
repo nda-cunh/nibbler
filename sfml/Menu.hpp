@@ -34,4 +34,4 @@ inline std::ostream& operator << (std::ostream& os, sf::Rect<float> rect)
 	return os;
 }
 
-#endifPressed
+#endif

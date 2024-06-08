@@ -30,7 +30,7 @@ void	main_plugin_loop(int width, int height) {
 	Game		game(width, height);
 	Activity	current_act = ON_GAME;
 	Event		event = DOWN;
-	LIBS		lib = RAYLIB;
+	LIBS		lib = SFML;
 	const auto	lib_names = std::map<LIBS, std::string>({
 			{SFML, "./libsfml.so"},
 			{SFML_BIS, "./libsfml_bis.so"},
