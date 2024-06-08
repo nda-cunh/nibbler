@@ -54,45 +54,46 @@ void	main_plugin_loop(int width, int height) {
 		frameStart = std::chrono::high_resolution_clock::now();
 
 		// Event last = event;
-		event = plugin->poll_event();
+		event = plugin->poll_event(current_act);
 		// if (last == event)
 			// break;
 		// printf("%d\n", event);
 		// if (event == NONE)
 			// break;
 		switch (event) {
-			case RIGHT:
-				direction = Right;
-				break;
-			case LEFT:
-				direction = Left;
-				break;
-			case UP:
-				direction = Up;
-				break;
-			case DOWN:
+			// case RIGHT:
+				// direction = Right;
+				// break;
+			// case LEFT:
+				// direction = Left;
+				// break;
+			// case UP:
+				// direction = Up;
+				// break;
+			// case DOWN:
+				// direction = Down;
+			// TODO ???
+			case CLOSE:
+				return;
+			case ENTER:
+				if (!game.over())
+					break;
+				game = game.newGame();
+				event = DOWN;
 				direction = Down;
-				case CLOSE:
-					return;
-				case ENTER:
-					if (!game.over())
-						break;
-					game = game.newGame();
-					event = DOWN;
-					direction = Down;
-					current_act = ON_GAME;
+				current_act = ON_GAME;
+				break;
+			case CLICK_1P:
+				if (!game.over())
 					break;
-				case CLICK_1P:
-					if (!game.over())
-						break;
-					game = game.newGame();
-					event = DOWN;
-					direction = Down;
-					current_act = ON_GAME;
-					break;
-				case CLICK_MENU:
-					current_act = ON_MENU;
-					break;
+				game = game.newGame();
+				event = DOWN;
+				direction = Down;
+				current_act = ON_GAME;
+				break;
+			case CLICK_MENU:
+				current_act = ON_MENU;
+				break;
 			case F1:
 				if (lib == SFML)
 					break;
