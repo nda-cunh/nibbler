@@ -16,7 +16,7 @@ Plugin::Plugin (std::string so, int x, int y) {
 Plugin::~Plugin(){
 	this->close();
 	auto func = (IPlugin*(*)())dlsym(handler, "unload");
-	if (func == NULL)
+	if (func != NULL)
 		func();
 	if (dlclose(handler) != 0)
 		std::cerr << "dlclose have an error" << std::endl;

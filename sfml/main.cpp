@@ -19,21 +19,19 @@ class Plugin : public IPlugin {
 		Apple apple;
 		Menu menu;
 		Background background;
-		sf::Event event;
 		GameOver gameover;
 		sf::RectangleShape dark_background;
 	public:
 		virtual ~Plugin() {}
-		void open(int x, int y){
-			sf::ContextSettings settings;
-			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Nibbler", sf::Style::Default ^ sf::Style::Resize, settings);
+		void open(int x, int y) {
+			window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Nibbler", sf::Style::Default ^ sf::Style::Resize);
 			menu.create(window->getSize().x, 80);
 			texture_game = std::make_shared<sf::RenderTexture>();
-			texture_game->create(TILE*x, TILE*y);
+			texture_game->create(TILE * x, TILE * y);
 			game.setTexture(texture_game->getTexture());
 			game.setPosition(40, 120);
 			background.init(window->getSize());
-			gameover.setPosition(TILE*x/2, TILE*y/2);
+			gameover.setPosition(TILEf * x / 2.0, TILEf * y / 2.0);
 			dark_background.setFillColor({0,0,0,150});
 			dark_background.setSize({TILEf*x, TILEf*y});
 
@@ -43,37 +41,50 @@ class Plugin : public IPlugin {
 			window->close();
 		}
 		
-		Event poll_event(){
-
-			window->pollEvent(event);
-			if (event.type == sf::Event::Closed)
-				return CLOSE;
-			else if (event.type == sf::Event::KeyPressed) {
-				switch(event.key.code) {
-					case sf::Keyboard::Left :
-						return LEFT;
-					case sf::Keyboard::Right:
-						return RIGHT;
-					case sf::Keyboard::Up:
-						return UP;
-					case sf::Keyboard::Down:
-						return DOWN;
-					case sf::Keyboard::Enter:
-						return ENTER;
-					case sf::Keyboard::Escape:
-						return CLOSE;
-					case sf::Keyboard::F1:
-						return F1;
-					case sf::Keyboard::F2:
-						return F2;
-					case sf::Keyboard::F3:
-						return F3;
-					default:
-						return NONE;
+		Event poll_event() {
+			sf::Event event;
+			Event e = NONE;
+			while (window->pollEvent(event)) {
+				if (event.type == sf::Event::Closed) {
+					e = CLOSE;
+				} else if (event.type == sf::Event::KeyPressed) {
+					switch (event.key.code) {
+						case sf::Keyboard::Left:
+							e = LEFT;
+							break;
+						case sf::Keyboard::Right:
+							e = RIGHT;
+							break;
+						case sf::Keyboard::Up:
+							e = UP;
+							break;
+						case sf::Keyboard::Down:
+							e = DOWN;
+							break;
+						case sf::Keyboard::Enter:
+							e = ENTER;
+							break;
+						case sf::Keyboard::Escape:
+							e = CLOSE;
+							break;
+						case sf::Keyboard::F1:
+							e = F1;
+							break;
+						case sf::Keyboard::F2:
+							e = F2;
+							break;
+						case sf::Keyboard::F3:
+							e = F3;
+							break;
+						default:
+							e = NONE;
+							break;
+					}
 				}
 			}
-			return NONE;
+			return e;
 		}
+
 
 		void update_snake(const std::deque<Position> &queue, Direction direction) {
 			snake.update_snake(*texture_game, queue, direction);
