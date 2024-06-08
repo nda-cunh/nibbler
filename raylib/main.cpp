@@ -21,7 +21,6 @@ class Plugin : public IPlugin {
 		}
 
 		void close() { 
-			CloseWindow();
 		}
 
 		Event poll_event() {
