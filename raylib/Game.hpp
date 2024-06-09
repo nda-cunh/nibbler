@@ -6,13 +6,13 @@
 
 class Game {
 	private:
-		RenderTexture2D	_background;
-		Position		_size;
-		Position		_food;
-		Snake			_snake;
-		int				_score;
-		bool			_is_over;
-		int				_best_score;
+		RenderTexture2D			_background;
+		Position				_size;
+		std::deque<Position>	_food;
+		Snake					_snake;
+		int						_score;
+		bool					_is_over;
+		int						_best_score;
 
 
 		/* ---- Private Draw Methods ---- */
@@ -30,7 +30,8 @@ class Game {
 
 		/* ---- Accessors ---- */
 		void setSnake(const std::deque<Position> &snake);
-		void setFood(Position pos);
+		void addFood(Position pos);
+		void resetFood();
 		void setScore(int score);
 		void setIsOver(bool is_over);
 		void setBestScore(int score);

@@ -78,7 +78,7 @@ class Plugin : public IPlugin {
 		}
 
 		void update_food(Position &pos)  {
-			_game.setFood(pos);
+			_game.addFood(pos);
 		}
 
 		void update_score(int n){
@@ -105,6 +105,7 @@ class Plugin : public IPlugin {
 
 			_menu.draw(act);
 			EndDrawing();
+			_game.resetFood();
 		}
 };
 

@@ -18,7 +18,8 @@ Game::~Game() {}
 /* ____ ACCESSORS ____ */
 
 void Game::setSnake(const std::deque<Position> &snake) { _snake.update(&snake); }
-void Game::setFood(Position pos) { _food = pos; }
+void Game::addFood(Position pos) { _food.push_back(pos); }
+void Game::resetFood( void ) { _food.clear(); }
 void Game::setScore(int score) { _score = score; }
 void Game::setIsOver(bool is_over) { _is_over = is_over; }
 void Game::setBestScore(int score) { _best_score = score; }
@@ -60,8 +61,9 @@ void	Game::draw_background() {
 }
 
 void Game::draw_food() {
-	DrawCircleV(
-			{TILE_SIZE * (_food.x + 1.5f), TILE_SIZE * (_food.y + 2.5f)},
+	for (auto food = _food.begin(); food != _food.end(); food++)
+		DrawCircleV(
+			{TILE_SIZE * (food->x + 1.5f), TILE_SIZE * (food->y + 2.5f)},
 			TILE_SIZE * 0.5f - SHIFT, GetColor(0xD51313FF));
 }
 
