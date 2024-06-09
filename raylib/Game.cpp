@@ -51,8 +51,11 @@ void Game::init_background() {
 }
 
 void	Game::draw_background() {
-	if (!IsRenderTextureReady(this->_background))
+	static bool	first_display = true;
+	if (first_display) {
 		this->init_background();
+		first_display = false;
+	}
 	DrawTexture(_background.texture, 0, 0, RAYWHITE);
 }
 

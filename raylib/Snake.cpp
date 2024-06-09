@@ -34,6 +34,8 @@ static inline Rectangle getRect(const Position &a, const Position &b) {
 }
 
 void Snake::draw() {
+	if (_positions == NULL)
+		return ;
 	auto pos = _positions->begin();
 	auto prev = pos;
 	Rectangle	rect;
