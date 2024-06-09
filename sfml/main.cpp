@@ -72,7 +72,6 @@ class Plugin : public IPlugin {
 		Event	handle_mouse_event(const sf::Event &event, const Activity &act) {
 			if (event.mouseButton.button != sf::Mouse::Left)
 				return NONE;
-			std::cerr << "Event mouse!!" << std::endl;
 			sf::Vector2i position = sf::Mouse::getPosition(*this->window);
 			Activity	act2 = menu.checkCollision(act, position.x, position.y);
 
@@ -87,7 +86,6 @@ class Plugin : public IPlugin {
 		}
 
 		Event poll_event(Activity act){
-			(void) act;
 			sf::Event event;
 			Event e = NONE;
 			while (window->pollEvent(event)) {
@@ -99,7 +97,7 @@ class Plugin : public IPlugin {
 						e = handle_keyboard_event(event);
 						break;
 					case sf::Event::MouseButtonPressed:
-						e = handle_keyboard_event(event);
+						e = handle_mouse_event(event, act);
 						break;
 					default:
 						e = NONE;
