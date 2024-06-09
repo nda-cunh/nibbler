@@ -50,31 +50,24 @@ void	main_plugin_loop(int width, int height) {
 	plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 
 	while (event != CLOSE) {
-		/* Event Handling */
 		frameStart = std::chrono::high_resolution_clock::now();
+		/* Event Handling */
 
-		// Event last = event;
+		Event last = event;
 		event = plugin->poll_event(current_act);
-		// if (last == event)
-			// break;
-		// printf("%d\n", event);
-		// if (event == NONE)
-			// break;
 		switch (event) {
-			// case RIGHT:
-				// direction = Right;
-				// break;
-			// case LEFT:
-				// direction = Left;
-				// break;
-			// case UP:
-				// direction = Up;
-				// break;
-			// case DOWN:
-				// direction = Down;
-			// TODO ???
-			case CLOSE:
-				return;
+			case RIGHT:
+				direction = Right;
+				break;
+			case LEFT:
+				direction = Left;
+				break;
+			case UP:
+				direction = Up;
+				break;
+			case DOWN:
+				direction = Down;
+				break;
 			case ENTER:
 				if (!game.over())
 					break;
@@ -119,12 +112,11 @@ void	main_plugin_loop(int width, int height) {
 				break;
 		}
 
-		/* Move Snakes */
 		frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - frameStart).count();
 		if (frameDelay > frameTime) {
 			std::this_thread::sleep_for(std::chrono::milliseconds(frameDelay - frameTime));
-
 		}
+
 		/* Move Snakes */
 		if (!game.over() && timer.elapsed() > 0.08) {
 			game.moveSnake(direction);
