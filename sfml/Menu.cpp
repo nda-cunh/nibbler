@@ -25,23 +25,33 @@ Menu	&Menu::operator=(const Menu &rhs) {
 }
 
 void	Menu::init_game_over(int width, int height) {
+	const Position	card_over = {324, 389};
 	std::pair<Activity, std::vector<Button>>	new_pair;
+	sf::Rect<float>	r_button = sf::Rect<float>({0.5f * width, 0, 125, 60});
 	Button		b;
+
+	if ((height - 160) * 0.5 + 385 > height - 40)
+		// (height - 160) * 0.5 + shift.y + card.y / 2 - shift_to_card - button.w
+		r_button.top = (height - 160) * 0.5 + 238;
+	else
+		// (height - 160) * 0.5 + shift.y + card.y / 2 + shift_to_card;
+		r_button.top = (height - 160) * 0.5 + 325;
 
 	// Set Button Activty
 	new_pair.first = ON_GAME_OVER;
 
 	b.setTxt("Try Again");
-	b.setRect(0.22 * width, 0.80 * height, 150, 60);
-	b.setOffSet(20, 10);
+	b.setTxtSize(25);
+	b.setRect(r_button.left - 135, r_button.top, r_button.width, r_button.height);
+	b.setOffSet(17, 13);
 	b.setBgColor(sf::Color(0x4dc1f9ff));
 	b.setTxtColor(sf::Color::White);
 	b.setClickEvent(ON_GAME);
 	new_pair.second.push_back(b);
 
 	b.setTxt("Menu");
-	b.setRect((1. - 0.22) * width - 150, 0.80 * height, 150, 60);
-	b.setOffSet(45, 10);
+	b.setRect(r_button.left + 135 - 125, r_button.top, r_button.width, r_button.height);
+	b.setOffSet(34, 13);
 	b.setBgColor(sf::Color(0x4dc1f9ff));
 	b.setTxtColor(sf::Color::White);
 	b.setClickEvent(Activity::ON_MENU);
