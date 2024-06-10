@@ -6,7 +6,7 @@
 /*   By: nda-cunh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 04:18:12 by nda-cunh          #+#    #+#             */
-/*   Updated: 2024/06/08 04:59:09 by nda-cunh         ###   ########.fr       */
+/*   Updated: 2024/06/11 01:46:18 by nda-cunh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ class Plugin : public IPlugin {
 			SDL_DestroyWindow(win);
 		}
 
-		Event poll_event() {
+		Event poll_event(Activity activity) {
 			SDL_Event event;
 			Event e = NONE;
 			while (SDL_PollEvent(&event)) {
@@ -177,12 +177,12 @@ class Plugin : public IPlugin {
 			for (const auto &pos : queue) {
 				rect.x = pos.x * tile_size,
 					rect.y = pos.y * tile_size,
-					SDL_SetRenderDrawColor(renderer, 0, 128, 0, 255); // Vert plus foncé
+					SDL_SetRenderDrawColor(renderer, 81, 128, 243, 255); // Vert plus foncé
 				SDL_RenderFillRect(renderer, &rect);
 			}
 			rect.x = queue[0].x * tile_size,
 				rect.y = queue[0].y * tile_size,
-				SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Vert
+				SDL_SetRenderDrawColor(renderer, 49, 94, 255, 255); // Vert
 			SDL_RenderFillRect(renderer, &rect);
 		}
 
@@ -256,9 +256,9 @@ class Plugin : public IPlugin {
 			for (int i = 0; i < x; i++) {
 				for (int j = 0; j < y; j++) {
 					if ((i + j) % 2 == 0) {
-						SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+						SDL_SetRenderDrawColor(renderer, 162, 209, 73, 255);
 					} else {
-						SDL_SetRenderDrawColor(renderer, 220, 220, 220, 255);
+						SDL_SetRenderDrawColor(renderer, 170, 215, 81, 255);
 					}
 					SDL_Rect rect = {i * tile_size, j * tile_size, tile_size, tile_size};
 					SDL_RenderFillRect(renderer, &rect);
@@ -266,7 +266,7 @@ class Plugin : public IPlugin {
 			}
 		}
 
-		void display () {
+		void display (Activity activity) {
 			// Dessin du damier
 			SDL_RenderPresent(renderer);
 		}
