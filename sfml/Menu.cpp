@@ -62,28 +62,37 @@ void	Menu::init_game_over(int width, int height) {
 
 void	Menu::init_menu(int width, int height) {
 	std::pair<Activity, std::vector<Button>>	new_pair;
+	sf::Vector2f		beg = {0.2f * width, 0.3f * height};
 	Button		b;
+	sf::Color	menu_color(0x4DC1F9FF);
 
 	// Set Button Activty
 	new_pair.first = ON_MENU;
 
-	b.setTxt("SNAKE");
-	b.setTxtSize(84);
-	b.setTxtColor(sf::Color(0x4df9c1ff));
-	b.setOffSet(0.35 * width, 0.3 * height);
 	b.setRect(0, 0, width, height);
 	b.setBgColor(sf::Color::Black);
+	b.setRounded(false);
 	new_pair.second.push_back(b);
 
-	b.setTxt("Play 1P");
-	b.setRect(0.25 * width, 0.5 * height, 0.5 * width, 50);
-	b.setTxtSize(42);
-	b.setBgColor(sf::Color(0x4df9c1ff));
-	b.setOffSet(0.18 * width, 0);
+	b.setTxt("SupraSnake");
+	b.setTxtColor(menu_color);
+	b.setTxtSize(0.11 * std::min(height, width));
+	b.setRect(beg.x, beg.y, width * 3 / 5, 0.1 * height);
+	b.setOffSet(width * 0.05, 0);
+	b.setRounded(true);
+	new_pair.second.push_back(b);
+
+	b.reset();
+
+	b.setTxt("Play");
 	b.setTxtColor(sf::Color::Black);
+	b.setTxtSize(0.08 * std::min(height, width));
+	b.setRect(beg.x, 0.6 * height, width * 3 / 5, 0.12 * height);
+	b.setBgColor(menu_color);
 	b.setClickEvent(Activity::ON_GAME);
+	b.setOffSet(width * 0.23, height * 0.01);
+	b.setRounded(true);
 	new_pair.second.push_back(b);
-
 
 	_buttons.insert(new_pair);
 }

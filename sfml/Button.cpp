@@ -22,6 +22,7 @@ Button	&Button::operator=(const Button &rhs) {
 	this->_text = rhs._text;
 	this->_offset = rhs._offset;
 	this->_click_event = rhs._click_event;
+	this->_is_rounded = rhs._is_rounded;
 	return *this;
 }
 
@@ -41,6 +42,9 @@ void	Button::setOffSet(float x, float y) { _offset = {x, y};
 }
 void	Button::setTxt(const std::string txt) {
 	_text.setString(txt);
+}
+void	Button::setRounded(bool rounded) {
+	this->_is_rounded = rounded;
 }
 void	Button::setTxtColor(const sf::Color &c) {
 	_text.setFillColor(c);
@@ -68,15 +72,51 @@ void	Button::reset() {
 	_offset = {0, 0};
 	_text.setPosition({20, 20});
 	_click_event = ON_NONE;
+	_is_rounded = true;
+}
+
+void	Button::draw_rounded(sf::RenderTarget	&win) {
+	sf::RectangleShape	r = _rect;
+	sf::Vector2f		v;
+	sf::CircleShape		c;
+	float				radius = 15;
+
+	
+	c.setFillColor(r.getFillColor());
+	c.setRadius(radius);
+	v = _rect.getPosition();
+
+	c.setPosition(v);
+	win.draw(c);
+	c.setPosition({v.x + _rect.getSize().x - 2 * radius, v.y});
+	win.draw(c);
+	c.setPosition({v.x, v.y + _rect.getSize().y - 2 * radius});
+	win.draw(c);
+	c.setPosition({v.x + _rect.getSize().x - 2 * radius,
+			v.y + _rect.getSize().y - 2 * radius});
+	win.draw(c);
+
+	v = _rect.getPosition();
+	r.setPosition(v.x + radius, v.y);
+	v = _rect.getSize();
+	r.setSize({v.x - 2 * radius, v.y});
+	win.draw(r);
+
+	v = _rect.getPosition();
+	r.setPosition(v.x, v.y + radius);
+	v = _rect.getSize();
+	r.setSize({v.x, v.y - 2 * radius});
+	win.draw(r);
 }
 
 void	Button::draw(sf::RenderTarget &win){
-	win.draw(_rect);
+	if (_is_rounded)
+		this->draw_rounded(win);
+	else
+		win.draw(_rect);
+	
 	if (_font) {
 		_text.setFont(*_font);
-		sf::RectangleShape	rec({10, 10});
-
-		rec.setPosition(_rect.getPosition());
 		win.draw(_text);
 	}
 }

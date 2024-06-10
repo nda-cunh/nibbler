@@ -12,7 +12,9 @@ class Button {
 		sf::Text			_text;
 		std::unique_ptr<sf::Font>		_font;
 		Activity			_click_event;
+		bool				_is_rounded;
 	
+		void	draw_rounded( sf::RenderTarget	&win);
 	public:
 		Button();
 		~Button();
@@ -24,6 +26,7 @@ class Button {
 		Activity	getEvent() const;
 		void	setClickEvent(Activity act);
 		void	setTxtSize(int size);
+		void	setRounded(bool rounded);
 		void	setBgColor(const sf::Color &c);
 		void	setTxtColor(const sf::Color &c);
 		void	setOffSet(float x, float y);
