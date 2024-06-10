@@ -10,7 +10,7 @@
 // updateAndDisplayGameState(...)
 static void display(const Game &game, Plugin &plugin, const Direction &dir, Activity &act) {
 	plugin.clear();
-	if (act == ON_GAME) {
+	if (act != Activity::ON_MENU) {
 		plugin.update_snake(game.getSnakePositions(), dir);
 
 		for (auto pos : game.getFoodPositions())

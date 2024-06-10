@@ -19,8 +19,8 @@ bool	check_args(int ac, char **av, int &w, int &h) {
 
 		if (width < 10 || height < 10)
 			ERROR("Integers must be greater than 10");
-		else if (width > 42 || height > 42)
-			ERROR("Integers must be lower than 42");
+		else if (width > 21 || height > 21)
+			ERROR("Integers must be lower than 21");
 		else {
 			w = width;
 			h = height;
