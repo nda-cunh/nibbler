@@ -75,7 +75,7 @@ void	Menu::init_game_over(int width, int height) {
 
 void	Menu::init_menu(int width, int height) {
 	std::pair<Activity, std::vector<Button>>	new_pair;
-	Vector2		beg = {0.2f * width, 0.4f * height};
+	Vector2		beg = {0.2f * width, 0.3f * height};
 	Button		b;
 
 	// Set Button Activty
@@ -87,7 +87,7 @@ void	Menu::init_menu(int width, int height) {
 
 	b.setTxt("SupraSnake");
 	b.setTxtColor(GetColor(0x12CC12FF));
-	b.setTxtSize(0.07 * std::min(height, width));
+	b.setTxtSize(0.11 * std::min(height, width));
 	b.setRect(beg.x, beg.y, width * 3 / 5, 0.12 * height);
 	b.centerText();
 	new_pair.second.push_back(b);
@@ -96,7 +96,7 @@ void	Menu::init_menu(int width, int height) {
 
 	b.setTxt("Play");
 	b.setTxtColor(BLACK);
-	b.setTxtSize(0.04 * std::min(height, width));
+	b.setTxtSize(0.08 * std::min(height, width));
 	b.setRect(beg.x, 0.6 * height, width * 3 / 5, 0.12 * height);
 	b.setBgColor(GetColor(0x12CC12FF));
 	b.setClickEvent(Activity::ON_GAME);

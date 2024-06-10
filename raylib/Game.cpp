@@ -68,17 +68,20 @@ void Game::draw_food() {
 }
 
 void Game::draw_score() {
-	auto beg = this->_size.x * 0.10;
+	const static float	txt_size = 0.07 * std::min(_size.x, _size.y);
 	char score[10] = "";
+
 	sprintf(score, "SCORE %3d", _score);
-	DrawText(score, beg, 0.5 * TILE_SIZE, 32, WHITE);
+	DrawText(score, TILE_SIZE, 0.5 * TILE_SIZE, txt_size, WHITE);
 }
 
 void Game::draw_best_score() {
+	const static float	txt_size = 0.07 * std::min(_size.x, _size.y);
 	auto beg = this->_size.x * 0.5;
 	char score[10] = "";
+
 	sprintf(score, "BEST %3d", _best_score);
-	DrawText(score, beg, 0.5 * TILE_SIZE, 32,
+	DrawText(score, beg, 0.5 * TILE_SIZE, txt_size,
 			GetColor(0xFFD700FF));
 }
 
