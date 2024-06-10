@@ -3,7 +3,6 @@ deps = [
 ]
 
 shared_library('sfml',
-           'animation.cpp',
            'apple.cpp',
            'background.cpp',
            'main.cpp',

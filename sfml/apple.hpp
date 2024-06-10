@@ -21,7 +21,6 @@ class Apple : sf::Sprite{
 		int tileX;
 		int tileY;
 		std::shared_ptr<sf::Texture> texture;
-		Animation Aapple;
 };
 
 #endif
