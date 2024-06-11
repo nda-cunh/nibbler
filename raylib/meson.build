@@ -2,6 +2,7 @@ dep = [dependency('raylib')]
 
 shared_library('raylib',
            'main.cpp',
+           'Plugin.cpp',
            'Snake.cpp',
            'Button.cpp',
            'Menu.cpp',

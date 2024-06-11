@@ -1,5 +1,6 @@
 # include "Button.hpp"
 
+/* ____ CONSTRUCTOR & COPLIEN ____ */
 Button::Button() {
 	this->reset();
 }
@@ -24,6 +25,9 @@ Button	&Button::operator=(const Button &rhs) {
 	return *this;
 }
 
+
+/* ____ ACCESSORS ____ */
+
 Rectangle	Button::getRect( void ) const { return _rect; }
 Activity	Button::getEvent( void ) const { return _click_event; }
 void	Button::setClickEvent(Activity act) {_click_event = act;}
@@ -32,14 +36,18 @@ void	Button::setOffSet(float x, float y) { _offset = {x, y}; }
 void	Button::setTxt(const std::string &txt) { _txt = txt; }
 void	Button::setTxtColor(const Color &c) { _txt_color = c; }
 void	Button::setBgColor(const Color &c) { _bg_color = c; }
-void	Button::setRect(float x, float y, float w, float h)
-{ _rect = {x, y, w, h}; }
+void	Button::setRect(float x, float y, float w, float h) { _rect = {x, y, w, h}; }
+
+
+/* ____ PUBLIC METHODS ____ */
 
 void	Button::centerText() {
 	_offset.y = (this->_rect.height - this->_txt_size) / 2.f;
 	_offset.x = (this->_rect.width - this->_txt.length() * this->_txt_size / 1.8) / 2.f;
 }
 
+
+/* ____ DISPLAY METHODS ____ */
 
 void	Button::reset() {
 	_rect = {0, 0, 0, 0};

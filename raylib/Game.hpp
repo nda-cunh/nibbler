@@ -5,28 +5,31 @@
 #include "Snake.hpp"
 
 class Game {
-	private:
-		RenderTexture2D			_background;
-		Position				_size;
-		std::deque<Position>	_food;
-		Snake					_snake;
-		int						_score;
-		bool					_is_over;
-		int						_best_score;
+	int				TILE_SIZE;
+	RenderTexture2D			_background;
+	Position				_size;
+	std::deque<Position>	_food;
+	Snake					_snake;
+	int						_score;
+	int						_best_score;
+	bool					_is_over;
 
 
-		/* ---- Private Draw Methods ---- */
-		void	init_background();
-		void	draw_background();
-		void	draw_score();
-		void	draw_food();
-		void	draw_best_score();
+	/* ---- Private Draw Methods ---- */
+	void	init_background();
+	void	draw_background();
+	void	draw_score();
+	void	draw_food();
+	void	draw_best_score();
 
 	public:
-		/* ---- Constructors ---- */
+		/* ---- Constructors & Coplien ---- */
 		Game();
-		Game(int w, int h);
+		Game(const Game &);
+		Game(int w, int h, int tile_size);
 		~Game();
+
+		Game	&operator=(const Game &);
 
 		/* ---- Accessors ---- */
 		void setSnake(const std::deque<Position> &snake);

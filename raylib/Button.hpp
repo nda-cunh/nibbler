@@ -6,22 +6,25 @@
 # include "./utils.hpp"
 
 class Button {
-	private:
-		Rectangle	_rect;
-		Vector2		_offset;
-		std::string	_txt;
-		int			_txt_size;
-		Color		_txt_color;
-		Color		_bg_color;
-		Activity	_click_event;
+	Rectangle	_rect;
+	Vector2		_offset;
+	Color		_bg_color;
+	
+	std::string	_txt;
+	int			_txt_size;
+	Color		_txt_color;
+	
+	Activity	_click_event;
 	
 	public:
+		/* ---- Constructors & Coplien ---- */
 		Button();
 		~Button();
 		Button(const Button &);
 
 		Button	&operator=(const Button &);
 
+		/* ---- Accessors ---- */
 		Rectangle	getRect() const;
 		Activity	getEvent() const;
 		void	setClickEvent(Activity act);
@@ -31,8 +34,11 @@ class Button {
 		void	setOffSet(float x, float y);
 		void	setTxt(const std::string &txt);
 		void	setRect(float x, float y, float w, float h);
+
+		/* ---- public methods ---- */
 		void	centerText();
 
+		/* ---- Display methods ---- */
 		void	reset();
 		void	draw();
 };

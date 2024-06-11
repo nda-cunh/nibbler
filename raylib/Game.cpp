@@ -2,26 +2,46 @@
 #include "Button.hpp"
 #include <raylib.h>
 
-/* ____ CONSTRUCTORS ____ */
-Game::Game() {
+/* ____ CONSTRUCTORS & COPLIEN ____ */
+Game::Game(){
 	this->_size = {1, 1};
 }
 
-Game::Game(int w, int h) {
-	this->_size = {(w + 2) * TILE_SIZE, (h + 3) * TILE_SIZE};
+Game::Game(const Game &o): TILE_SIZE(o.TILE_SIZE) {
+	*this = o;
 }
 
+Game::Game(int w, int h, int tile_size) : TILE_SIZE(tile_size) {
+	this->_size = {(w + 2) * TILE_SIZE, (h + 3) * TILE_SIZE};
+	_snake = Snake(NULL, TILE_SIZE);
+}
 
-Game::~Game() {}
+Game::~Game() {
+	if (_background.id != 0)
+		UnloadTexture(_background.texture);
+}
 
+Game	&Game::operator=(const Game &rhs) {
+	if (this == &rhs)
+		return *this;
+	TILE_SIZE = rhs.TILE_SIZE;
+	_background = rhs._background;
+	_size = rhs._size;
+	_food = rhs._food;
+	_snake = rhs._snake;
+	_score = rhs._score;
+	_best_score = rhs._best_score;
+	_is_over = rhs._is_over;
+	return *this;
+}
 
 /* ____ ACCESSORS ____ */
 
-void Game::setSnake(const std::deque<Position> &snake) { _snake.update(&snake); }
-void Game::addFood(Position pos) { _food.push_back(pos); }
-void Game::resetFood( void ) { _food.clear(); }
 void Game::setScore(int score) { _score = score; }
 void Game::setIsOver(bool is_over) { _is_over = is_over; }
+void Game::setSnake(const std::deque<Position> &snake) { _snake.update(&snake); }
+void Game::resetFood( void ) { _food.clear(); }
+void Game::addFood(Position pos) { _food.push_back(pos); }
 void Game::setBestScore(int score) { _best_score = score; }
 
 
@@ -53,6 +73,7 @@ void Game::init_background() {
 
 void	Game::draw_background() {
 	static bool	first_display = true;
+
 	if (first_display) {
 		this->init_background();
 		first_display = false;
@@ -61,10 +82,13 @@ void	Game::draw_background() {
 }
 
 void Game::draw_food() {
-	for (auto food = _food.begin(); food != _food.end(); food++)
-		DrawCircleV(
-			{TILE_SIZE * (food->x + 1.5f), TILE_SIZE * (food->y + 2.5f)},
-			TILE_SIZE * 0.5f - SHIFT, GetColor(0xD51313FF));
+	for (auto food = _food.begin(); food != _food.end(); food++) {
+		Vector2	pos= {TILE_SIZE * (food->x + 1.f) + SHIFT,
+						TILE_SIZE * (food->y + 2.f) + SHIFT};
+		float	side = TILE_SIZE - 2* SHIFT;
+
+		DrawRectangleRounded({pos.x, pos.y, side, side}, 0.4, 20, RED);
+	}
 }
 
 void Game::draw_score() {
