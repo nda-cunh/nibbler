@@ -25,7 +25,6 @@ Menu	&Menu::operator=(const Menu &rhs) {
 }
 
 void	Menu::init_game_over(int width, int height) {
-	const Position	card_over = {324, 389};
 	std::pair<Activity, std::vector<Button>>	new_pair;
 	sf::Rect<float>	r_button = sf::Rect<float>({0.5f * width, 0, 125, 60});
 	Button		b;

@@ -6,7 +6,7 @@
 /*   By: nda-cunh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 04:18:12 by nda-cunh          #+#    #+#             */
-/*   Updated: 2024/06/11 01:46:18 by nda-cunh         ###   ########.fr       */
+/*   Updated: 2024/06/11 02:24:11 by nda-cunh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ class Plugin : public IPlugin {
 			SDL_DestroyWindow(win);
 		}
 
-		Event poll_event(Activity activity) {
+		Event poll_event(Activity) {
 			SDL_Event event;
 			Event e = NONE;
 			while (SDL_PollEvent(&event)) {
@@ -266,7 +266,7 @@ class Plugin : public IPlugin {
 			}
 		}
 
-		void display (Activity activity) {
+		void display (Activity) {
 			// Dessin du damier
 			SDL_RenderPresent(renderer);
 		}

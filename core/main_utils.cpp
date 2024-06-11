@@ -53,7 +53,6 @@ void	main_plugin_loop(int width, int height) {
 		frameStart = std::chrono::high_resolution_clock::now();
 		/* Event Handling */
 
-		Event last = event;
 		event = plugin->poll_event(current_act);
 		switch (event) {
 			case RIGHT:
