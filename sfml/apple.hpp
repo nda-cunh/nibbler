@@ -4,7 +4,6 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include "animation.hpp"
 #include "../include/IPlugin.hpp"
 
 
