@@ -19,7 +19,6 @@ Menu	&Menu::operator=(const Menu &rhs) {
 	if (this == &rhs)
 		return *this;
 	_buttons = rhs._buttons;
-	_current_activity = rhs._current_activity;
 	_last_click = rhs._last_click;
 	return *this;
 }
