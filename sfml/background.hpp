@@ -9,11 +9,11 @@
 
 class Background : public sf::Sprite
 {
+	std::shared_ptr<sf::RenderTexture> texture;
+
 	 public:
 		void init(sf::Vector2u size);
 		void draw_self(sf::RenderTexture &window);
-	 private:
-		std::shared_ptr<sf::RenderTexture> texture;
 };
 
 #endif

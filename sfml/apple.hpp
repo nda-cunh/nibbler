@@ -8,18 +8,21 @@
 
 
 class Apple : sf::Sprite{
+	std::shared_ptr<sf::Texture> _texture;
+	bool	_is_up;
+	int		_tileX;
+	int		_tileY;
+
 	public:
+		/* ---- Constructors & Coplien ---- */
 		Apple ();
+		Apple (const Apple &);
+		~Apple();
 
-		void init(int x, int y);
+		Apple	&operator=(const Apple &);
 
+		/* ---- Public methods ---- */
 		void update_food(sf::RenderTexture &window, Position &position);
-
-	private:
-		bool is_up;
-		int tileX;
-		int tileY;
-		std::shared_ptr<sf::Texture> texture;
 };
 
 #endif

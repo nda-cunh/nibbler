@@ -1,5 +1,6 @@
 # include "Button.hpp"
 
+/* ____ CONSTRUCTOR & COPLIEN ____ */
 Button::Button() {
 	_font = std::make_unique<sf::Font>();
 	if (_font->loadFromFile("./sfml/Answer.ttf") == false)
@@ -26,45 +27,47 @@ Button	&Button::operator=(const Button &rhs) {
 	return *this;
 }
 
+
+/* ____ ACCESSORS ____ */
+
+Activity	Button::getEvent( void ) const 			{ return _click_event; }
+void		Button::setTxtColor(const sf::Color &c)	{ _text.setFillColor(c); }
+void		Button::setClickEvent(Activity act)		{_click_event = act;}
+void		Button::setTxtSize(int size)			{ _text.setCharacterSize(size); }
+void		Button::setBgColor(const sf::Color &c)	{ _rect.setFillColor(c); }
+void		Button::setTxt(const std::string txt)	{ _text.setString(txt); }
+void		Button::setRounded(bool rounded)		{ this->_is_rounded = rounded; }
+
 sf::Rect<float>	Button::getRect( void ) const { 
 	sf::Vector2f	pos = _rect.getPosition();
 	sf::Vector2f	size = _rect.getSize();
 
 	return {pos.x, pos.y, size.x, size.y};
 }
-Activity	Button::getEvent( void ) const { return _click_event; }
-void	Button::setClickEvent(Activity act) {_click_event = act;}
-void	Button::setTxtSize(int size) {
-	_text.setCharacterSize(size);
-}
+
 void	Button::setOffSet(float x, float y) { _offset = {x, y};
 	_text.setPosition(_offset + _rect.getPosition());
 }
-void	Button::setTxt(const std::string txt) {
-	_text.setString(txt);
-}
-void	Button::setRounded(bool rounded) {
-	this->_is_rounded = rounded;
-}
-void	Button::setTxtColor(const sf::Color &c) {
-	_text.setFillColor(c);
-}
-void	Button::setBgColor(const sf::Color &c) {
-	_rect.setFillColor(c);
-}
+
 void	Button::setRect(float x, float y, float w, float h)
 {
 	_rect.setPosition(x, y);
 	_rect.setSize({w, h});
 }
 
+
+/* ____ PUBLIC METHODS ____ */
+
 void	Button::centerText() {
-	_offset.x = (this->_rect.getSize().x - _text.getCharacterSize() * _text.getString().getSize() / 1.8) / 1.6f;
+	_offset.x = (this->_rect.getSize().x - _text.getCharacterSize()
+						* _text.getString().getSize() / 1.8) / 1.6f;
 	_offset.y = (this->_rect.getSize().y - _text.getCharacterSize()) / 2.5f;
 
 	_text.setPosition(_offset + _rect.getPosition());
 }
 
+
+/* ____ DISPLAY METHODS ____ */
 
 void	Button::reset() {
 	_rect = sf::RectangleShape({0, 0});

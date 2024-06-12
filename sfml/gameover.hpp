@@ -6,18 +6,27 @@
 
 class GameOver : public sf::Sprite
 {
-	 public:
+	std::unique_ptr<sf::RenderTexture>	surface;
+	std::unique_ptr<sf::Texture> 		texture_gameover;
+	sf::Sprite	sprite_gameover;
+	sf::Text	_text_score;
+	sf::Text	_text_best;
+	sf::Font	_font;
+
+	public:
+		/* ---- Constructors & Coplien ---- */
 		GameOver();
+		GameOver( const GameOver & );
+		~GameOver();
+
+		GameOver &operator=(const GameOver &);
+
+		/* ---- Accessors ---- */
+		void setBestScore(const int n);
+		void setScore(const int n);
+
+		/* ---- Draw update ---- */
 		void update();
-		void update_score_max(const int n);
-		void update_score(const int n);
-	 private:
-		sf::Font font;
-		sf::Text t_score;
-		sf::Text t_score_max;
-		sf::Sprite sprite_gameover;
-		std::unique_ptr<sf::Texture> texture_gameover;
-		std::unique_ptr<sf::RenderTexture> surface;
 };
 
 #endif

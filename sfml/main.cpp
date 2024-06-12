@@ -117,13 +117,13 @@ class Plugin : public IPlugin {
 		}
 
 		void update_score(int n) {
-			gameover.update_score(n); 
-			header.update_score(n);
+			gameover.setScore(n); 
+			header.setScore(n);
 		}
 
 		void update_bestscore(int n) {
-			gameover.update_score_max(n); 
-			header.update_best_score(n);
+			gameover.setBestScore(n); 
+			header.setBestScore(n);
 		}
 
 		void clear () {

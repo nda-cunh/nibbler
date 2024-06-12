@@ -6,20 +6,30 @@
 
 class Header : public sf::RectangleShape
 {
-	 public:
+	std::shared_ptr<sf::Font>		_font;
+	std::shared_ptr<sf::Texture>	_texture;
+	sf::Text	_text_score;
+	sf::Text	_text_best;
+	sf::Sprite	_icon_score;
+	sf::Sprite	_icon_best;
+
+	public:
+		/* ---- Constructors & Coplien ---- */
 		Header();
+		Header( const Header & );
+		~Header();
+
+		Header	&operator=( const Header & );
+
+		/* ---- Init ---- */
 		void create (int width, int height);
+
+		/* ---- Accessors ---- */
+		void setScore (int n);
+		void setBestScore (int n);
+
+		/* ---- Draw method ---- */
 		void draw_self (sf::RenderWindow &surface);
-		void update_score (int n);
-		void update_best_score (int n);
-	 private:
-		std::shared_ptr<sf::Font>		font;
-		std::shared_ptr<sf::Texture>	texture;
-		sf::Sprite	food;
-		sf::Text	text_score;
-		sf::Text	text_best;
-		sf::Sprite	best_score;
-		
 };
 
 #endif

@@ -1,5 +1,6 @@
 # include "Menu.hpp"
 
+/* ____ CONSTRUCTOR & COPLIEN ____ */
 Menu::Menu() {}
 
 Menu::Menu(int width, int height) {
@@ -8,10 +9,7 @@ Menu::Menu(int width, int height) {
 	_last_click.reset();
 }
 
-
-Menu::~Menu() {
-
-}
+Menu::~Menu() {}
 
 Menu::Menu(const Menu &other) {
 	*this = other;
@@ -21,8 +19,12 @@ Menu	&Menu::operator=(const Menu &rhs) {
 	if (this == &rhs)
 		return *this;
 	_buttons = rhs._buttons;
+	_last_click = rhs._last_click;
 	return *this;
 }
+
+
+/* ____ INIT ACTIVITIES ____ */
 
 void	Menu::init_game_over(int width, int height) {
 	std::pair<Activity, std::vector<Button>>	new_pair;
