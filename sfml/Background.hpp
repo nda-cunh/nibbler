@@ -12,7 +12,17 @@ class Background : public sf::Sprite
 	std::shared_ptr<sf::RenderTexture> texture;
 
 	 public:
+		/* ---- Constructors & Coplien ---- */
+		Background();
+		Background( const Background & );
+		~Background();
+
+		Background &operator=( const Background & );
+
+		/* ---- Init method ---- */
 		void init(sf::Vector2u size);
+		
+		/* ---- Display method ---- */
 		void draw_self(sf::RenderTexture &window);
 };
 

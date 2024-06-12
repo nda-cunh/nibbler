@@ -1,4 +1,23 @@
-#include "background.hpp"
+#include "Background.hpp"
+
+/* ____ CONSTRUCTOR & COPLIEN ____ */
+Background::Background(){}
+
+Background::Background( const Background &other ){
+	*this = other;
+}
+
+Background::~Background(){}
+
+Background &Background::operator=( const Background &rhs ){
+	if (this == &rhs)
+		return *this;
+	texture = rhs.texture;
+	return *this;
+}
+
+
+/* ____ INIT METHOD ____ */
 
 void Background::init(sf::Vector2u size){
 	texture = std::make_shared<sf::RenderTexture>();
@@ -21,6 +40,9 @@ void Background::init(sf::Vector2u size){
 	texture->display();
 	this->setTexture (texture->getTexture());
 }
+
+
+/* ____ DISPLAY METHOD ____ */
 
 void Background::draw_self(sf::RenderTexture &window){
 	window.draw(*this);

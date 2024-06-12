@@ -1,4 +1,4 @@
-#include "snake.hpp"
+#include "Snake.hpp"
 #include <SFML/Graphics/RenderTexture.hpp>
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
