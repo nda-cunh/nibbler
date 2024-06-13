@@ -11,6 +11,10 @@
 class Damier : public RenderTexture {
 	public:
 		Damier();
+		//coplien
+		Damier &operator= (const Damier &d);
+		Damier (const Damier &d);
+
 		void create (int width, int height, int tile_size, int x, int y);
 		~Damier();
 

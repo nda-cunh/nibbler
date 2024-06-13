@@ -6,6 +6,21 @@ Damier::Damier() {
 	this->tile_size = 0;
 }
 
+Damier::Damier (const Damier &d) {
+	this->x = d.x;
+	this->y = d.y;
+	this->tile_size = d.tile_size;
+	this->RenderTexture::operator=(d);
+}
+
+Damier &Damier::operator= (const Damier &d) {
+	this->x = d.x;
+	this->y = d.y;
+	this->tile_size = d.tile_size;
+	this->RenderTexture::operator=(d);
+	return *this;
+}
+
 void Damier::create (int width, int height, int tile_size, int x, int y) {
 	this->x = x;
 	this->y = y;

@@ -13,7 +13,7 @@ class Button : public RenderTexture {
 		~Button () {
 
 		}
-
+		
 		void create (int width, int height, std::string text) {
 			this->width = width;
 			this->height = height;
