@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <vector>
 #include <random>
+#include "ModuleAudio.hpp"
 
 #define FIND(cont, elem) std::find(cont.begin(), cont.end(), elem)
 #define COUNT(cont, elem) std::count(cont.begin(), cont.end(), elem)
@@ -18,6 +19,7 @@ class Game {
 		Position				_size;
 		std::vector<Position>	_foods;
 		Snake					_snake;
+		ModuleAudio				*_audio;
 
 		void	generateFood();
 	
@@ -26,6 +28,7 @@ class Game {
 		Game();
 		Game(const int width, const int height);
 		~Game();
+		void setAudio(ModuleAudio *audio);
 
 		/* ---- Accessors ---- */
 		bool		over() const;

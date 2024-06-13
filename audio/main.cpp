@@ -1,10 +1,10 @@
 #include "AudioModule.hpp"
 
 extern "C" {
-	IAudioModule *create() {
+	IAudioModule *load() {
 		return new AudioModule();
 	}
-	void destroy(IAudioModule *module) {
+	void unload (IAudioModule *module) {
 		delete module;
 	}
 }

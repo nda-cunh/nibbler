@@ -26,8 +26,10 @@ static void display(const Game &game, Plugin &plugin, const Direction &dir, Acti
 
 // runGameLoop(...)
 void	main_plugin_loop(int width, int height) {
+	ModuleAudio				_audio;
 	std::unique_ptr<Plugin> plugin;
 	Game		game(width, height);
+	game.setAudio(&_audio);
 	Activity	current_act = ON_GAME;
 	Event		event = DOWN;
 	LIBS		lib = SFML;
@@ -57,20 +59,25 @@ void	main_plugin_loop(int width, int height) {
 		switch (event) {
 			case RIGHT:
 				direction = Right;
+				_audio.playSound(IAudioModule::RIGHT);
 				break;
 			case LEFT:
+				_audio.playSound(IAudioModule::LEFT);
 				direction = Left;
 				break;
 			case UP:
+				_audio.playSound(IAudioModule::UP);
 				direction = Up;
 				break;
 			case DOWN:
+				_audio.playSound(IAudioModule::DOWN);
 				direction = Down;
 				break;
 			case ENTER:
 				if (!game.over())
 					break;
 				game = game.newGame();
+				game.setAudio(&_audio);
 				event = DOWN;
 				direction = Down;
 				current_act = ON_GAME;
@@ -79,6 +86,7 @@ void	main_plugin_loop(int width, int height) {
 				if (!game.over())
 					break;
 				game = game.newGame();
+				game.setAudio(&_audio);
 				event = DOWN;
 				direction = Down;
 				current_act = ON_GAME;

@@ -40,12 +40,17 @@ const std::vector<Position> &Game::getFoodPositions( void ) const {
 const Direction &Game::getSnakeDirection( void ) const {
 	return _snake.getDirection();
 }
+		
+void Game::setAudio(ModuleAudio *audio) {
+	this->_audio = audio;
+}
 
 /* ____ METHODS ____ */
 void Game::moveSnake(const Direction &dir) {
 	const Position	new_head_pos = _snake.move(dir);
 	const auto		snake_pos = _snake.getPositions();
 	const auto		food_it = FIND(_foods, new_head_pos);
+
 
 	// Check for any lose
 	if (new_head_pos.x >= _size.x || new_head_pos.x < 0)
@@ -59,13 +64,16 @@ void Game::moveSnake(const Direction &dir) {
 	else {
 		if (++_score > _best_score)
 			++_best_score;
+		_audio->playSound(IAudioModule::EAT);
 		_foods.erase(food_it);
 		generateFood();
 		generateFood();
 	}
 
-	if (_is_over)
+	if (_is_over) {
 		_snake.loseHead();
+		_audio->playSound(IAudioModule::DEAD);
+	}
 }
 
 Game	Game::newGame( void ) const {

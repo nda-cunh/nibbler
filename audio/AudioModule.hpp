@@ -5,56 +5,39 @@
 #include <SFML/Audio.hpp>
 #include "../include/IAudioModule.hpp"
 
+/**
+ * @brief Audio Module class
+ * 
+ * This class is used to play sounds
+ */
 class AudioModule : public IAudioModule {
 	public:
-		AudioModule() {
-			if (!buffer_up.loadFromFile("up.wav"))
-				return;
 
-			if (!buffer_down.loadFromFile("down.wav"))
-				return;
+		/**
+		 * @brief Construct a new Audio Module object
+		 */
+		AudioModule();
 
-			if (!buffer_left.loadFromFile("left.wav"))
-				return;
+		/**
+		 * @brief Play a sound
+		 * 
+		 * @param soundType The sound to play
+		 */
+		void playSound(const SoundType &soundType);
 
-			if (!buffer_right.loadFromFile("right.wav"))
-				return;
-
-			if (!buffer_eat.loadFromFile("eat.wav"))
-				return;
-
-			if (!buffer_dead.loadFromFile("dead.wav"))
-				return;
-		}
-
-		void playSound(const SoundType &soundType) {
-
-			switch (soundType) {
-				case SoundType::UP:
-					sound.setBuffer(buffer_up);
-					break;
-				case SoundType::DOWN:
-					sound.setBuffer(buffer_down);
-					break;
-				case SoundType::LEFT:
-					sound.setBuffer(buffer_left);
-					break;
-				case SoundType::RIGHT:
-					sound.setBuffer(buffer_right);
-					break;
-				case SoundType::EAT:
-					sound.setBuffer(buffer_eat);
-					break;
-				case SoundType::DEAD:
-					sound.setBuffer(buffer_dead);
-					break;
-			}
-			sound.play();
-		}
-		~AudioModule() {}
+		/**
+		 * @brief Destroy the Audio Module object
+		 */
+		~AudioModule();
 
 	private:
-		sf::Sound sound;
+		sf::Sound sound_up;
+		sf::Sound sound_down;
+		sf::Sound sound_left;
+		sf::Sound sound_right;
+		sf::Sound sound_eat;
+		sf::Sound sound_dead;
+
 		sf::SoundBuffer buffer_up;
 		sf::SoundBuffer buffer_down;
 		sf::SoundBuffer buffer_left;
