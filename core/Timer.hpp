@@ -9,6 +9,9 @@ class Timer {
 		Timer();
 		void reset();
 		double elapsed() const;
+		// coplien
+		Timer(const Timer &src);
+		Timer &operator=(const Timer &src);
 
 	private:
 		typedef std::chrono::high_resolution_clock clock_;

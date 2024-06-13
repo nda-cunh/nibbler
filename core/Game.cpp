@@ -106,3 +106,20 @@ void	Game::generateFood() {
 	_foods.push_back(freePos[rand_idx]);
 }
 
+/* ____ COPLIEN ____ */
+Game::Game(const Game &src) {
+	*this = src;
+}
+
+Game &Game::operator=(const Game &src) {
+	if (this != &src) {
+		_score = src._score;
+		_best_score = src._best_score;
+		_is_over = src._is_over;
+		_size = src._size;
+		_foods = src._foods;
+		_snake = src._snake;
+		_audio = src._audio;
+	}
+	return *this;
+}

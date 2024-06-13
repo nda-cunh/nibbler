@@ -10,6 +10,19 @@ void Snake::create(const int &width, const int &height) {
 	_dir = Down;
 }
 
+/* ____ COPLIEN ____ */
+Snake::Snake(const Snake &src) {
+	*this = src;
+}
+
+Snake &Snake::operator=(const Snake &src) {
+	if (this != &src) {
+		_positions = src._positions;
+		_dir = src._dir;
+	}
+	return *this;
+}
+
 
 /* ____ ACCESSORS ____ */
 const std::deque<Position>	&Snake::getPositions( void )  const { return _positions; }

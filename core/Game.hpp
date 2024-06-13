@@ -29,6 +29,9 @@ class Game {
 		Game(const int width, const int height);
 		~Game();
 		void setAudio(ModuleAudio *audio);
+		/* ---- Coplien  ---- */
+		Game(const Game &src);
+		Game &operator=(const Game &src);
 
 		/* ---- Accessors ---- */
 		bool		over() const;

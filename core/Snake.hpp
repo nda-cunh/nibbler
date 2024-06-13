@@ -10,6 +10,11 @@ class Snake {
 		/* ---- Constructors ---- */
 		Snake();
 		~Snake();
+
+		/* ---- Coplien ---- */
+		Snake(const Snake &src);
+		Snake &operator=(const Snake &src);
+
 		void create(const int &width, const int &height);
 
 		/* ---- Accessors ---- */
