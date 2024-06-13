@@ -50,6 +50,25 @@ void AudioModule::playSound(const SoundType &soundType) {
 	}
 }
 
+AudioModule::AudioModule(const AudioModule& other) {
+	buffer_up = other.buffer_up;
+	buffer_down = other.buffer_down;
+	buffer_left = other.buffer_left;
+	buffer_right = other.buffer_right;
+	buffer_eat = other.buffer_eat;
+	buffer_dead = other.buffer_dead;
+}
+
+AudioModule& AudioModule::operator=(const AudioModule& other) {
+	buffer_up = other.buffer_up;
+	buffer_down = other.buffer_down;
+	buffer_left = other.buffer_left;
+	buffer_right = other.buffer_right;
+	buffer_eat = other.buffer_eat;
+	buffer_dead = other.buffer_dead;
+	return *this;
+}
+
 AudioModule::~AudioModule() {
 
 }

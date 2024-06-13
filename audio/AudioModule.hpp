@@ -12,6 +12,8 @@
  */
 class AudioModule : public IAudioModule {
 	public:
+        AudioModule(const AudioModule& other);
+        AudioModule& operator=(const AudioModule& other);
 
 		/**
 		 * @brief Construct a new Audio Module object

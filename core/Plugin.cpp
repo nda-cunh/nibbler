@@ -15,11 +15,22 @@ Plugin::Plugin (std::string so, int x, int y) {
 
 Plugin::~Plugin(){
 	this->close();
-	auto func = (IPlugin*(*)())dlsym(handler, "unload");
-	if (func != NULL)
-		func();
-	if (dlclose(handler) != 0)
-		std::cerr << "dlclose have an error" << std::endl;
+	auto func = (void(*)(IPlugin*))dlsym(handler, "unload");
+	if (func == NULL)
+		std::cerr << "can't dlsym \"unload\" function" << std::endl;
+	func(game);
+	dlclose(handler);
+}
+		
+Plugin::Plugin(const Plugin &other) {
+	game = other.game;
+	handler = other.handler;
+}
+
+Plugin &Plugin::operator=(const Plugin &other) {
+	game = other.game;
+	handler = other.handler;
+	return *this;
 }
 
 /* ____ LIB LOADING RELATED METHODS ____ */

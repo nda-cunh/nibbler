@@ -1,17 +1,11 @@
 #include "Plugin.hpp"
 
 extern "C" {
-	Plugin *game = NULL;
-
 	IPlugin *load() {
-		try {
-			if (game == NULL)
-				game = new Plugin();
-		} catch (...) {
-			return NULL;
-		}
-		return game;
+		return new Plugin();
 	}
 
-	void unload() { delete game; }
+	void unload(IPlugin *game) {
+		delete game;
+	}
 }
