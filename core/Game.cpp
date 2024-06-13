@@ -63,6 +63,9 @@ void Game::moveSnake(const Direction &dir) {
 		generateFood();
 		generateFood();
 	}
+
+	if (_is_over)
+		_snake.loseHead();
 }
 
 Game	Game::newGame( void ) const {

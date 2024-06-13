@@ -18,6 +18,7 @@ class Snake {
 
 		/* ---- Methods ---- */
 		void			loseTail( void );
+		void			loseHead( void );
 		const Position	move(const Direction &new_dir);
 
 	private:
