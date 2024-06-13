@@ -27,6 +27,7 @@ enum Direction {
 
 class IPlugin {
 	public:
+		virtual ~IPlugin() = default;
 		virtual void open(int, int) = 0;
 		virtual void close() = 0;
 		virtual void update_snake(const std::deque<Position> &snake, Direction direction) = 0;

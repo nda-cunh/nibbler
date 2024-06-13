@@ -3,4 +3,5 @@ nibbler
 *.o
 *.swp
 *.swo
+*.nfs*
 .cache
