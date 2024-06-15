@@ -69,13 +69,15 @@ static inline sf::Vector2f	get_position(Position pos, bool is_vertical, bool is_
 	}
 }
 
+
 void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &positions) {
 	sf::VertexArray	vertices(sf::PrimitiveType::TriangleStrip, positions.size() * 4);
 	const sf::Color color = {81, 128, 243};
-	const double	width = 0.8 * TILE;
+	double			width = 0.8 * TILE;
 	sf::CircleShape	circle(width / 2);
 	bool			is_vertical = true;
 	double			min_width;
+	double			w_step;
 	unsigned int 	i;
 
 	if (positions.size() < 12)
@@ -91,7 +93,10 @@ void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &pos
 		vertices[j].color = color;
 	}
 
+	w_step = (width - min_width) / positions.size();
 	for (i = 1; i < positions.size(); ++i) {
+		if (min_width < width)
+			width -= w_step;
 		// Draw circle if head or a corner
 		if (i == 1 || is_vertical != (positions[i - 1].x == positions[i].x)) {
 			is_vertical = (positions[i - 1].x == positions[i].x);
@@ -100,6 +105,7 @@ void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &pos
 									positions[i - 1].y * TILEf + TILEf / 2.0));
 			circle.setFillColor(color);
 			circle.setOrigin(sf::Vector2f(width / 2.0, width / 2.0));
+			circle.setRadius(width / 2.0);
 			window.draw(circle);
 		}
 
@@ -115,6 +121,7 @@ void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &pos
 	circle.setPosition(sf::Vector2f(positions[i - 1].x * TILEf + TILEf / 2.0,
 								positions[i - 1].y * TILEf + TILEf / 2.0));
 	circle.setOrigin(sf::Vector2f(width / 2.0, width / 2.0));
+	circle.setRadius(width / 2.0);
 	window.draw(circle);
 
 	window.draw(vertices);
