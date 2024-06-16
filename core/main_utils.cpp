@@ -43,18 +43,16 @@ void	main_plugin_loop(int width, int height) {
 	Timer		timer;
 	
 
-	const int FPS = 120;
-	const int frameDelay = 1000 / FPS;
-
-	std::chrono::time_point<std::chrono::high_resolution_clock> frameStart;
-	int frameTime;
+	const int	FPS = 120;
+	const int	frameDelay = 1000 / FPS;
+	Timer		frame_timer;
 
 	plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 
 	while (event != CLOSE) {
-		frameStart = std::chrono::high_resolution_clock::now();
-		/* Event Handling */
+		frame_timer.reset();
 
+		/* Event Handling */
 		event = plugin->poll_event(current_act);
 		switch (event) {
 			case RIGHT:
@@ -94,6 +92,12 @@ void	main_plugin_loop(int width, int height) {
 			case CLICK_MENU:
 				current_act = ON_MENU;
 				break;
+			case SPEED_UP:
+				game.increaseSpeed();
+				break;
+			case SPEED_DOWN:
+				game.decreaseSpeed();
+				break;
 			case F1:
 				if (lib == SFML)
 					break;
@@ -119,13 +123,14 @@ void	main_plugin_loop(int width, int height) {
 				break;
 		}
 
-		frameTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - frameStart).count();
-		if (frameDelay > frameTime) {
-			std::this_thread::sleep_for(std::chrono::milliseconds(frameDelay - frameTime));
+		if (frameDelay > frame_timer.elapsed()) {
+			long int time_delay = frameDelay - frame_timer.elapsed();
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(time_delay));
 		}
 
 		/* Move Snakes */
-		if (!game.over() && timer.elapsed() > 0.08) {
+		if (!game.over() && timer.elapsed() > game.getSpeed()) {
 			game.moveSnake(direction);
 			timer.reset();
 		}

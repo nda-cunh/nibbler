@@ -16,6 +16,8 @@ enum Event {
 	F1,
 	F2,
 	F3,
+	SPEED_UP,
+	SPEED_DOWN
 };
 
 enum Direction {

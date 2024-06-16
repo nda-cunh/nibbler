@@ -12,6 +12,7 @@ Game::Game(const int width, const int height) {
 	_score = 0;
 	_best_score = 0;
 	_foods = std::vector<Position>();
+	_speed = 0.09;
 	// for (int i = 0; i < width*height; ++i)
 	generateFood();
 }
@@ -27,6 +28,22 @@ int		Game::getScore() const {
 
 int		Game::getBestScore() const {
 	return _best_score;
+}
+
+void 		Game::increaseSpeed	( void ) {
+	if (this->_speed < 0.05)
+		return ;
+	_speed -= 0.01;
+}
+
+void 		Game::decreaseSpeed	( void ) {
+	if (this->_speed > 0.1)
+		return ;
+	_speed += 0.01;
+}
+
+double		Game::getSpeed( void ) const {
+	return this->_speed;
 }
 
 const std::deque<Position> &Game::getSnakePositions( void ) const {
