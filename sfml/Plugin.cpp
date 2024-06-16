@@ -70,6 +70,10 @@ Event	Plugin::handle_keyboard_event(sf::Event	event) {
 			return F2;
 		case sf::Keyboard::F3:
 			return F3;
+		case sf::Keyboard::Subtract:
+			return SPEED_DOWN;
+		case sf::Keyboard::Add:
+			return SPEED_UP;
 		default:
 			return NONE;
 	}

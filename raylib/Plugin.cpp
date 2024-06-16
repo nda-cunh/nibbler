@@ -79,6 +79,10 @@ Event Plugin::poll_event(Activity current_activity) {
 				return F2;
 			case KEY_F3:
 				return F3;
+			case KEY_KP_ADD:
+				return SPEED_UP;
+			case KEY_KP_SUBTRACT:
+				return SPEED_DOWN;
 			default:
 				break;
 		}

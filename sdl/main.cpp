@@ -119,6 +119,12 @@ class Plugin : public IPlugin {
 							case SDL_SCANCODE_F3:
 								e = F3;
 								break;
+							case SDL_SCANCODE_MINUS:
+								e = SPEED_DOWN;
+								break;	
+							case SDL_SCANCODE_KP_PLUS:
+								e = SPEED_UP;
+								break;	
 							default:
 								e = NONE;
 								break;
