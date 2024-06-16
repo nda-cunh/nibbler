@@ -88,7 +88,6 @@ void Game::moveSnake(const Direction &dir) {
 	}
 
 	if (_is_over) {
-		_snake.loseHead();
 		_audio->playSound(IAudioModule::DEAD);
 	}
 }
