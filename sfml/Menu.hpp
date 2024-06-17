@@ -1,6 +1,7 @@
 #ifndef MENU_HPP
 #define MENU_HPP
-
+ 
+# include "../include/IPlugin.hpp"
 # include <vector>
 # include <map>
 # include "Button.hpp"
@@ -23,7 +24,7 @@ class Menu {
 
 		Menu	&operator=(const Menu &);
 
-		Activity	checkCollision(Activity act, float x, float y);
+		Event		checkCollision(Activity act, float x, float y);
 		void		draw(const Activity &act, sf::RenderTarget &win);
 };
 

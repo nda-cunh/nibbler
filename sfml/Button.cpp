@@ -30,9 +30,9 @@ Button	&Button::operator=(const Button &rhs) {
 
 /* ____ ACCESSORS ____ */
 
-Activity	Button::getEvent( void ) const 			{ return _click_event; }
+Event		Button::getEvent( void ) const 			{ return _click_event; }
 void		Button::setTxtColor(const sf::Color &c)	{ _text.setFillColor(c); }
-void		Button::setClickEvent(Activity act)		{_click_event = act;}
+void		Button::setClickEvent(Event e)			{_click_event = e;}
 void		Button::setTxtSize(int size)			{ _text.setCharacterSize(size); }
 void		Button::setBgColor(const sf::Color &c)	{ _rect.setFillColor(c); }
 void		Button::setTxt(const std::string txt)	{ _text.setString(txt); }
@@ -53,6 +53,7 @@ void	Button::setRect(float x, float y, float w, float h)
 {
 	_rect.setPosition(x, y);
 	_rect.setSize({w, h});
+	_text.setPosition({x, y});
 }
 
 
@@ -73,8 +74,8 @@ void	Button::reset() {
 	_rect = sf::RectangleShape({0, 0});
 	_rect.setFillColor(sf::Color::White);
 	_offset = {0, 0};
-	_text.setPosition({20, 20});
-	_click_event = ON_NONE;
+	_text.setPosition({0, 0});
+	_click_event = NONE;
 	_is_rounded = true;
 }
 

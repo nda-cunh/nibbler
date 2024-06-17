@@ -1,16 +1,17 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
-# include "../include/utils.hpp"
-# include <string>
+#include "../include/IPlugin.hpp"
+#include <string>
 #include <SFML/Graphics.hpp>
 #include <memory>
+
 class Button {
 	sf::RectangleShape	_rect;
 	sf::Vector2f		_offset;
 	sf::Text			_text;
 	std::unique_ptr<sf::Font>		_font;
-	Activity			_click_event;
+	Event				_click_event;
 	bool				_is_rounded;
 
 	void	draw_rounded( sf::RenderTarget	&win);
@@ -25,8 +26,8 @@ class Button {
 
 		/* ---- Accessors ---- */
 		sf::Rect<float>	getRect() const;
-		Activity	getEvent() const;
-		void	setClickEvent(Activity act);
+		Event	getEvent() const;
+		void	setClickEvent(Event e);
 		void	setTxtSize(int size);
 		void	setRounded(bool rounded);
 		void	setBgColor(const sf::Color &c);

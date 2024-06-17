@@ -82,17 +82,9 @@ Event	Plugin::handle_keyboard_event(sf::Event	event) {
 Event	Plugin::handle_mouse_event(const sf::Event &event, const Activity &act) {
 	if (event.mouseButton.button != sf::Mouse::Left)
 		return NONE;
-	sf::Vector2i position = sf::Mouse::getPosition(*this->window);
-	Activity	act2 = menu.checkCollision(act, position.x, position.y);
+	sf::Vector2i	position = sf::Mouse::getPosition(*this->window);
 
-	switch (act2) {
-		case ON_MENU:
-			return CLICK_MENU;
-		case ON_GAME:
-			return CLICK_1P;
-		default:
-			return NONE;
-	}
+	return menu.checkCollision(act, position.x, position.y);	
 }
 
 Event Plugin::poll_event(Activity act){
