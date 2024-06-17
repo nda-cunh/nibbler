@@ -3,8 +3,8 @@
 /* ____ CONSTRUCTOR & COPLIEN ____ */
 Button::Button() {
 	_font = std::make_unique<sf::Font>();
-	if (_font->loadFromFile("./sfml/Answer.ttf") == false)
-		throw std::runtime_error("can't load Answer.bmp");
+	if (_font->loadFromFile("./sfml/coolvetica.otf") == false)
+		throw std::runtime_error("can't load coolvetica.otf");
 	this->reset();
 }
 

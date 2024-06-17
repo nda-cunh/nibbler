@@ -19,8 +19,8 @@ GameOver::GameOver() {
 		sprite_gameover.setTexture(*texture_gameover);
 	}
 	{
-		if (_font.loadFromFile("./sfml/Answer.ttf") == false)
-			throw std::runtime_error("can't load Answer.ttf");
+		if (_font.loadFromFile("./sfml/coolvetica.otf") == false)
+			throw std::runtime_error("can't load coolvetica.otf");
 
 		_text_score.setFont(_font);
 		_text_score.setPosition(90, 175);

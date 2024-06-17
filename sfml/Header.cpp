@@ -28,8 +28,8 @@ void Header::create(int width, int height) {
 
 	{
 		_font = std::make_shared<sf::Font>();
-		if (_font->loadFromFile("./sfml/Answer.ttf") == false)
-			throw std::runtime_error("can't load Answer.bmp");
+		if (_font->loadFromFile("./sfml/coolvetica.otf") == false)
+			throw std::runtime_error("can't load coolvetica.otf");
 		_text_score.setFont(*_font);
 		_text_score.setPosition({80, 20});
 
