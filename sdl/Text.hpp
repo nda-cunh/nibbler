@@ -12,7 +12,6 @@
 class Text : public RenderTexture {
 	public:
 		Text();
-		//TODO coplien
 		void set_text(const std::string &text); 
 		void set_font(const std::string &font);
 		void set_color(int r, int g, int b);

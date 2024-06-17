@@ -11,27 +11,10 @@
 #include "../include/IPlugin.hpp"
 #include "Damier.hpp"
 #include "Button.hpp"
+#include "Gameover.h"
+
 
 class Plugin : public IPlugin {
-	private:
-		SDL_Window* win;
-		SDL_Renderer* renderer;
-		
-		Text text_score;
-		Text text_bestscore;
-
-		Damier damier;
-
-		RenderTexture render_game;
-		RenderTexture gameover;
-
-		int score = 0;
-		int best_score = 0;
-		const int tile_size = 32;
-		int width;
-		int height;
-		int x;
-		int y;
 	public:
 		Plugin () {
 			SDL_Init(SDL_INIT_VIDEO);
@@ -43,7 +26,7 @@ class Plugin : public IPlugin {
 			SDL_Quit();
 		}
 
-		
+
 		SDL_Texture* get_background() {
 			SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
 
@@ -51,31 +34,65 @@ class Plugin : public IPlugin {
 		}
 
 		void open (int x, int y) {
+			SDL_DisplayMode dm;
 			this->x = x;
 			this->y = y;
 			width = x * tile_size;
 			height = y * tile_size;
+
+			////////////////////////////////////////
+			///	Window
+			////////////////////////////////////////
 			win = SDL_CreateWindow("Nibbler - SDL2", 0, 0, width + tile_size * 2, height + tile_size * 2 * 2, SDL_WINDOW_HIDDEN);
 			if (win == NULL)
 				throw std::runtime_error("SDL_CreateWindow failed");
-			renderer = SDL_CreateRenderer(win, 0, 0);
-			if (renderer == NULL)
-				throw std::runtime_error("SDL_CreateRenderer failed");
-			
-			SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-			gameover.create("./sdl/snake_sdl.bmp");
-
-			damier.create(width, height, tile_size, x, y);
-
-			render_game.create(width, height);
-
-			SDL_DisplayMode dm;
 			if (SDL_GetDesktopDisplayMode(0, &dm) < 0) {
 				printf("Erreur lors de l'obtention des dimensions de l'écran : %s\n", SDL_GetError());
 				throw std::runtime_error("SDL_GetDesktopDisplayMode failed");
 			}
 			SDL_SetWindowPosition(win, (dm.w - width) / 2, (dm.h - height) / 2);
 			SDL_ShowWindow(win);
+
+			////////////////////////////////////////
+			///	Renderer
+			////////////////////////////////////////
+			renderer = SDL_CreateRenderer(win, 0, 0);
+			if (renderer == NULL)
+				throw std::runtime_error("SDL_CreateRenderer failed");
+
+			SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
+			////////////////////////////////////////
+			///	Damier
+			////////////////////////////////////////
+			damier.create(width, height, tile_size, x, y);
+
+			////////////////////////////////////////
+			///	RenderTexture (Game)
+			////////////////////////////////////////
+			render_game.create(width, height);
+
+			
+			////////////////////////////////////////
+			/// Gameover 
+			////////////////////////////////////////
+			
+			int w;
+			int h;
+			SDL_GetWindowSize(win, &w, &h);
+			gameover.create(w, h);
+
+			////////////////////////////////////////
+			/// Buttons
+			////////////////////////////////////////
+			button_retry = std::make_shared<Button> ("Try Again", (gameover.get_width() / 3.0) *2, 50);
+			button_menu = std::make_shared<Button> ("Menu", gameover.get_width() / 3.0 - 10, 50);
+
+			int gameover_x, gameover_y;
+			gameover.get_position(gameover_x, gameover_y);
+			
+			button_retry->set_position (gameover_x, gameover_y + gameover.get_height() + 10);
+			button_menu->set_position (gameover_x + button_retry->get_width() + 10, gameover_y + gameover.get_height() + 10);
 		}
 
 		void close () {
@@ -90,6 +107,34 @@ class Plugin : public IPlugin {
 					case SDL_QUIT:
 						e = CLOSE;
 						break;
+						// survol des boutons
+					case SDL_MOUSEMOTION:
+						int x, y;
+						SDL_GetMouseState(&x, &y);
+						button_retry->unhover();
+						button_menu->unhover();
+						if (button_retry->collide(x, y)) {
+							button_retry->hover();
+						} else if (button_menu->collide(x, y)) {
+							button_menu->hover();
+						}
+						break;
+					case SDL_MOUSEBUTTONUP:
+						switch (event.button.button) {
+							case SDL_BUTTON_LEFT:
+							// get the position of the mouse and test if it's in the button_retry
+								int x, y;
+								SDL_GetMouseState(&x, &y);
+								if (button_retry->collide(x, y)) {
+									return ENTER;
+								} else if (button_menu->collide(x, y)) {
+									return CLICK_MENU;
+								}
+								break;
+							default:
+								e = NONE;
+								break;
+						}
 					case SDL_KEYDOWN:
 						switch (event.key.keysym.scancode) {
 							case SDL_SCANCODE_LEFT:
@@ -121,10 +166,10 @@ class Plugin : public IPlugin {
 								break;
 							case SDL_SCANCODE_MINUS:
 								e = SPEED_DOWN;
-								break;	
+								break;
 							case SDL_SCANCODE_KP_PLUS:
 								e = SPEED_UP;
-								break;	
+								break;
 							default:
 								e = NONE;
 								break;
@@ -195,7 +240,7 @@ class Plugin : public IPlugin {
 			SDL_SetRenderDrawColor(renderer, 74, 117, 44, 255);
 			SDL_RenderFillRect(renderer, &rect);
 			render_game.clear();
-			
+
 			render_game.draw(damier, 0, 0);
 		}
 
@@ -208,27 +253,39 @@ class Plugin : public IPlugin {
 				SDL_Rect rect = {0, 0, w, h};
 				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128);
 				SDL_RenderFillRect(renderer, &rect);
-				// draw the gameover in renderer
-				int x_gameover = (w - gameover.get_width()) / 2.0;
-				int y_gameover = (h - gameover.get_height()) / 2.0;
-				gameover.draw (renderer, x_gameover, y_gameover);
-				text_score.set_text(std::to_string(score));
-				text_score.draw(renderer, x_gameover + 64, y_gameover + 120);
-				text_bestscore.set_text(std::to_string(best_score));
-				text_bestscore.draw(renderer, x_gameover + 208, y_gameover + 120);
 
+				// Draw the gameover screen
+				gameover.update_score(score, best_score);
+				gameover.draw(renderer, score, best_score);
+
+				button_retry->draw(renderer);
+				button_menu->draw(renderer);
 			}
-			// Button button;
-			// button.create(200, 200, "Hello World !!!");
-			// button.draw(renderer, 10, 10);
-
-			// Text textator;
-			// textator.set_text("Hello World !!!");
-			// textator.draw(renderer, 10, 10);
 
 			SDL_RenderPresent(renderer);
 		}
 
+	private:
+		SDL_Window* win;
+		SDL_Renderer* renderer;
+
+		Damier damier;
+
+		Gameover gameover;
+		RenderTexture render_game;
+
+		Text text_score;
+		Text text_bestscore;
+
+		int score = 0;
+		int best_score = 0;
+		const int tile_size = 32;
+		int width;
+		int height;
+		int x;
+		int y;
+		std::shared_ptr<Button> button_retry;
+		std::shared_ptr<Button> button_menu;
 };
 
 extern "C" {
