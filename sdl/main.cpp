@@ -11,7 +11,7 @@
 #include "../include/IPlugin.hpp"
 #include "Damier.hpp"
 #include "Button.hpp"
-#include "Gameover.h"
+#include "Gameover.hpp"
 
 
 class Plugin : public IPlugin {

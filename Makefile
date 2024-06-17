@@ -16,7 +16,6 @@ suprapack:
 	fi
 
 build: suprapack
-	echo "REBUILDER"
 	@meson build --prefix="${PWD}" --bindir="" --libdir="" 
 
 $(NAME): build

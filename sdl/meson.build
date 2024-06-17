@@ -5,5 +5,7 @@ shared_library('sdl',
            'Text.cpp',
            'RenderTexture.cpp',
            'Damier.cpp',
+           'Button.cpp',
+           'Gameover.cpp',
            dependencies: dep,
            install : true)
