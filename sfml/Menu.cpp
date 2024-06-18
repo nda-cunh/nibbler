@@ -6,6 +6,7 @@ Menu::Menu() {}
 Menu::Menu(int width, int height) {
 	this->init_game_over(width, height);
 	this->init_menu(width, height);
+	_size = {width, height};
 	_last_click.reset();
 }
 
@@ -21,6 +22,21 @@ Menu	&Menu::operator=(const Menu &rhs) {
 	_buttons = rhs._buttons;
 	_last_click = rhs._last_click;
 	return *this;
+}
+
+/* ____ SETTER ____ */
+
+void	Menu::setSpeed(int speed) {
+	auto		map_menu = _buttons.find(ON_MENU);
+
+	_speed = speed;
+	if (map_menu == _buttons.end())
+		return ;
+
+	auto 		&bs_menu = map_menu->second;
+	auto 		&b = bs_menu.at(bs_menu.size() - 1);
+
+	b.setTxt(std::string(speed, 'o'));
 }
 
 
@@ -111,7 +127,7 @@ void	Menu::init_menu(int width, int height) {
 		b.setRounded(true);
 		new_pair.second.push_back(b);
 
-		beg = {0.35f * width, 0.9f * height};
+		beg = {0.3f * width, 0.9f * height};
 
 		b.setTxt("-");
 		b.setTxtSize(0.06 * min);
@@ -129,6 +145,22 @@ void	Menu::init_menu(int width, int height) {
 		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
 		b.setOffSet(0.022 * min, 0);
 		b.setClickEvent(SPEED_UP);
+		new_pair.second.push_back(b);
+
+		beg = {width / 2.5f, 0.89f * height};
+
+		b.reset();
+
+		b.setTxt("oooooo");
+		b.setTxtColor(sf::Color(0x131313EE));
+		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
+		b.setBgColor(sf::Color(0));
+		new_pair.second.push_back(b);
+
+		b.setTxt("");
+		b.setTxtColor(menu_color);
+		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
+		b.setBgColor(sf::Color(0));
 		new_pair.second.push_back(b);
 	}
 

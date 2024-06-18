@@ -8,8 +8,10 @@
 # include "Timer.hpp"
 
 class Menu {
+	int										_speed;
 	std::map<Activity, std::vector<Button>> _buttons;
-	Timer			_last_click;
+	Timer									_last_click;
+	Position								_size;
 
 	/* ---- Init Activities ---- */
 	void	init_game_over(int width, int height);
@@ -24,6 +26,10 @@ class Menu {
 
 		Menu	&operator=(const Menu &);
 
+		/* ---- Accessors ---- */
+		void		setSpeed(int speed);
+
+		/* ---- Public methods ---- */
 		Event		checkCollision(Activity act, float x, float y);
 		void		draw(const Activity &act, sf::RenderTarget &win);
 };

@@ -70,10 +70,6 @@ Event	Plugin::handle_keyboard_event(sf::Event	event) {
 			return F2;
 		case sf::Keyboard::F3:
 			return F3;
-		case sf::Keyboard::Subtract:
-			return SPEED_DOWN;
-		case sf::Keyboard::Add:
-			return SPEED_UP;
 		default:
 			return NONE;
 	}
@@ -84,7 +80,7 @@ Event	Plugin::handle_mouse_event(const sf::Event &event, const Activity &act) {
 		return NONE;
 	sf::Vector2i	position = sf::Mouse::getPosition(*this->window);
 
-	return menu.checkCollision(act, position.x, position.y);	
+	return menu.checkCollision(act, position.x, position.y);
 }
 
 Event Plugin::poll_event(Activity act){
@@ -125,6 +121,10 @@ void Plugin::update_score(int n) {
 	header.setScore(n);
 }
 
+void Plugin::update_speed(int speed) {
+	this->menu.setSpeed(speed);
+}
+
 void Plugin::Plugin::update_bestscore(int n) {
 	gameover.setBestScore(n); 
 	header.setBestScore(n);
@@ -137,10 +137,6 @@ void Plugin::clear () {
 	header.draw_self(*window);
 }
 
-void Plugin::update_gameover() {
-	// texture_game->draw(dark_background);
-	// texture_game->draw(gameover);
-}
 
 
 /* ____ DISPLAY ____ */
