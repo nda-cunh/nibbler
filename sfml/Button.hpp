@@ -13,6 +13,7 @@ class Button {
 	std::unique_ptr<sf::Font>		_font;
 	Event				_click_event;
 	bool				_is_rounded;
+	bool				_is_hover;
 
 	void	draw_rounded( sf::RenderTarget	&win);
 
@@ -30,6 +31,7 @@ class Button {
 		void	setClickEvent(Event e);
 		void	setTxtSize(int size);
 		void	setRounded(bool rounded);
+		void	setHover( bool );
 		void	setBgColor(const sf::Color &c);
 		void	setTxtColor(const sf::Color &c);
 		void	setOffSet(float x, float y);

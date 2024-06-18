@@ -30,8 +30,9 @@ class Menu {
 		void		setSpeed(int speed);
 
 		/* ---- Public methods ---- */
-		Event		checkCollision(Activity act, float x, float y);
-		void		draw(const Activity &act, sf::RenderTarget &win);
+		Event	checkCollision(Activity act, float x, float y);
+		void	checkHover(Activity act, float x, float y);
+		void	draw(const Activity &act, sf::RenderTarget &win);
 };
 
 inline std::ostream& operator << (std::ostream& os, sf::Rect<float> rect)

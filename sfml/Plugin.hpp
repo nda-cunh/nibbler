@@ -30,6 +30,7 @@ class Plugin : public IPlugin {
 	/* ---- Event ---- */
 	Event	handle_keyboard_event(sf::Event	event) ;
 	Event	handle_mouse_event(const sf::Event &event, const Activity &act);
+	void	handle_mouse_move(const sf::Event &event, const Activity &act);
 
 	public:
 		/* ---- Coplien ---- */

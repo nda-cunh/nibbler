@@ -187,6 +187,25 @@ Event	Menu::checkCollision(Activity act, float x, float y) {
 	return NONE;
 }
 
+void	Menu::checkHover(Activity act, float x, float y) {
+	static Timer	timer;
+	auto	it_map = _buttons.find(act);
+
+	if (it_map == _buttons.end())
+		return ;
+
+	timer.reset();
+	_last_click.reset();
+	for (auto it = it_map->second.begin(); it != it_map->second.end(); it++)
+		if (it->getEvent() != NONE)
+		{
+			if (it->getRect().contains({x, y}))
+				it->setHover(true);
+			else
+				it->setHover(false);
+		}
+}
+
 void	Menu::draw(const Activity &act, sf::RenderTarget &win){
 	auto	it_map = _buttons.find(act);
 

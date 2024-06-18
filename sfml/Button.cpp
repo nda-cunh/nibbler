@@ -37,6 +37,7 @@ void		Button::setTxtSize(int size)			{ _text.setCharacterSize(size); }
 void		Button::setBgColor(const sf::Color &c)	{ _rect.setFillColor(c); }
 void		Button::setTxt(const std::string txt)	{ _text.setString(txt); }
 void		Button::setRounded(bool rounded)		{ this->_is_rounded = rounded; }
+void		Button::setHover(bool is_hover)			{ this->_is_hover = is_hover; }
 
 sf::Rect<float>	Button::getRect( void ) const { 
 	sf::Vector2f	pos = _rect.getPosition();
@@ -85,6 +86,12 @@ void	Button::draw_rounded(sf::RenderTarget	&win) {
 	sf::CircleShape		c;
 	float				radius = 15;
 
+	if (_is_hover) {
+		sf::Color	prevc  = _rect.getFillColor();
+		sf::Color	darker = sf::Color(prevc.r * 0.8, prevc.g * 0.8, prevc.b * 0.8, prevc.a);
+		r.setFillColor(darker);
+	}
+
 	
 	c.setFillColor(r.getFillColor());
 	c.setRadius(radius);
@@ -117,8 +124,19 @@ void	Button::draw(sf::RenderTarget &win){
 	if (_is_rounded)
 		this->draw_rounded(win);
 	else
+	{
+		sf::Color	prevc  = _rect.getFillColor();
+		if (_is_hover) {
+			sf::Color	darker = sf::Color(prevc.r * 0.8,
+										   prevc.g * 0.8,
+										   prevc.b * 0.8,
+										   prevc.a);
+			_rect.setFillColor(darker);
+		}
 		win.draw(_rect);
-	
+		_rect.setFillColor(prevc);
+	}
+
 	if (_font) {
 		_text.setFont(*_font);
 		win.draw(_text);

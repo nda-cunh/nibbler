@@ -83,6 +83,11 @@ Event	Plugin::handle_mouse_event(const sf::Event &event, const Activity &act) {
 	return menu.checkCollision(act, position.x, position.y);
 }
 
+void	Plugin::handle_mouse_move(const sf::Event &e, const Activity &act) {
+	sf::Vector2i	position = sf::Mouse::getPosition(*this->window);
+	menu.checkHover(act, position.x, position.y);
+}
+
 Event Plugin::poll_event(Activity act){
 	sf::Event event;
 	Event e = NONE;
@@ -93,6 +98,9 @@ Event Plugin::poll_event(Activity act){
 				return CLOSE;
 			case sf::Event::KeyPressed:
 				e = handle_keyboard_event(event);
+				break;
+			case sf::Event::MouseMoved:
+				handle_mouse_move(event, act);
 				break;
 			case sf::Event::MouseButtonPressed:
 				e = handle_mouse_event(event, act);
