@@ -41,6 +41,7 @@ class Game {
 		void 		increaseSpeed	( void );
 		void 		decreaseSpeed	( void );
 		double		getSpeed( void ) const;
+		int			getLevelSpeed( void ) const;
 		const Direction				&getSnakeDirection( void ) const;
 		const std::deque<Position>	&getSnakePositions( void ) const;
 		const std::vector<Position>	&getFoodPositions ( void ) const;

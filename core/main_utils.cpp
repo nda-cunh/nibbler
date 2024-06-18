@@ -48,6 +48,7 @@ void	main_plugin_loop(int width, int height) {
 	Timer		frame_timer;
 
 	plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
+	plugin->update_speed(game.getLevelSpeed());
 
 	while (event != CLOSE) {
 		frame_timer.reset();
@@ -94,9 +95,11 @@ void	main_plugin_loop(int width, int height) {
 				break;
 			case SPEED_UP:
 				game.increaseSpeed();
+				plugin->update_speed(game.getLevelSpeed());
 				break;
 			case SPEED_DOWN:
 				game.decreaseSpeed();
+				plugin->update_speed(game.getLevelSpeed());
 				break;
 			case F1:
 				if (lib == SFML)
