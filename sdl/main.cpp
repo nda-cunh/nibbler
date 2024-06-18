@@ -223,7 +223,7 @@ class Plugin : public IPlugin {
 			text_score.draw(renderer, tile_size * 2.5 - text_score.get_width() / 2.0, tile_size * 1 - text_score.get_height() / 2.0);
 		}
 
-		void update_gameover () {
+		void update_speed(int) {
 		}
 
 		void update_bestscore (int score) {

@@ -110,8 +110,7 @@ void Plugin::update_bestscore(int n) {
 	_game.setBestScore(n);
 }
 
-void Plugin::update_gameover() {
-	_game.setIsOver(true);
+void Plugin::update_speed(int) {
 }
 
 
