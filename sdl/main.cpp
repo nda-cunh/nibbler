@@ -12,7 +12,7 @@
 #include "Damier.hpp"
 #include "Button.hpp"
 #include "Gameover.hpp"
-
+#include "Menu.hpp"
 
 class Plugin : public IPlugin {
 	public:
@@ -72,14 +72,20 @@ class Plugin : public IPlugin {
 			////////////////////////////////////////
 			render_game.create(width, height);
 
+			////////////////////////////////////////
+			///	Menu
+			////////////////////////////////////////
+
+			int w;
+			int h;
+			SDL_GetWindowSize(win, &w, &h);
 			
+			menu.create(w, h);
+
 			////////////////////////////////////////
 			/// Gameover 
 			////////////////////////////////////////
 			
-			int w;
-			int h;
-			SDL_GetWindowSize(win, &w, &h);
 			gameover.create(w, h);
 
 			////////////////////////////////////////
@@ -214,7 +220,7 @@ class Plugin : public IPlugin {
 			SDL_RenderFillRect(renderer, &rect);
 
 			text_score.set_text(std::to_string(score));
-			text_score.draw(renderer, tile_size * 2, -5);
+			text_score.draw(renderer, tile_size * 2.5 - text_score.get_width() / 2.0, tile_size * 1 - text_score.get_height() / 2.0);
 		}
 
 		void update_gameover () {
@@ -229,7 +235,7 @@ class Plugin : public IPlugin {
 			SDL_RenderFillRect(renderer, &rect);
 
 			text_bestscore.set_text(std::to_string(score));
-			text_bestscore.draw(renderer, 190 + tile_size, -5);
+			text_bestscore.draw(renderer, tile_size * 7.5 - text_score.get_width() / 2.0, tile_size * 1 - text_score.get_height() / 2.0);
 		}
 
 		void clear () {
@@ -246,20 +252,30 @@ class Plugin : public IPlugin {
 
 		void display (Activity activity) {
 			render_game.draw (renderer, tile_size, tile_size*3);
-			if (activity == ON_GAME_OVER) {
-				// draw a transparent black rect when the game is over
-				int w, h;
-				SDL_GetWindowSize(win, &w, &h);
-				SDL_Rect rect = {0, 0, w, h};
-				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128);
-				SDL_RenderFillRect(renderer, &rect);
 
-				// Draw the gameover screen
-				gameover.update_score(score, best_score);
-				gameover.draw(renderer, score, best_score);
+			switch (activity) {
+				case ON_MENU:
+					menu.draw(renderer);
+					break;
+				case ON_GAME:
+					break;
+				case ON_GAME_OVER:
+					SDL_Rect rect; 
+					int w, h;
+					SDL_GetWindowSize(win, &w, &h);
+					rect = {0, 0, w, h};
+					SDL_SetRenderDrawColor(renderer, 0, 0, 0, 128);
+					SDL_RenderFillRect(renderer, &rect);
 
-				button_retry->draw(renderer);
-				button_menu->draw(renderer);
+					// Draw the gameover screen
+					gameover.update_score(score, best_score);
+					gameover.draw(renderer, score, best_score);
+
+					button_retry->draw(renderer);
+					button_menu->draw(renderer);
+					break;
+				default:
+					break;
 			}
 
 			SDL_RenderPresent(renderer);
@@ -270,6 +286,7 @@ class Plugin : public IPlugin {
 		SDL_Renderer* renderer;
 
 		Damier damier;
+		Menu menu;
 
 		Gameover gameover;
 		RenderTexture render_game;

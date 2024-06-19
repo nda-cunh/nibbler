@@ -20,9 +20,9 @@ void Gameover::update_score (int score, int best_score) {
 void Gameover::draw (SDL_Renderer* renderer, int score, int best_score) {
 	RenderTexture::draw (renderer, x_gameover, y_gameover);
 	text.set_text(std::to_string(score));
-	text.draw(renderer, x_gameover + 64, y_gameover + 120);
+	text.draw(renderer, x_gameover + 72, y_gameover + 150);
 	text.set_text(std::to_string(best_score));
-	text.draw(renderer, x_gameover + 208, y_gameover + 120);
+	text.draw(renderer, x_gameover + 217, y_gameover + 150);
 }
 
 void Gameover::get_position (int &x, int &y) {

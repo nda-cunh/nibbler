@@ -1,7 +1,8 @@
 #ifndef _BUTTON_HPP_
 #define _BUTTON_HPP_
 
-#include "Text.hpp"
+#include <stdexcept>
+#include <SDL2/SDL.h>
 #include <cairo/cairo.h>
 #include <memory>
 
