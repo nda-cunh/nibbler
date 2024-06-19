@@ -159,7 +159,7 @@ void	Menu::init_menu(int width, int height) {
 		b.setTxtColor(BLACK);
 		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
 		b.setBgColor(GetColor(0x12CC12FF));
-		b.setOffSet(0.027 * min, 0);
+		b.setOffSet(0.02 * min, 0.005 * min);
 		b.setClickEvent(SPEED_DOWN);
 		new_pair.second.push_back(b);
 
@@ -167,7 +167,7 @@ void	Menu::init_menu(int width, int height) {
 
 		b.setTxt("+");
 		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
-		b.setOffSet(0.022 * min, 0);
+		b.setOffSet(0.02 * min, 0.005 * min);
 		b.setClickEvent(SPEED_UP);
 		new_pair.second.push_back(b);
 
@@ -214,6 +214,7 @@ Event	Menu::checkCollision(Activity act, float x, float y) {
 
 void	Menu::checkHover(Activity act, float x, float y) {
 	auto	it_map = _buttons.find(act);
+	bool	has_hover = false;
 
 	if (it_map == _buttons.end())
 		return ;
@@ -223,11 +224,18 @@ void	Menu::checkHover(Activity act, float x, float y) {
 		if (it->getEvent() != NONE)
 		{
 			if (CheckCollisionPointRec({x, y}, it->getRect()))
+			{
+				has_hover = true;
 				it->setHover(true);
+			}
 			else
 				it->setHover(false);
 		}
 	}
+	if (has_hover)
+		SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
+	else
+		SetMouseCursor(MOUSE_CURSOR_DEFAULT);
 }
 
 void	Menu::draw(const Activity &act) {
