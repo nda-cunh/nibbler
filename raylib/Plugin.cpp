@@ -47,17 +47,13 @@ Event Plugin::poll_event(Activity current_activity) {
 	int key = 42;
 	while (key != 0) {
 		if (IsMouseButtonPressed(0)) {
-			Activity	act = _menu.checkCollision(current_activity,
+			Event	e = _menu.checkCollision(current_activity,
 					GetMouseX(), GetMouseY());
-
-			switch (act) {
-				case ON_MENU:
-					return CLICK_MENU;
-				case ON_GAME:
-					return CLICK_1P;
-				default:
-					break;
-			}
+			if (e != NONE)
+				return e;
+		} else {
+			auto pos = GetMousePosition();
+			_menu.checkHover(current_activity, pos.x, pos.y);
 		}
 		key = GetKeyPressed();
 		switch (key) {
@@ -110,7 +106,8 @@ void Plugin::update_bestscore(int n) {
 	_game.setBestScore(n);
 }
 
-void Plugin::update_speed(int) {
+void Plugin::update_speed(int speed) {
+	_menu.setSpeed(speed);
 }
 
 

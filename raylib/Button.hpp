@@ -2,6 +2,7 @@
 #define BUTTON_HPP
 
 # include "../include/utils.hpp"
+# include "../include/IPlugin.hpp"
 # include <string>
 # include "./utils.hpp"
 
@@ -14,7 +15,8 @@ class Button {
 	int			_txt_size;
 	Color		_txt_color;
 	
-	Activity	_click_event;
+	bool		_is_hover;
+	Event	_click_event;
 	
 	public:
 		/* ---- Constructors & Coplien ---- */
@@ -26,8 +28,9 @@ class Button {
 
 		/* ---- Accessors ---- */
 		Rectangle	getRect() const;
-		Activity	getEvent() const;
-		void	setClickEvent(Activity act);
+		Event	getEvent() const;
+		void	setClickEvent(Event act);
+		void	setHover(bool hover);
 		void	setTxtSize(int size);
 		void	setBgColor(const Color &c);
 		void	setTxtColor(const Color &c);

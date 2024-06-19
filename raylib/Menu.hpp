@@ -5,11 +5,13 @@
 # include <map>
 # include "Button.hpp"
 # include "Timer.hpp"
+# include "../include/IPlugin.hpp"
 
 class Menu {
 	const int		TILE_SIZE;
 	std::map<Activity, std::vector<Button>> _buttons;
 	Timer			_last_click;
+	int				_speed;
 
 	/* ---- Init Activities ---- */
 	void	init_game_over(int width, int height);
@@ -24,8 +26,10 @@ class Menu {
 
 		Menu	&operator=(const Menu &);
 
-		Activity	checkCollision(Activity act, float x, float y);
-		void		draw(const Activity &act);
+		void	setSpeed( int );
+		Event	checkCollision(Activity act, float x, float y);
+		void	checkHover(Activity act, float x, float y);
+		void	draw(const Activity &act);
 };
 
 #endif
