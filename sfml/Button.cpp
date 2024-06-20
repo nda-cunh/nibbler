@@ -24,6 +24,7 @@ Button	&Button::operator=(const Button &rhs) {
 	this->_offset = rhs._offset;
 	this->_click_event = rhs._click_event;
 	this->_is_rounded = rhs._is_rounded;
+	this->_is_hover = rhs._is_hover;
 	return *this;
 }
 
@@ -78,6 +79,7 @@ void	Button::reset() {
 	_text.setPosition({0, 0});
 	_click_event = NONE;
 	_is_rounded = true;
+	_is_hover = false;
 }
 
 void	Button::draw_rounded(sf::RenderTarget	&win) {
