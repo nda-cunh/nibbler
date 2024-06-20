@@ -94,7 +94,7 @@ void	Menu::init_menu(int width, int height) {
 	b.setTxt("SupraSnake");
 	b.setTxtColor(menu_color);
 	b.setTxtSize(0.11 * std::min(height, width));
-	b.setRect(beg.x, beg.y, width * 3 / 5, 0.1 * height);
+	b.setRect(beg.x, beg.y, width * 3.0 / 5, 0.1 * height);
 	b.setOffSet(width * 0.045, 0);
 	b.setRounded(true);
 	new_pair.second.push_back(b);
@@ -104,7 +104,7 @@ void	Menu::init_menu(int width, int height) {
 	b.setTxt("Play");
 	b.setTxtColor(sf::Color::Black);
 	b.setTxtSize(0.08 * std::min(height, width));
-	b.setRect(beg.x, 0.5 * height, width * 3 / 5, 0.12 * height);
+	b.setRect(beg.x, 0.5 * height, width * 3.0 / 5, 0.12 * height);
 	b.setBgColor(menu_color);
 	b.setClickEvent(CLICK_1P);
 	b.setOffSet(width * 0.23, height * 0.01);
@@ -122,7 +122,7 @@ void	Menu::init_menu(int width, int height) {
 		b.setBgColor(sf::Color(0));
 		b.setTxtColor(menu_color);
 		b.setTxtSize(0.08 * min);
-		b.setRect(beg.x, beg.y, width * 3 / 5, 0.1 * height);
+		b.setRect(beg.x, beg.y, width * 3.0 / 5, 0.1 * height);
 		b.setOffSet(width * 0.045, 0);
 		b.setRounded(true);
 		new_pair.second.push_back(b);
