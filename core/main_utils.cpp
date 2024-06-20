@@ -20,7 +20,8 @@ static void display(const Game &game, Plugin &plugin, const Direction &dir, Acti
 		plugin.update_bestscore(game.getBestScore());
 		if (game.over())
 			act = ON_GAME_OVER;
-	}
+	} else
+		plugin.update_speed(game.getLevelSpeed());
 	plugin.display(act);
 }
 
