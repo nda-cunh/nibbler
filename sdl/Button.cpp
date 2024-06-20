@@ -15,6 +15,13 @@ void Button::create (int width, int height) {
 Button::Button (std::string str, int width, int height) {
 	this->text = str;
 
+	// cairo_set_source_rgb(cairo_context.get(), 0.30, 0.62, 0.98);
+	// cairo_set_source_rgb(cairo_context.get(), 0.303, 0.751, 0.976);
+	 // c'est sur 255 quil faut le multiplier et non par 100
+	background_color_hover = {76, 158, 249, 255};
+	background_color = {76, 191, 248, 255};
+	size_font = 21;
+	color = {255, 255, 255, 255};
 	create (width, height);
 	int w, h;
 	get_text_size(w, h);
@@ -40,9 +47,9 @@ void Button::clear() {
 void Button::update_background () {
 	// draw a cyan rectangle
 	if (is_hover)
-		cairo_set_source_rgb(cairo_context.get(), 0.30, 0.62, 0.98);
+		cairo_set_source_rgb(cairo_context.get(), background_color_hover.r / 255.0, background_color_hover.g / 255.0, background_color_hover.b / 255.0);
 	else
-		cairo_set_source_rgb(cairo_context.get(), 30.3 / 100.0, 75.1 / 100.0, 97.6  /100.0);
+		cairo_set_source_rgb(cairo_context.get(), background_color.r / 255.0, background_color.g / 255.0, background_color.b / 255.0);
 	cairo_rectangle(cairo_context.get(), 0, 0, surface->w, surface->h);
 	cairo_fill(cairo_context.get());
 
@@ -50,8 +57,8 @@ void Button::update_background () {
 
 void Button::update_text () {
 	cairo_select_font_face(cairo_context.get(), "Answer", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
-	cairo_set_font_size(cairo_context.get(), 21);
-	cairo_set_source_rgb(cairo_context.get(), 1.0, 1.0, 1.0);
+	cairo_set_font_size(cairo_context.get(), size_font);
+	cairo_set_source_rgb(cairo_context.get(), color.r / 255.0, color.g / 255.0, color.b / 255.0);
 
 	cairo_text_extents_t extents;
 	cairo_text_extents(cairo_context.get(), text.c_str(), &extents);
@@ -65,7 +72,7 @@ void Button::update_text () {
 // get the size max of the text and return it
 void Button::get_text_size (int &width, int &height) {
 	cairo_select_font_face(cairo_context.get(), "Answer", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
-	cairo_set_font_size(cairo_context.get(), 21);
+	cairo_set_font_size(cairo_context.get(), size_font);
 	cairo_text_extents_t extents;
 	cairo_text_extents(cairo_context.get(), text.c_str(), &extents);
 	width = extents.width;
@@ -89,6 +96,12 @@ bool Button::collide (int x, int y) {
 	return false;
 }
 
+void Button::set_color (int r, int g, int b) {
+	color.r = r;
+	color.g = g;
+	color.b = b;
+}
+
 int Button::get_width () {
 	return surface->w;
 }
@@ -100,6 +113,22 @@ int Button::get_height () {
 void Button::set_position (int x, int y) {
 	this->x = x;
 	this->y = y;
+}
+
+void Button::set_size_font (int size_font) {
+	this->size_font = size_font;
+}
+
+void Button::set_background_color (int r, int g, int b) {
+	background_color.r = r;
+	background_color.g = g;
+	background_color.b = b;
+}
+
+void Button::set_background_color_hover (int r, int g, int b) {
+	background_color_hover.r = r;
+	background_color_hover.g = g;
+	background_color_hover.b = b;
 }
 
 void Button::hover () {

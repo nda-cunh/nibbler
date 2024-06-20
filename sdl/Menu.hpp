@@ -3,6 +3,7 @@
 
 #include "Button.hpp"
 #include "Text.hpp"
+#include "../include/IPlugin.hpp"
 
 class Menu
 {
@@ -20,6 +21,8 @@ class Menu
 			this->width = width;
 			this->height = height;
 			button_play = std::make_shared<Button> ("Play", width / 2.0, 80);
+			button_play->set_size_font(42);
+			button_play->set_color(0, 0, 0);
 		}
 
 		void draw (SDL_Renderer *renderer) {
@@ -31,6 +34,20 @@ class Menu
 			text_title.draw(renderer, width / 2.0 - text_title.get_width() /2.0, 25);
 			button_play->set_position(width / 2.0 - button_play->get_width() / 2.0, 150);
 			button_play->draw(renderer);
+		}
+
+		Event collide_click (int x, int y) {
+			if (button_play->collide(x, y)) {
+				return Event::CLICK_1P;
+			}
+			return NONE;
+		}
+
+		void collide_hover (int x, int y) {
+			button_play->unhover();
+			if (button_play->collide(x, y)) {
+				button_play->hover();
+			}
 		}
 
 	private:

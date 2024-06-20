@@ -124,11 +124,13 @@ class Plugin : public IPlugin {
 						} else if (button_menu->collide(x, y)) {
 							button_menu->hover();
 						}
+						menu.collide_hover(x, y);
 						break;
 					case SDL_MOUSEBUTTONUP:
 						switch (event.button.button) {
 							case SDL_BUTTON_LEFT:
-							// get the position of the mouse and test if it's in the button_retry
+								Event res;
+								// get the position of the mouse and test if it's in the button_retry
 								int x, y;
 								SDL_GetMouseState(&x, &y);
 								if (button_retry->collide(x, y)) {
@@ -136,6 +138,9 @@ class Plugin : public IPlugin {
 								} else if (button_menu->collide(x, y)) {
 									return CLICK_MENU;
 								}
+								res = menu.collide_click(x, y);
+								if (res != NONE)
+									return res;
 								break;
 							default:
 								e = NONE;

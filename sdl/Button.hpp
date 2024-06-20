@@ -22,6 +22,10 @@ class Button {
 		int get_width ();
 		int get_height ();
 		void set_position (int x, int y);
+		void set_size_font (int size_font);
+		void set_color (int r, int g, int b);
+		void set_background_color (int r, int g, int b);
+		void set_background_color_hover (int r, int g, int b);
 		void hover ();
 		void unhover ();
 
@@ -30,6 +34,11 @@ class Button {
 		std::shared_ptr<cairo_surface_t> cairo_surface;
 		std::shared_ptr<cairo_t> cairo_context;
 		std::string text;
+		SDL_Colour color;
+		SDL_Colour background_color;
+		SDL_Colour background_color_hover;
+
+		int size_font;
 		bool is_hover = false;
 		int x;
 		int y;
