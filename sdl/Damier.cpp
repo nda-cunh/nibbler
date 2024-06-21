@@ -1,5 +1,9 @@
 #include "Damier.hpp"
 
+////////////////////////////////////////////////
+/// Constructors and Destructor
+////////////////////////////////////////////////
+
 Damier::Damier() {
 	this->x = 0;
 	this->y = 0;
@@ -21,6 +25,10 @@ Damier &Damier::operator= (const Damier &d) {
 	return *this;
 }
 
+Damier::~Damier() {
+
+}
+
 void Damier::create (int width, int height, int tile_size, int x, int y) {
 	this->x = x;
 	this->y = y;
@@ -29,9 +37,13 @@ void Damier::create (int width, int height, int tile_size, int x, int y) {
 	init_damier();
 }
 
-Damier::~Damier() {
-}
+////////////////////////////////////////////////
+/// Methods
+////////////////////////////////////////////////
 
+/**
+ * Initialize the damier on the surface
+ */
 void Damier::init_damier () {
 	this->clear();
 	for (int i = 0; i < x; ++i) {
@@ -44,5 +56,5 @@ void Damier::init_damier () {
 				this->draw_rect(&rect, 170, 215, 81);
 			}
 		}
-	} 
+	}
 }

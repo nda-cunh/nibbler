@@ -10,7 +10,7 @@ class Text {
 	public:
 		Text ();
 		~Text ();
-		Text (std::string str);
+		explicit Text (const std::string &text_str);
 
 		void create (int width, int height);
 		void draw (SDL_Renderer *renderer);
@@ -18,13 +18,12 @@ class Text {
 		int get_width ();
 		int get_height ();
 		void set_position (int x, int y);
-		void set_text (std::string str);
-		void set_font (std::string font);
+		void set_text (const std::string &str);
+		void set_font (const std::string &font);
 		void set_size_font (int size);
+
+	private:
 		void update ();
-
-
-	private: 
 		void clear();
 		void update_text ();
 		void get_text_size (int &width, int &height);

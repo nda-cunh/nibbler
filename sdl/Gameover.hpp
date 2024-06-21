@@ -6,11 +6,11 @@
 
 class Gameover : public RenderTexture {
 	public:
-
 		Gameover ();
-		void create (int width, int height);
+		~Gameover ();
+		void createGameOver (int width, int height);
 		void update_score (int score, int best_score);
-		void draw (SDL_Renderer* renderer, int score, int best_score);
+		void draw (SDL_Renderer* renderer, int score, int best_score) override;
 		void get_position (int &x, int &y);
 
 	private:

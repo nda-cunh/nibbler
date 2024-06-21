@@ -1,5 +1,8 @@
 #include "Text.hpp"
 
+////////////////////////////////////////////////
+/// Constructors and Destructor
+////////////////////////////////////////////////
 
 Text::Text () {
 	font = "Answer";
@@ -9,6 +12,20 @@ Text::Text () {
 	create (1, 1);
 }
 
+Text::Text (const std::string &text_str) : Text(){
+	this->text = text_str;
+
+	update();
+}
+
+
+Text::~Text () {
+
+}
+
+/**
+ * create the surface and the cairo context
+ */
 void Text::create (int width, int height) {
 	surface = std::shared_ptr<SDL_Surface>(SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, SDL_PIXELFORMAT_ARGB8888), SDL_FreeSurface);
 	if (surface == NULL)
@@ -18,6 +35,13 @@ void Text::create (int width, int height) {
 
 }
 
+////////////////////////////////////////////////
+/// Methods
+////////////////////////////////////////////////
+
+/**
+ * update the surface and create a new surface if the new text is too big
+ */
 void Text::update () {
 	bool update = false;
 	int w, h;
@@ -31,16 +55,9 @@ void Text::update () {
 		create(w, h);
 }
 
-Text::Text (std::string str) : Text(){
-	this->text = str;
-
-	update();
-}
-
-
-Text::~Text () {
-}
-
+/**
+ * clear the surface
+ */
 void Text::clear() {
 	cairo_set_operator(cairo_context.get(), CAIRO_OPERATOR_CLEAR);
 	cairo_paint(cairo_context.get());
@@ -48,36 +65,35 @@ void Text::clear() {
 	cairo_set_antialias(cairo_context.get(), CAIRO_ANTIALIAS_GRAY);
 }
 
+/**
+ * draw the text on the surface
+ */
 void Text::update_text () {
+	double px;
+	double py;
+	cairo_text_extents_t extents;
+	cairo_font_extents_t font_extents;
+
+	// set property of the text
 	cairo_select_font_face(cairo_context.get(), font.c_str(), CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
 	cairo_set_font_size(cairo_context.get(), size_font);
 	cairo_set_source_rgb(cairo_context.get(), 1.0, 1.0, 1.0);
 
-	cairo_text_extents_t extents;
+	// get the size of the text
 	cairo_text_extents(cairo_context.get(), text.c_str(), &extents);
+	cairo_font_extents(cairo_context.get(), &font_extents);
 
-	double x = (surface->w - extents.width) / 2.0;
-	double y = (surface->h + extents.height) / 2.0;
-	cairo_move_to(cairo_context.get(), x, y);
+	px = (surface->w - extents.width) / 2.0;
+	py = (surface->h + font_extents.ascent - font_extents.descent) / 2.0;
+
+	// draw the text
+	cairo_move_to(cairo_context.get(), px, py);
 	cairo_show_text(cairo_context.get(), text.c_str());
-	cairo_set_antialias(cairo_context.get(), CAIRO_ANTIALIAS_BEST);
 }
 
-void Text::set_font (std::string font) {
-	if (this->font != font) {
-		this->font = font;
-		update();
-	}
-}
-
-void Text::set_size_font (int size) {
-	if (size != size_font) {
-		size_font = size;
-		update();
-	}
-}
-
-// get the size max of the text and return it
+/**
+ * get the size of the text
+ */
 void Text::get_text_size (int &width, int &height) {
 	cairo_select_font_face(cairo_context.get(), font.c_str(), CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
 	cairo_set_font_size(cairo_context.get(), size_font);
@@ -90,6 +106,9 @@ void Text::get_text_size (int &width, int &height) {
 	height = font_extents.height + font_extents.descent;
 }
 
+/**
+ * draw the text on the screen with position (px, py)
+ */
 void Text::draw (SDL_Renderer *renderer, int px, int py) {
 	clear();
 	update_text();
@@ -100,6 +119,9 @@ void Text::draw (SDL_Renderer *renderer, int px, int py) {
 	SDL_DestroyTexture(texture);
 }
 
+/**
+ * draw the text on the screen
+ */
 void Text::draw (SDL_Renderer *renderer) {
 	clear();
 	update_text();
@@ -109,6 +131,10 @@ void Text::draw (SDL_Renderer *renderer) {
 	SDL_RenderCopy(renderer, texture, NULL, &rect);
 	SDL_DestroyTexture(texture);
 }
+
+////////////////////////////////////////////////
+/// Setters and Getters
+////////////////////////////////////////////////
 
 int Text::get_width () {
 	return surface->w;
@@ -123,9 +149,23 @@ void Text::set_position (int x, int y) {
 	this->y = y;
 }
 
-void Text::set_text (std::string str) {
+void Text::set_text (const std::string &str) {
 	if (str != this->text) {
 		this->text = str;
+		update();
+	}
+}
+
+void Text::set_font (const std::string &font) {
+	if (this->font != font) {
+		this->font = font;
+		update();
+	}
+}
+
+void Text::set_size_font (int size) {
+	if (size != size_font) {
+		size_font = size;
 		update();
 	}
 }

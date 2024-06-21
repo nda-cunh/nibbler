@@ -8,6 +8,7 @@
 #include <SDL2/SDL_surface.h>
 #include <stdexcept>
 #include <string>
+#include <memory>
 
 class RenderTexture
 {
@@ -16,9 +17,8 @@ class RenderTexture
 		RenderTexture(const RenderTexture &other);
 		RenderTexture &operator=(const RenderTexture &other);
 
-
 		void create(int width, int height);
-		void create(std::string path);
+		void create(const std::string &path);
 		void clear();
 		virtual void draw(RenderTexture &texture, int x, int y);
 		virtual void draw(SDL_Renderer*renderer, int x, int y);
@@ -28,7 +28,8 @@ class RenderTexture
 		int get_width();
 		int get_height();
 	protected:
-		SDL_Surface *surface;
+		std::shared_ptr<SDL_Surface> surface;
+
 
 };
 
