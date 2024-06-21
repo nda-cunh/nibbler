@@ -6,10 +6,10 @@
 
 Menu::Menu() {
 	text_title.set_text("SupraSnake");
-	text_title.set_size_font(64);
+	text_title.set_size_font(72);
 	text_speed_value.set_text("0");
 	text_speed.set_text("Speed");
-	text_title.set_size_font(37);
+	text_speed.set_size_font(30);
 	speed = 0;
 	width = 0;
 	height = 0;
@@ -36,7 +36,7 @@ void Menu::create (int width, int height) {
 	button_minus->set_position(0, height - 84);
 	button_plus->set_position(42, height - 42);
 	text_speed_value.set_position(10, (height - 42) + 5);
-	text_speed.set_position(52, (height - 84) + 5);
+	text_speed.set_position(42, (height - 84));
 }
 
 ////////////////////////////////////////////////
