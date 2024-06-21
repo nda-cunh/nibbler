@@ -39,8 +39,8 @@ int	main(int argc, char **argv)
 			return -1;
 
 		main_plugin_loop(width, height);
-	} catch (...) {
-		std::cerr << "Error runtime" << std::endl;
+	} catch (std::exception &e) {
+		std::cerr << "Error runtime (" << e.what() << ")" << std::endl;
 	}
 
 	return (0);
