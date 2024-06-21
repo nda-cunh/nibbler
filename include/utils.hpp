@@ -32,7 +32,7 @@ typedef enum e_Activity {
 
 inline std::ostream& operator << (std::ostream& os, enum e_Activity act)
 {
-	std::string	names[4] = {
+	const std::string	names[4] = {
 		"ON_NONE",
 		"ON_GAME",
 		"ON_GAME_OVER",
