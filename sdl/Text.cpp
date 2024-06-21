@@ -31,8 +31,11 @@ void Text::create (int width, int height) {
 	if (surface == NULL)
 		throw std::runtime_error("SDL_CreateRGBSurface failed");
 	cairo_surface = std::shared_ptr<cairo_surface_t>(cairo_image_surface_create_for_data(static_cast<unsigned char*>(surface->pixels), CAIRO_FORMAT_ARGB32, surface->w, surface->h, surface->pitch), cairo_surface_destroy);
+	if (cairo_surface == NULL)
+		throw std::runtime_error("cairo_image_surface_create_for_data failed");
 	cairo_context = std::shared_ptr<cairo_t>(cairo_create(cairo_surface.get()), cairo_destroy);
-
+	if (cairo_context == NULL)
+		throw std::runtime_error("cairo_create failed");
 }
 
 ////////////////////////////////////////////////

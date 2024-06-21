@@ -8,5 +8,6 @@ shared_library('sdl',
            'Button.cpp',
            'Gameover.cpp',
            'Menu.cpp',
+           'Plugin.cpp',
            dependencies: dep,
            install : true)
