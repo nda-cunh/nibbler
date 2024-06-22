@@ -6,8 +6,6 @@
 #include "../include/IAudioModule.hpp"
 
 /**
- * @brief Audio Module class
- * 
  * This class is used to play sounds
  */
 class AudioModule : public IAudioModule {
@@ -16,19 +14,17 @@ class AudioModule : public IAudioModule {
         AudioModule& operator=(const AudioModule& other);
 
 		/**
-		 * @brief Construct a new Audio Module object
+		 *  Construct a new Audio Module object
 		 */
 		AudioModule();
 
 		/**
-		 * @brief Play a sound
-		 * 
-		 * @param soundType The sound to play
+		 *  Play a sound
 		 */
 		void playSound(const SoundType &soundType);
 
 		/**
-		 * @brief Destroy the Audio Module object
+		 *  Destroy the Audio Module object
 		 */
 		~AudioModule();
 
