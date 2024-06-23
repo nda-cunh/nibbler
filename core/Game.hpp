@@ -27,7 +27,7 @@ class Game {
 	public:
 		/* ---- Constructors ---- */
 		Game();
-		Game(const int width, const int height);
+		Game(const int width, const int height, ModuleAudio *audio);
 		~Game();
 		void setAudio(ModuleAudio *audio);
 		/* ---- Coplien  ---- */
@@ -48,6 +48,6 @@ class Game {
 
 		/* ---- Methods ---- */
 		void moveSnake	(const Direction &dir);
-		Game newGame	( void ) const;
+		Game newGame	( ) const;
 };
 #endif

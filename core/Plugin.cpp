@@ -23,14 +23,15 @@ Plugin::~Plugin(){
 }
 		
 Plugin::Plugin(const Plugin &other) {
-	game = other.game;
-	handler = other.handler;
+	*this = other;
 }
 
 Plugin &Plugin::operator=(const Plugin &other) {
-	game = other.game;
-	handler = other.handler;
-	return *this;
+	if (&other != this) {
+		game = other.game;
+		handler = other.handler;
+	}
+	return (*this);
 }
 
 /* ____ LIB LOADING RELATED METHODS ____ */

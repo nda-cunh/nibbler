@@ -9,9 +9,10 @@ class Plugin : public IPlugin {
 	private:
 		IPlugin* game;
 		void* handler;
+	public:
+		Plugin() {};
 		Plugin(const Plugin &other);
 		Plugin &operator=(const Plugin &other);
-	public:
 		/* ---- Constructors ---- */
 		virtual ~Plugin();
 		Plugin (std::string so, int x, int y);

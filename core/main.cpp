@@ -7,7 +7,7 @@ inline bool is_number(const std::string& s)
     return !s.empty() && it == s.end();
 }
 
-
+         
 bool	check_args(int ac, char **av, int &w, int &h) {
 	if (ac != 3)
 		ERROR("Wrong args number");

@@ -5,7 +5,8 @@ Game::Game()	{}
 
 Game::~Game()	{}
 
-Game::Game(const int width, const int height) {
+Game::Game(const int width, const int height, ModuleAudio *audio) {
+	_audio = audio;
 	_snake.create(width, height);
 	_size = {width, height};
 	_is_over = false;
@@ -63,25 +64,48 @@ const Direction &Game::getSnakeDirection( void ) const {
 	return _snake.getDirection();
 }
 		
-void Game::setAudio(ModuleAudio *audio) {
-	this->_audio = audio;
-}
 
 /* ____ METHODS ____ */
-void Game::moveSnake(const Direction &dir) {
+void Game::moveSnake (const Direction &dir) {
+	const Direction	snake_dir = _snake.getDirection();
 	const Position	new_head_pos = _snake.move(dir);
 	const auto		snake_pos = _snake.getPositions();
 	const auto		food_it = FIND(_foods, new_head_pos);
 
 
-	// Check for any lose
-	if (new_head_pos.x >= _size.x || new_head_pos.x < 0)
+	// Check if snake is out of bounds or if it collides with itself
+	if ((new_head_pos.x >= _size.x || new_head_pos.x < 0) || 
+		(new_head_pos.y >= _size.y || new_head_pos.y < 0) ||
+		(COUNT(snake_pos, new_head_pos) > 1))
+	{
 		_is_over = true;
-	else if (new_head_pos.y >= _size.y || new_head_pos.y < 0)
-		_is_over = true;
-	else if (COUNT(_snake.getPositions(), new_head_pos) > 1)
-		_is_over = true;
-	else if (food_it == _foods.end())
+		_audio->playSound(IAudioModule::DEAD);
+		return ;
+	}
+					
+	if (dir != snake_dir &&
+		((dir == Up && snake_dir != Down)    || 
+		 (dir == Down && snake_dir != Up)    ||
+		 (dir == Left && snake_dir != Right) ||
+		 (dir == Right && snake_dir != Left))) {
+		switch (dir) {
+			case Up:
+				_audio->playSound(IAudioModule::UP);
+				break;
+			case Down:
+				_audio->playSound(IAudioModule::DOWN);
+				break;
+			case Left:
+				_audio->playSound(IAudioModule::LEFT);
+				break;
+			case Right:
+				_audio->playSound(IAudioModule::RIGHT);
+				break;
+		}
+	}
+
+
+	if (food_it == _foods.end())
 		_snake.loseTail();
 	else {
 		if (++_score > _best_score)
@@ -91,14 +115,10 @@ void Game::moveSnake(const Direction &dir) {
 		generateFood();
 		generateFood();
 	}
-
-	if (_is_over) {
-		_audio->playSound(IAudioModule::DEAD);
-	}
 }
 
-Game	Game::newGame( void ) const {
-	Game	new_game = Game(_size.x, _size.y);
+Game	Game::newGame() const {
+	Game	new_game = Game(_size.x, _size.y, _audio);
 
 	new_game._best_score = _best_score;
 	new_game._speed = _speed;
@@ -134,15 +154,15 @@ Game::Game(const Game &src) {
 }
 
 Game &Game::operator=(const Game &src) {
-	if (this != &src) {
-		_score = src._score;
-		_best_score = src._best_score;
-		_is_over = src._is_over;
-		_size = src._size;
-		_foods = src._foods;
-		_snake = src._snake;
-		_audio = src._audio;
-		_speed = src._speed;
-	}
+	if (this == &src)
+		return *this;
+	_score = src._score;
+	_best_score = src._best_score;
+	_speed = src._speed;
+	_is_over = src._is_over;
+	_size = src._size;
+	_foods = src._foods;
+	_snake = src._snake;
+	_audio = src._audio;
 	return *this;
 }
