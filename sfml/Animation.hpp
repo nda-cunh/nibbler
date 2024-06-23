@@ -7,7 +7,7 @@
 #include "../include/utils.hpp"
 
 
-class Sprite {
+class Animation {
 	std::vector<Rect>	_frames;
 	sf::Texture			_tex;
 	int					_idx;
@@ -17,11 +17,11 @@ class Sprite {
 
 	public:
 		/* ---- Constructors & Coplien ---- */
-		Sprite();
-		Sprite(const Sprite &);
-		~Sprite();
+		Animation();
+		Animation(const Animation &);
+		~Animation();
 
-		Sprite &operator=(const Sprite &);
+		Animation &operator=(const Animation &);
 
 		/* ---- Accessors ---- */
 		void setFreq(double freq);

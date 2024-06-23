@@ -3,6 +3,7 @@ deps = [
 ]
 
 shared_library('sfml',
+           'Animation.cpp',
            'Apple.cpp',
            'Plugin.cpp',
            'Background.cpp',
@@ -13,6 +14,5 @@ shared_library('sfml',
            'Snake.cpp',
            'Gameover.cpp',
            'Timer.cpp',
-           'Sprite.cpp',
            dependencies: deps,
            install : true)

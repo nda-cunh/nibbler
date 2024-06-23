@@ -3,17 +3,17 @@
 
 #include <SFML/Graphics.hpp>
 #include "../include/IPlugin.hpp"
-#include "Sprite.hpp"
+#include "Animation.hpp"
 #include "config.h"
 
 class Snake
 {
 	sf::RenderTexture	texture_head;
 	sf::Texture 		texture_snake;
-	Sprite				s_eyes_left;
-	Sprite				s_eyes_right;
-	Sprite				s_tongue;
-	Sprite				s_mouth;
+	Animation				s_eyes_left;
+	Animation				s_eyes_right;
+	Animation				s_tongue;
+	Animation				s_mouth;
 
 	/* ---- Private Methods ---- */
 	inline void draw_head(sf::RenderTexture& window, const Position &pos, Direction dir);

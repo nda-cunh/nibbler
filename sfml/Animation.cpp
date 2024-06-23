@@ -1,21 +1,21 @@
-#include "Sprite.hpp"
+#include "Animation.hpp"
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
-Sprite::Sprite() {
+Animation::Animation() {
 	_idx = 0;
 	_timer = Timer();
 	_freq = 2.0;
 	_speed = 0.1;
 }
 
-Sprite::Sprite(const Sprite &other) {
+Animation::Animation(const Animation &other) {
 	*this = other;
 }
 
-Sprite::~Sprite() {}
+Animation::~Animation() {}
 
 
-Sprite &Sprite::operator=(const Sprite &rhs) {
+Animation &Animation::operator=(const Animation &rhs) {
 	if (this == &rhs)
 		return *this;
 	_frames = rhs._frames;
@@ -30,20 +30,20 @@ Sprite &Sprite::operator=(const Sprite &rhs) {
 
 /* ____ ACCESSORS ____ */
 
-void Sprite::setTexture(const sf::Texture &tex) { _tex = tex; }
+void Animation::setTexture(const sf::Texture &tex) { _tex = tex; }
 
 /* Freq is the time between 2 animations */
-void Sprite::setFreq(double freq) { _freq = freq; }
+void Animation::setFreq(double freq) { _freq = freq; }
 
 /* Speed is the time between 2 animations frame */
-void Sprite::setSpeed(double speed) { _speed = speed; }
+void Animation::setSpeed(double speed) { _speed = speed; }
 
-void Sprite::addFrames(const std::vector<Rect> &v) {
+void Animation::addFrames(const std::vector<Rect> &v) {
 	for (auto it = v.begin(); it != v.end(); it++)
 		_frames.push_back(*it);
 }
 
-void Sprite::addFrames(sf::Rect<int> first_frame, sf::Vector2<int> delta, int nb_frame) {
+void Animation::addFrames(sf::Rect<int> first_frame, sf::Vector2<int> delta, int nb_frame) {
 	Rect	r = {first_frame.left, first_frame.top,
 		first_frame.width, first_frame.height};
 
@@ -54,7 +54,7 @@ void Sprite::addFrames(sf::Rect<int> first_frame, sf::Vector2<int> delta, int nb
 	}
 }
 
-sf::Sprite	Sprite::getFrame(float x, float y) {
+sf::Sprite	Animation::getFrame(float x, float y) {
 	sf::Sprite		sprite(_tex);
 	double			time_spent = _timer.elapsed();
 	unsigned int	tmp_idx = static_cast<int>(time_spent / _speed);
