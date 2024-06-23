@@ -14,7 +14,6 @@ class Menu {
 	Position								_size;
 
 	/* ---- Init Activities ---- */
-	void	init_game_over(int width, int height);
 	void	init_menu(int width, int height);
 
 	public:

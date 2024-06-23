@@ -78,14 +78,35 @@ Event	Plugin::handle_keyboard_event(sf::Event	event) {
 Event	Plugin::handle_mouse_event(const sf::Event &event, const Activity &act) {
 	if (event.mouseButton.button != sf::Mouse::Left)
 		return NONE;
-	sf::Vector2i	position = sf::Mouse::getPosition(*this->window);
+	sf::Vector2i	pos = sf::Mouse::getPosition(*this->window);
 
-	return menu.checkCollision(act, position.x, position.y);
+	switch (act) {
+		case Activity::ON_GAME_OVER:
+			return gameover.collides(pos.x - 40, pos.y - 120);
+			break;
+		case Activity::ON_MENU:
+			return menu.checkCollision(act, pos.x, pos.y);
+			break;
+		default:
+			break;
+	}
+	return NONE;
 }
 
 void	Plugin::handle_mouse_move(const sf::Event &e, const Activity &act) {
-	sf::Vector2i	position = sf::Mouse::getPosition(*this->window);
-	menu.checkHover(act, position.x, position.y);
+	sf::Vector2f	game_shift = game.getPosition();
+	sf::Vector2i	pos = sf::Mouse::getPosition(*this->window);
+
+	switch (act) {
+		case Activity::ON_GAME_OVER:
+			gameover.collides(pos.x - game_shift.x, pos.y - game_shift.y);
+			break;
+		case Activity::ON_MENU:
+			menu.checkHover(act, pos.x, pos.y);
+			break;
+		default:
+			break;
+	}
 }
 
 Event Plugin::poll_event(Activity act){

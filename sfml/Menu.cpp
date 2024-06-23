@@ -4,7 +4,6 @@
 Menu::Menu() {}
 
 Menu::Menu(int width, int height) {
-	this->init_game_over(width, height);
 	this->init_menu(width, height);
 	_size = {width, height};
 	_last_click.reset();
@@ -42,38 +41,6 @@ void	Menu::setSpeed(int speed) {
 
 /* ____ INIT ACTIVITIES ____ */
 
-void	Menu::init_game_over(int width, int height) {
-	std::pair<Activity, std::vector<Button>>	new_pair;
-	sf::Rect<float>	r_button = sf::Rect<float>({0.5f * width, 0, 125, 60});
-	Button		b;
-
-	if ((height - 160) * 0.5 + 385 > height - 40)
-		// (height - 160) * 0.5 + shift.y + card.y / 2 - shift_to_card - button.w
-		r_button.top = (height - 160) * 0.5 + 238;
-	else
-		// (height - 160) * 0.5 + shift.y + card.y / 2 + shift_to_card;
-		r_button.top = (height - 160) * 0.5 + 325;
-
-	// Set Button Activty
-	new_pair.first = ON_GAME_OVER;
-
-	b.setTxtSize(25);
-	b.setRect(r_button.left - 135, r_button.top, r_button.width, r_button.height);
-	b.setBgColor(sf::Color(0x4dc1f9ff));
-	b.setTxtColor(sf::Color::White);
-	b.setClickEvent(CLICK_1P);
-	b.setTxt("Try Again");
-	new_pair.second.push_back(b);
-
-	b.setRect(r_button.left + 135 - 125, r_button.top, r_button.width, r_button.height);
-	b.setBgColor(sf::Color(0x4dc1f9ff));
-	b.setTxtColor(sf::Color::White);
-	b.setClickEvent(CLICK_MENU);
-	b.setTxt("Menu");
-	new_pair.second.push_back(b);
-
-	_buttons.insert(new_pair);
-}
 
 void	Menu::init_menu(int width, int height) {
 	std::pair<Activity, std::vector<Button>>	new_pair;

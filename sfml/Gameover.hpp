@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include "Button.hpp"
 
 class GameOver : public sf::Sprite
 {
@@ -13,6 +14,9 @@ class GameOver : public sf::Sprite
 	sf::Text	_text_best;
 	sf::Font	_font;
 
+	Button		_button_menu;
+	Button		_button_retry;
+
 	public:
 		/* ---- Constructors & Coplien ---- */
 		GameOver();
@@ -20,6 +24,9 @@ class GameOver : public sf::Sprite
 		~GameOver();
 
 		GameOver &operator=(const GameOver &);
+
+		/* ---- Mouse event ---- */
+		Event collides(int x, int y);
 
 		/* ---- Accessors ---- */
 		void setBestScore(const int n);
