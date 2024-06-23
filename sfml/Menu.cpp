@@ -57,21 +57,19 @@ void	Menu::init_game_over(int width, int height) {
 	// Set Button Activty
 	new_pair.first = ON_GAME_OVER;
 
-	b.setTxt("Try Again");
 	b.setTxtSize(25);
 	b.setRect(r_button.left - 135, r_button.top, r_button.width, r_button.height);
-	b.setOffSet(17, 13);
 	b.setBgColor(sf::Color(0x4dc1f9ff));
 	b.setTxtColor(sf::Color::White);
 	b.setClickEvent(CLICK_1P);
+	b.setTxt("Try Again");
 	new_pair.second.push_back(b);
 
-	b.setTxt("Menu");
 	b.setRect(r_button.left + 135 - 125, r_button.top, r_button.width, r_button.height);
-	b.setOffSet(34, 13);
 	b.setBgColor(sf::Color(0x4dc1f9ff));
 	b.setTxtColor(sf::Color::White);
 	b.setClickEvent(CLICK_MENU);
+	b.setTxt("Menu");
 	new_pair.second.push_back(b);
 
 	_buttons.insert(new_pair);
@@ -80,87 +78,83 @@ void	Menu::init_game_over(int width, int height) {
 void	Menu::init_menu(int width, int height) {
 	std::pair<Activity, std::vector<Button>>	new_pair;
 	sf::Vector2f		beg = {0.2f * width, 0.13f * height};
-	Button		b;
 	sf::Color	menu_color(0x4DC1F9FF);
 
 	// Set Button Activty
 	new_pair.first = ON_MENU;
 
-	b.setRect(0, 0, width, height);
-	b.setBgColor(sf::Color::Black);
-	b.setRounded(false);
-	new_pair.second.push_back(b);
+	{
+		Button		b;
 
-	b.setTxt("SupraSnake");
-	b.setTxtColor(menu_color);
-	b.setTxtSize(0.11 * std::min(height, width));
-	b.setRect(beg.x, beg.y, width * 3.0 / 5, 0.1 * height);
-	b.setOffSet(width * 0.045, 0);
-	b.setRounded(true);
-	new_pair.second.push_back(b);
+		b.setRect(0, 0, width, height);
+		b.setBgColor(sf::Color::Black);
+		new_pair.second.push_back(b);
+	}
 
-	b.reset();
+	{
+		Button		b;
 
-	b.setTxt("Play");
-	b.setTxtColor(sf::Color::Black);
-	b.setTxtSize(0.08 * std::min(height, width));
-	b.setRect(beg.x, 0.5 * height, width * 3.0 / 5, 0.12 * height);
-	b.setBgColor(menu_color);
-	b.setClickEvent(CLICK_1P);
-	b.setOffSet(width * 0.23, height * 0.01);
-	b.setRounded(true);
-	new_pair.second.push_back(b);
+		b.setTxtColor(menu_color);
+		b.setTxtSize(0.11 * std::min(height, width));
+		b.setRect(beg.x, beg.y, width * 3.0 / 5, 0.1 * height);
+		b.setTxt("SupraSnake");
+		new_pair.second.push_back(b);
+	}
 
-	b.reset();
+	{
+		Button b;
 
+		b.setTxtColor(sf::Color::Black);
+		b.setTxtSize(0.08 * std::min(height, width));
+		b.setRect(beg.x, 0.5 * height, width * 3.0 / 5, 0.12 * height);
+		b.setBgColor(menu_color);
+		b.setClickEvent(CLICK_1P);
+		b.setTxt("Play");
+		new_pair.second.push_back(b);
+	}
 	// Speed Buttons
 	{
+		Button	b;
 		int		min = std::min(width, height);
 		beg = {	0.35f * width, 0.8f * height};
 
-		b.setTxt("speed");
+		b.setRect(beg.x, beg.y, width * 3.0 / 5, 0.1 * height);
 		b.setBgColor(sf::Color(0));
 		b.setTxtColor(menu_color);
 		b.setTxtSize(0.08 * min);
-		b.setRect(beg.x, beg.y, width * 3.0 / 5, 0.1 * height);
-		b.setOffSet(width * 0.045, 0);
-		b.setRounded(true);
+		b.setTxt("speed");
 		new_pair.second.push_back(b);
 
 		beg = {0.3f * width, 0.9f * height};
 
-		b.setTxt("-");
 		b.setTxtSize(0.06 * min);
 		b.setTxtColor(sf::Color::Black);
 		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
 		b.setBgColor(menu_color);
-		b.setRounded(true);
-		b.setOffSet(0.027 * min, 0);
 		b.setClickEvent(SPEED_DOWN);
+		b.setTxt("-");
 		new_pair.second.push_back(b);
 
 		beg.x = width - beg.x - 0.08 * min;
 
-		b.setTxt("+");
 		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
-		b.setOffSet(0.022 * min, 0);
 		b.setClickEvent(SPEED_UP);
+		b.setTxt("+");
 		new_pair.second.push_back(b);
+
 
 		beg = {width / 2.5f, 0.89f * height};
 
-		b.reset();
-
-		b.setTxt("oooooo");
 		b.setTxtColor(sf::Color(0x131313EE));
 		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
 		b.setBgColor(sf::Color(0));
+		b.setTxt("oooooo");
 		new_pair.second.push_back(b);
 
-		b.setTxt("");
 		b.setTxtColor(menu_color);
 		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
 		b.setBgColor(sf::Color(0));
+		b.setTxt("");
 		new_pair.second.push_back(b);
 	}
 

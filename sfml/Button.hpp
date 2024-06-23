@@ -6,16 +6,17 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+# define DARKER(c) sf::Color(c.r * 0.8, c.g * 0.8, c.b * 0.8, c.a)
+
 class Button {
-	sf::RectangleShape	_rect;
-	sf::Vector2f		_offset;
-	sf::Text			_text;
 	std::unique_ptr<sf::Font>		_font;
+	sf::RectangleShape	_rect;
+	sf::Text			_text;
 	Event				_click_event;
-	bool				_is_rounded;
 	bool				_is_hover;
 
 	void	draw_rounded( sf::RenderTarget	&win);
+	void	centerText();
 
 	public:
 		/* ---- Constructors & Coplien ---- */
@@ -30,19 +31,13 @@ class Button {
 		Event	getEvent() const;
 		void	setClickEvent(Event e);
 		void	setTxtSize(int size);
-		void	setRounded(bool rounded);
 		void	setHover( bool );
 		void	setBgColor(const sf::Color &c);
 		void	setTxtColor(const sf::Color &c);
-		void	setOffSet(float x, float y);
 		void	setTxt(const std::string txt);
 		void	setRect(float x, float y, float w, float h);
 
-		/* ---- public methods ---- */
-		void	centerText();
-
 		/* ---- Display methods ---- */
-		void	reset();
 		void	draw(sf::RenderTarget &win);
 };
 #endif
