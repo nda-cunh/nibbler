@@ -42,8 +42,6 @@ class Plugin : public IPlugin {
 		Text text_score;
 		Text text_bestscore;
 
-		int score = 0;
-		int best_score = 0;
 		const int tile_size = 32;
 		int width;
 		int height;

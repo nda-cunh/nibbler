@@ -215,7 +215,6 @@ void Plugin::update_food (Position &position)  {
 void Plugin::update_score (int score)  {
 	SDL_Rect rect;
 
-	this->score = score;
 	rect = {tile_size, tile_size / 2, tile_size, tile_size};
 
 	// draw the apple score (red sqaure)
@@ -225,16 +224,12 @@ void Plugin::update_score (int score)  {
 	// draw the text score
 	text_score.set_text(std::to_string(score));
 	text_score.draw(renderer, tile_size * 2.5 - text_score.get_width() / 2.0, tile_size * 1 - text_score.get_height() / 2.0);
-}
-
-void Plugin::update_speed (int speed)  {
-	menu.update_speed(speed);
+	gameover.update_score(score);
 }
 
 void Plugin::update_bestscore (int score)  {
 	SDL_Rect rect;
 
-	this->best_score = score;
 	rect = {190, tile_size / 2, tile_size, tile_size};
 
 	// draw the best score (yellow sqaure)
@@ -244,7 +239,13 @@ void Plugin::update_bestscore (int score)  {
 	// draw the text best score
 	text_bestscore.set_text(std::to_string(score));
 	text_bestscore.draw(renderer, tile_size * 7.5 - text_score.get_width() / 2.0, tile_size * 1 - text_score.get_height() / 2.0);
+	gameover.update_bestscore(score);
 }
+
+void Plugin::update_speed (int speed)  {
+	menu.update_speed(speed);
+}
+
 
 void Plugin::clear ()  {
 	SDL_Rect rect = {0, 0, width + tile_size * 2, tile_size * 2};
@@ -283,8 +284,7 @@ void Plugin::display (Activity activity)  {
 			SDL_RenderFillRect(renderer, &rect);
 
 			// Draw the gameover screen
-			gameover.update_score(score, best_score);
-			gameover.draw(renderer, score, best_score);
+			gameover.draw(renderer);
 
 			button_retry->draw(renderer);
 			button_menu->draw(renderer);

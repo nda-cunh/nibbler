@@ -29,24 +29,27 @@ Gameover::~Gameover () {
 /**
  * Update the score and best score
  */
-void Gameover::update_score (int score, int best_score) {
+void Gameover::update_score (int score) {
 	this->score = score;
+}
+
+void Gameover::update_bestscore (int best_score) {
 	this->best_score = best_score;
 }
 
 /**
  * Draw the gameover screen
  */
-void Gameover::draw (SDL_Renderer* renderer, int score, int best_score) {
+void Gameover::draw (SDL_Renderer* renderer, int px, int py) {
 	// draw the gameover screen
 	RenderTexture::draw (renderer, x_gameover, y_gameover);
 
-	// set the text to the score and best score
+	// Draw Score Text
 	text.set_text(std::to_string(score));
-	text.set_text(std::to_string(best_score));
-
-	// draw the score and best score
 	text.draw(renderer, x_gameover + 72, y_gameover + 150);
+
+	// Draw BestScore Text
+	text.set_text(std::to_string(best_score));
 	text.draw(renderer, x_gameover + 217, y_gameover + 150);
 }
 
