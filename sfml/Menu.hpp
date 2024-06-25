@@ -6,12 +6,17 @@
 # include <map>
 # include "Button.hpp"
 # include "Timer.hpp"
+# include "config.h"
 
 class Menu {
-	int										_speed;
-	std::map<Activity, std::vector<Button>> _buttons;
-	Timer									_last_click;
-	Position								_size;
+	std::unique_ptr<sf::Font>	_font;
+	int			_speed;
+	Timer		_last_click;
+	Button		_button_1p;
+	// Button		_button_2p;
+	Button		_speed_down;
+	Button		_speed_up;
+	Position	_size;
 
 	/* ---- Init Activities ---- */
 	void	init_menu(int width, int height);
@@ -29,9 +34,8 @@ class Menu {
 		void		setSpeed(int speed);
 
 		/* ---- Public methods ---- */
-		Event	checkCollision(Activity act, float x, float y);
-		void	checkHover(Activity act, float x, float y);
-		void	draw(const Activity &act, sf::RenderTarget &win);
+		Event	collides(int x, int y);
+		void	draw(sf::RenderTarget &win);
 };
 
 inline std::ostream& operator << (std::ostream& os, sf::Rect<float> rect)

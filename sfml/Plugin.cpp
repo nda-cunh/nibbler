@@ -85,7 +85,7 @@ Event	Plugin::handle_mouse_event(const sf::Event &event, const Activity &act) {
 			return gameover.collides(pos.x - 40, pos.y - 120);
 			break;
 		case Activity::ON_MENU:
-			return menu.checkCollision(act, pos.x, pos.y);
+			return menu.collides(pos.x, pos.y);
 			break;
 		default:
 			break;
@@ -102,7 +102,7 @@ void	Plugin::handle_mouse_move(const sf::Event &e, const Activity &act) {
 			gameover.collides(pos.x - game_shift.x, pos.y - game_shift.y);
 			break;
 		case Activity::ON_MENU:
-			menu.checkHover(act, pos.x, pos.y);
+			menu.collides(pos.x, pos.y);
 			break;
 		default:
 			break;
@@ -182,6 +182,7 @@ void Plugin::display (const Activity act) {
 	game.setTexture(texture_game->getTexture());
 
 	window->draw(game);
-	menu.draw(act, *window);
+	if (act == Activity::ON_MENU)
+		menu.draw(*window);
 	window->display();
 }

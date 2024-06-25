@@ -9,7 +9,9 @@ Menu::Menu(int width, int height) {
 	_last_click.reset();
 }
 
-Menu::~Menu() {}
+Menu::~Menu() {
+	_font.release();
+}
 
 Menu::Menu(const Menu &other) {
 	*this = other;
@@ -18,24 +20,19 @@ Menu::Menu(const Menu &other) {
 Menu	&Menu::operator=(const Menu &rhs) {
 	if (this == &rhs)
 		return *this;
-	_buttons = rhs._buttons;
 	_last_click = rhs._last_click;
+	_speed = rhs._speed;
+	_size = rhs._size;
+	_button_1p = rhs._button_1p;
+	_speed_down = rhs._speed_down;
+	_speed_up = rhs._speed_up;
 	return *this;
 }
 
 /* ____ SETTER ____ */
 
 void	Menu::setSpeed(int speed) {
-	auto		map_menu = _buttons.find(ON_MENU);
-
 	_speed = speed;
-	if (map_menu == _buttons.end())
-		return ;
-
-	auto 		&bs_menu = map_menu->second;
-	auto 		&b = bs_menu.at(bs_menu.size() - 1);
-
-	b.setTxt(std::string(speed, 'o'));
 }
 
 
@@ -43,42 +40,21 @@ void	Menu::setSpeed(int speed) {
 
 
 void	Menu::init_menu(int width, int height) {
-	std::pair<Activity, std::vector<Button>>	new_pair;
-	sf::Vector2f		beg = {0.2f * width, 0.13f * height};
-	sf::Color	menu_color(0x4DC1F9FF);
+	sf::Vector2f	beg = {0.2f * width, 0.13f * height};
+	sf::Color		menu_color(0x4DC1F9FF);
 
-	// Set Button Activty
-	new_pair.first = ON_MENU;
+	_font = std::make_unique<sf::Font>();
+	if (_font->loadFromFile("./sfml/coolvetica.otf") == false)
+		throw std::runtime_error("can't load coolvetica.otf");
 
-	{
-		Button		b;
 
-		b.setRect(0, 0, width, height);
-		b.setBgColor(sf::Color::Black);
-		new_pair.second.push_back(b);
-	}
+	_button_1p.setTxtColor(sf::Color::Black);
+	_button_1p.setTxtSize(0.08 * std::min(height, width));
+	_button_1p.setRect(beg.x, 0.5 * height, width * 3.0 / 5, 0.12 * height);
+	_button_1p.setBgColor(menu_color);
+	_button_1p.setClickEvent(CLICK_1P);
+	_button_1p.setTxt("Play");
 
-	{
-		Button		b;
-
-		b.setTxtColor(menu_color);
-		b.setTxtSize(0.11 * std::min(height, width));
-		b.setRect(beg.x, beg.y, width * 3.0 / 5, 0.1 * height);
-		b.setTxt("SupraSnake");
-		new_pair.second.push_back(b);
-	}
-
-	{
-		Button b;
-
-		b.setTxtColor(sf::Color::Black);
-		b.setTxtSize(0.08 * std::min(height, width));
-		b.setRect(beg.x, 0.5 * height, width * 3.0 / 5, 0.12 * height);
-		b.setBgColor(menu_color);
-		b.setClickEvent(CLICK_1P);
-		b.setTxt("Play");
-		new_pair.second.push_back(b);
-	}
 	// Speed Buttons
 	{
 		Button	b;
@@ -90,24 +66,24 @@ void	Menu::init_menu(int width, int height) {
 		b.setTxtColor(menu_color);
 		b.setTxtSize(0.08 * min);
 		b.setTxt("speed");
-		new_pair.second.push_back(b);
 
 		beg = {0.3f * width, 0.9f * height};
 
-		b.setTxtSize(0.06 * min);
-		b.setTxtColor(sf::Color::Black);
-		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
-		b.setBgColor(menu_color);
-		b.setClickEvent(SPEED_DOWN);
-		b.setTxt("-");
-		new_pair.second.push_back(b);
+		_speed_down.setTxtSize(0.06 * min);
+		_speed_down.setTxtColor(sf::Color::Black);
+		_speed_down.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
+		_speed_down.setBgColor(menu_color);
+		_speed_down.setClickEvent(SPEED_DOWN);
+		_speed_down.setTxt("-");
 
 		beg.x = width - beg.x - 0.08 * min;
 
-		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
-		b.setClickEvent(SPEED_UP);
-		b.setTxt("+");
-		new_pair.second.push_back(b);
+		_speed_up.setTxtSize(0.06 * min);
+		_speed_up.setTxtColor(sf::Color::Black);
+		_speed_up.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
+		_speed_up.setBgColor(menu_color);
+		_speed_up.setClickEvent(SPEED_UP);
+		_speed_up.setTxt("+");
 
 
 		beg = {width / 2.5f, 0.89f * height};
@@ -116,63 +92,52 @@ void	Menu::init_menu(int width, int height) {
 		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
 		b.setBgColor(sf::Color(0));
 		b.setTxt("oooooo");
-		new_pair.second.push_back(b);
 
 		b.setTxtColor(menu_color);
 		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
 		b.setBgColor(sf::Color(0));
 		b.setTxt("");
-		new_pair.second.push_back(b);
 	}
-
-	_buttons.insert(new_pair);
 }
 
 
-Event	Menu::checkCollision(Activity act, float x, float y) {
-	auto	it_map = _buttons.find(act);
+Event	Menu::collides(int x, int y) {
 
-	/* Avoid click interpretation on activity change */
-	if (_last_click.elapsed() < 0.1)
-		return NONE;
-	/* No buttons for activity */
-	else if(it_map == _buttons.end())
-		return NONE;
+	// Reset hover state
+	_button_1p.setHover(false);
+	_speed_up.setHover(false);
+	_speed_down.setHover(false);
 
-	_last_click.reset();
-	for (auto it = it_map->second.begin(); it != it_map->second.end(); it++)
-		if (it->getRect().contains({x, y}))
-			if (it->getEvent() != NONE)
-				return it->getEvent();
-
+	// Check if the mouse is hovering over a button
+	if (_button_1p.getRect().contains(x, y)) {
+		_button_1p.setHover(true);
+		return CLICK_1P;
+	} else if (_speed_down.getRect().contains(x, y)) {
+		_speed_down.setHover(true);
+		return SPEED_DOWN;
+	} else if (_speed_up.getRect().contains(x, y)) {
+		_speed_up.setHover(true);
+		return SPEED_UP;
+	}
 	return NONE;
 }
 
-void	Menu::checkHover(Activity act, float x, float y) {
-	auto	it_map = _buttons.find(act);
 
-	if (it_map == _buttons.end())
-		return ;
+void	Menu::draw(sf::RenderTarget &win){
+	sf::Color	menu_color(0x4DC1F9FF);
+	win.clear();
 
-	for (auto it = it_map->second.begin(); it != it_map->second.end(); it++)
 	{
-		if (it->getEvent() != NONE)
-		{
-			if (it->getRect().contains({x, y}))
-				it->setHover(true);
-			else
-				it->setHover(false);
-		}
+		sf::Text text;
+		text.setFont(*_font.get());
+		text.setString("Hello, SFML!");
+		text.setCharacterSize(24);
+		text.setFillColor(sf::Color::White);
+		text.setPosition(300, 200);
+		win.draw(text);
 	}
-}
 
-void	Menu::draw(const Activity &act, sf::RenderTarget &win){
-	auto	it_map = _buttons.find(act);
-
-	if (it_map == _buttons.end())
-		return ;
-
-	// Draw all butons
-	for (auto it = it_map->second.begin(); it != it_map->second.end(); it++)
-		it->draw(win);
+	_button_1p.draw(win);
+	_speed_down.draw(win);
+	_speed_up.draw(win);
 }
