@@ -127,7 +127,24 @@ void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &pos
 	window.draw(vertices);
 }
 
-void Snake::draw_head(sf::RenderTexture& window, const Position &pos, Direction dir) {
+static inline Direction getDirection(const std::deque<Position> &snake) {
+	Position	head = snake[0];
+	Position	pre_head = snake[1];
+
+	if (head.x == pre_head.x) {
+		if (head.y > pre_head.y)
+			return Down;
+		else
+			return Up;
+	} else {
+		if (head.x > pre_head.x)
+			return Right;
+		else
+			return Left;
+	}
+}
+
+void Snake::draw_head(sf::RenderTexture& window, const std::deque<Position> &snake) {
 	texture_head.clear({0,0,0,0});
 	/* Eyes */
 	texture_head.draw(s_eyes_left.getFrame(-3, -4));
@@ -144,6 +161,9 @@ void Snake::draw_head(sf::RenderTexture& window, const Position &pos, Direction 
 	/* Display head */
 	sf::Sprite		head(texture_head.getTexture());
 	
+	Direction	dir = getDirection(snake);
+	Position	pos = snake[0];
+
 	if (dir == Left) {
 		head.setPosition({(pos.x + 1) * TILEf, (pos.y + 1) * TILEf + 2.0f});
 		head.setRotation(180);
@@ -162,12 +182,12 @@ void Snake::draw_head(sf::RenderTexture& window, const Position &pos, Direction 
 
 /* ____ PUBLIC METHODS ____ */
 
-void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction) {
+void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &snake) {
 
 	/* Draw Body */
 	this->draw_body(window, snake);
 
-	/* draw Eyes */
-	this->draw_head(window, snake[0], direction);
+	/* draw Head */
+	this->draw_head(window, snake);
 
 }

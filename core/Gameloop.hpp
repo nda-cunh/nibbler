@@ -16,21 +16,28 @@ class Gameloop
 		Gameloop(int width, int height) : FPS(120), frameDelay(1000 / FPS), width(width), height(height), game (width, height, &_audio) {
 			plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 			plugin->update_speed(game.getLevelSpeed());
-			activity = ON_GAME;
-			direction = Down;
-
+			activity = ON_GAME_1P;
+			last_gamemode = ON_GAME_1P;
+			dir_p1 = Down;
+			dir_p2 = Down;
 			loop();
 		}
 
 		void display() {
 			if (activity != Activity::ON_MENU) {
-				plugin->update_snake(game.getSnakePositions(), game.getSnakeDirection());
+				if (activity == ON_GAME_1P) {
+					plugin->update_snake(game.getSnakePositions());
+					plugin->update_score(game.getScore());
+					plugin->update_bestscore(game.getBestScore());
+				} else {
+					plugin->update_snake(game.getSnakePositions(0), game.getSnakePositions(1));
+					plugin->update_score(game.getScore(0), game.getScore(1));
+					plugin->update_bestscore(game.getBestScore(0), game.getBestScore(1));
+				}
 
 				for (auto pos : game.getFoodPositions())
 					plugin->update_food(pos);
 
-				plugin->update_score(game.getScore());
-				plugin->update_bestscore(game.getBestScore());
 				if (game.over())
 					activity = ON_GAME_OVER;
 			} else
@@ -42,32 +49,56 @@ class Gameloop
 			Event event = plugin->poll_event(activity);
 			switch (event) {
 				case RIGHT:
-					direction = Right;
+					dir_p1 = Right;
 					break;
 				case LEFT:
-					direction = Left;
+					dir_p1 = Left;
 					break;
 				case UP:
-					direction = Up;
+					dir_p1 = Up;
 					break;
 				case DOWN:
-					direction = Down;
+					dir_p1 = Down;
+					break;
+				case W_UP:
+					dir_p2 = Right;
+					break;
+				case A_LEFT:
+					dir_p2 = Left;
+					break;
+				case S_DOWN:
+					dir_p2 = Up;
+					break;
+				case D_RIGHT:
+					dir_p2 = Down;
 					break;
 				case ENTER:
 					if (!game.over())
 						break;
-					game = game.newGame();
+					game = game.newGame(last_gamemode);
 					event = DOWN;
-					direction = Down;
-					activity = ON_GAME;
+					dir_p1 = Down;
+					dir_p2 = Down;
+					activity = last_gamemode;
 					break;
 				case CLICK_1P:
 					if (!game.over())
 						break;
-					game = game.newGame();
+					game = game.newGame(ON_GAME_1P);
 					event = DOWN;
-					direction = Down;
-					activity = ON_GAME;
+					dir_p1 = Down;
+					activity = ON_GAME_1P;
+					last_gamemode = ON_GAME_1P;
+					break;
+				case CLICK_2P:
+					if (!game.over())
+						break;
+					game = game.newGame(ON_GAME_2P);
+					event = DOWN;
+					dir_p1 = Down;
+					dir_p2 = Down;
+					activity = ON_GAME_2P;
+					last_gamemode = ON_GAME_2P;
 					break;
 				case CLICK_MENU:
 					activity = ON_MENU;
@@ -129,7 +160,9 @@ class Gameloop
 				clear();
 				/* Move Snakes */
 				if (!game.over() && timer.elapsed() > game.getSpeed()) {
-					game.moveSnake(direction);
+					game.moveSnake(dir_p1);
+					if (activity == ON_GAME_2P)
+						game.moveSnake(dir_p2, 1);
 					timer.reset();
 				}
 
@@ -158,8 +191,10 @@ class Gameloop
 		Game			game;
 		ModuleAudio		_audio;
 		Activity		activity;
-		LIBS			lib = SDL;
-		Direction		direction;
+		Activity		last_gamemode;
+		LIBS			lib = SFML;
+		Direction		dir_p1;
+		Direction		dir_p2;
 		Timer			timer;
 		Timer			frame_timer;
 };

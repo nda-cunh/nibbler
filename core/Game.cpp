@@ -5,13 +5,20 @@ Game::Game()	{}
 
 Game::~Game()	{}
 
-Game::Game(const int width, const int height, ModuleAudio *audio) {
+Game::Game(const int width, const int height, ModuleAudio *audio, Activity act) {
 	_audio = audio;
-	_snake.create(width, height);
+	_snake[0].create(width, height);
+	_snake[1].create(width, height);
+	if (act == ON_GAME_2P) {
+		_snake[0].create(width, height, -1);
+		_snake[1].create(width, height, 1);
+	}
 	_size = {width, height};
 	_is_over = false;
-	_score = 0;
-	_best_score = 0;
+	_score[0] = 0;
+	_score[1] = 0;
+	_best_score[0] = 0;
+	_best_score[1] = 0;
 	_foods = std::vector<Position>();
 	_speed = 0.075;
 	// for (int i = 0; i < width*height; ++i)
@@ -23,12 +30,12 @@ bool	Game::over() const {
 	return _is_over;
 }
 
-int		Game::getScore() const {
-	return _score;
+int		Game::getScore( unsigned int idx ) const {
+	return _score[idx];
 }
 
-int		Game::getBestScore() const {
-	return _best_score;
+int		Game::getBestScore( unsigned int idx ) const {
+	return _best_score[idx];
 }
 
 void 		Game::increaseSpeed	( void ) {
@@ -52,24 +59,20 @@ int			Game::getLevelSpeed( void ) const {
 	return speed_level;
 }
 
-const std::deque<Position> &Game::getSnakePositions( void ) const {
-	return _snake.getPositions(); 
+const std::deque<Position> &Game::getSnakePositions( unsigned int idx ) const {
+	return _snake[idx].getPositions(); 
 }
 
 const std::vector<Position> &Game::getFoodPositions( void ) const {
 	return _foods;
 }
-
-const Direction &Game::getSnakeDirection( void ) const {
-	return _snake.getDirection();
-}
 		
 
 /* ____ METHODS ____ */
-void Game::moveSnake (const Direction &dir) {
-	const Direction	snake_dir = _snake.getDirection();
-	const Position	new_head_pos = _snake.move(dir);
-	const auto		snake_pos = _snake.getPositions();
+void Game::moveSnake (const Direction &dir, int idx) {
+	const Direction	snake_dir = _snake[idx].getDirection();
+	const Position	new_head_pos = _snake[idx].move(dir);
+	const auto		snake_pos = _snake[idx].getPositions();
 	const auto		food_it = FIND(_foods, new_head_pos);
 
 
@@ -106,10 +109,10 @@ void Game::moveSnake (const Direction &dir) {
 
 
 	if (food_it == _foods.end())
-		_snake.loseTail();
+		_snake[idx].loseTail();
 	else {
-		if (++_score > _best_score)
-			++_best_score;
+		if (++_score[idx] > _best_score[idx])
+			++_best_score[idx];
 		_audio->playSound(IAudioModule::EAT);
 		_foods.erase(food_it);
 		generateFood();
@@ -117,10 +120,10 @@ void Game::moveSnake (const Direction &dir) {
 	}
 }
 
-Game	Game::newGame() const {
-	Game	new_game = Game(_size.x, _size.y, _audio);
+Game	Game::newGame( Activity act ) const {
+	Game	new_game = Game(_size.x, _size.y, _audio, act);
 
-	new_game._best_score = _best_score;
+	new_game._best_score[0] = _best_score[0];
 	new_game._speed = _speed;
 	return new_game;
 }
@@ -156,13 +159,16 @@ Game::Game(const Game &src) {
 Game &Game::operator=(const Game &src) {
 	if (this == &src)
 		return *this;
-	_score = src._score;
-	_best_score = src._best_score;
+	_score[0] = src._score[0];
+	_score[1] = src._score[1];
+	_best_score[0] = src._best_score[0];
+	_best_score[1] = src._best_score[1];
 	_speed = src._speed;
 	_is_over = src._is_over;
 	_size = src._size;
 	_foods = src._foods;
-	_snake = src._snake;
+	_snake[0] = src._snake[0];
+	_snake[1] = src._snake[1];
 	_audio = src._audio;
 	return *this;
 }

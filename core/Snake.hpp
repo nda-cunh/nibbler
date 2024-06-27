@@ -15,7 +15,7 @@ class Snake {
 		Snake(const Snake &src);
 		Snake &operator=(const Snake &src);
 
-		void create(const int &width, const int &height);
+		void create(const int &width, const int &height, int idx = 0);
 
 		/* ---- Accessors ---- */
 		const std::deque<Position>	&getPositions( void )  const;

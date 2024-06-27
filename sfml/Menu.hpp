@@ -13,7 +13,7 @@ class Menu {
 	int			_speed;
 	Timer		_last_click;
 	Button		_button_1p;
-	// Button		_button_2p;
+	Button		_button_2p;
 	Button		_speed_down;
 	Button		_speed_up;
 	Position	_size;

@@ -56,20 +56,20 @@ void Plugin::display(const Activity act) {
 	game->display(act);
 }
 
-void Plugin::update_snake(const std::deque<Position> &queue, Direction direction) {
-	game->update_snake(queue, direction);
+void Plugin::update_snake(const std::deque<Position> &p1, const std::deque<Position> &p2) {
+	game->update_snake(p1, p2);
 }
 
 void Plugin::update_food(Position &position) {
 	game->update_food(position);
 }
 
-void Plugin::update_score(int n) {
-	game->update_score(n);
+void Plugin::update_score(int score_p1, int score_p2) {
+	game->update_score(score_p1, score_p2);
 }
 
-void Plugin::update_bestscore(int n) {
-	game->update_bestscore(n);
+void Plugin::update_bestscore(int best_score_p1, int best_score_p2) {
+	game->update_bestscore(best_score_p1, best_score_p2);
 }
 
 void Plugin::update_speed(int n) {

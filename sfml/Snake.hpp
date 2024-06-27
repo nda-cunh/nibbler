@@ -16,7 +16,7 @@ class Snake
 	Animation				s_mouth;
 
 	/* ---- Private Methods ---- */
-	inline void draw_head(sf::RenderTexture& window, const Position &pos, Direction dir);
+	inline void draw_head(sf::RenderTexture& window, const std::deque<Position> &snake);
 	inline void draw_body(sf::RenderTexture& window, const std::deque<Position> &positions);
 
 	public:
@@ -28,7 +28,7 @@ class Snake
 		Snake	&operator=(const Snake &);
 
 		/* ---- Public Methods ---- */
-		void update_snake(sf::RenderTexture &window, const std::deque<Position> &snake, Direction direction);
+		void update_snake(sf::RenderTexture &window, const std::deque<Position> &snake);
 };
 
 #endif

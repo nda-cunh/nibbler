@@ -13,13 +13,13 @@
 
 class Game {
 	private:
-		int						_score;
-		int						_best_score;
+		int						_score[2];
+		int						_best_score[2];
 		double					_speed;
 		bool					_is_over;
 		Position				_size;
 		std::vector<Position>	_foods;
-		Snake					_snake;
+		Snake					_snake[2];
 		ModuleAudio				*_audio;
 
 		void	generateFood();
@@ -27,7 +27,7 @@ class Game {
 	public:
 		/* ---- Constructors ---- */
 		Game();
-		Game(const int width, const int height, ModuleAudio *audio);
+		Game(const int width, const int height, ModuleAudio *audio, Activity act = ON_GAME_1P);
 		~Game();
 		void setAudio(ModuleAudio *audio);
 		/* ---- Coplien  ---- */
@@ -36,18 +36,17 @@ class Game {
 
 		/* ---- Accessors ---- */
 		bool		over() const;
-		int			getScore() const;
-		int			getBestScore() const;
+		int			getScore( unsigned int idx = 0 ) const;
+		int			getBestScore( unsigned int idx = 0 ) const;
 		void 		increaseSpeed	( void );
 		void 		decreaseSpeed	( void );
 		double		getSpeed( void ) const;
 		int			getLevelSpeed( void ) const;
-		const Direction				&getSnakeDirection( void ) const;
-		const std::deque<Position>	&getSnakePositions( void ) const;
+		const std::deque<Position>	&getSnakePositions( unsigned int idx = 0) const;
 		const std::vector<Position>	&getFoodPositions ( void ) const;
 
 		/* ---- Methods ---- */
-		void moveSnake	(const Direction &dir);
-		Game newGame	( ) const;
+		void moveSnake	(const Direction &dir, int idx = 0);
+		Game newGame	( Activity act ) const;
 };
 #endif

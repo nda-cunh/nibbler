@@ -9,8 +9,13 @@ enum Event {
 	RIGHT,
 	UP,
 	DOWN,
+	W_UP,
+	A_LEFT,
+	S_DOWN,
+	D_RIGHT,
 	CLICK_MENU,
 	CLICK_1P,
+	CLICK_2P,
 	ENTER, // enter-key
 	CLOSE, // Alt+F4 or cross window
 	F1,

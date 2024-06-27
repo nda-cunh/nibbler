@@ -4,9 +4,9 @@
 Snake::Snake() {}
 Snake::~Snake() {}
 
-void Snake::create(const int &width, const int &height) {
+void Snake::create(const int &width, const int &height, int shift_x) {
 	for (int j = 4; j > 0; j--)
-		_positions.push_front({width / 2, height / 2 - j});
+		_positions.push_front({width / 2 + shift_x, height / 2 - j});
 	_dir = Down;
 }
 

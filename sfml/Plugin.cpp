@@ -20,7 +20,8 @@ Plugin	&Plugin::operator=(const Plugin &rhs){
 	header = rhs.header;
 	game = rhs.game;
 	menu = rhs.menu;
-	snake = rhs.snake;
+	snake_p1 = rhs.snake_p1;
+	snake_p2 = rhs.snake_p2;
 	apple = rhs.apple;
 	return *this;
 }
@@ -60,6 +61,14 @@ Event	Plugin::handle_keyboard_event(sf::Event	event) {
 			return UP;
 		case sf::Keyboard::Down:
 			return DOWN;
+		case sf::Keyboard::A:
+			return A_LEFT;
+		case sf::Keyboard::D:
+			return D_RIGHT;
+		case sf::Keyboard::W:
+			return W_UP;
+		case sf::Keyboard::S:
+			return S_DOWN;
 		case sf::Keyboard::Enter:
 			return ENTER;
 		case sf::Keyboard::Escape:
@@ -137,26 +146,28 @@ Event Plugin::poll_event(Activity act){
 
 /* ____ DATA ____ */
 
-void Plugin::update_snake(const std::deque<Position> &queue, Direction direction) {
-	snake.update_snake(*texture_game, queue, direction);
+void Plugin::update_snake(const std::deque<Position> &p1, const std::deque<Position> &p2) {
+	snake_p1.update_snake(*texture_game, p1);
+	if (p2.size() > 0)
+		snake_p2.update_snake(*texture_game, p2);
 }
 
 void Plugin::update_food(Position &position) {
 	apple.update_food (*texture_game, position);
 }
 
-void Plugin::update_score(int n) {
-	gameover.setScore(n); 
-	header.setScore(n);
+void Plugin::update_score(int score_p1, int score_p2) {
+	gameover.setScore(score_p1); 
+	header.setScore(score_p1);
 }
 
 void Plugin::update_speed(int speed) {
 	this->menu.setSpeed(speed);
 }
 
-void Plugin::Plugin::update_bestscore(int n) {
-	gameover.setBestScore(n); 
-	header.setBestScore(n);
+void Plugin::Plugin::update_bestscore(int best_score_p1, int best_score_p2) {
+	gameover.setBestScore(best_score_p1); 
+	header.setBestScore(best_score_p1);
 }
 
 void Plugin::clear () {

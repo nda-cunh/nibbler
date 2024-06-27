@@ -25,22 +25,10 @@ struct Rect {
 
 typedef enum e_Activity {
 	ON_NONE,
-	ON_GAME,
+	ON_GAME_1P,
+	ON_GAME_2P,
 	ON_GAME_OVER,
 	ON_MENU
 } Activity;
-
-inline std::ostream& operator << (std::ostream& os, enum e_Activity act)
-{
-	const std::string	names[4] = {
-		"ON_NONE",
-		"ON_GAME",
-		"ON_GAME_OVER",
-		"ON_MENU"
-	};
-	os << names[act];
-	return os;
-}
-
 
 #endif

@@ -70,7 +70,7 @@ Event	GameOver::collides(int x, int y) {
 		return CLICK_MENU;
 	} else if (_button_retry.getRect().contains(x, y)) {
 		_button_retry.setHover(true);
-		return CLICK_1P;
+		return ENTER;
 	}
 	return NONE;
 }

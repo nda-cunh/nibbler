@@ -25,6 +25,7 @@ Menu	&Menu::operator=(const Menu &rhs) {
 	_speed = rhs._speed;
 	_size = rhs._size;
 	_button_1p = rhs._button_1p;
+	_button_2p = rhs._button_2p;
 	_speed_down = rhs._speed_down;
 	_speed_up = rhs._speed_up;
 	return *this;
@@ -50,10 +51,17 @@ void	Menu::init_menu(int width, int height) {
 
 	_button_1p.setTxtColor(sf::Color::Black);
 	_button_1p.setTxtSize(0.08 * std::min(height, width));
-	_button_1p.setRect(beg.x, 0.5 * height, width * 3.0 / 5, 0.12 * height);
+	_button_1p.setRect(beg.x, 0.45 * height, width * 3.0 / 5, 0.12 * height);
 	_button_1p.setBgColor(menu_color);
 	_button_1p.setClickEvent(CLICK_1P);
-	_button_1p.setTxt("Play");
+	_button_1p.setTxt("Play 1P");
+
+	_button_2p.setTxtColor(sf::Color::Black);
+	_button_2p.setTxtSize(0.08 * std::min(height, width));
+	_button_2p.setRect(beg.x, 0.6 * height, width * 3.0 / 5, 0.12 * height);
+	_button_2p.setBgColor(menu_color);
+	_button_2p.setClickEvent(CLICK_2P);
+	_button_2p.setTxt("Play 2P");
 
 	// Speed Buttons
 	{
@@ -102,6 +110,7 @@ Event	Menu::collides(int x, int y) {
 
 	// Reset hover state
 	_button_1p.setHover(false);
+	_button_2p.setHover(false);
 	_speed_up.setHover(false);
 	_speed_down.setHover(false);
 
@@ -109,6 +118,9 @@ Event	Menu::collides(int x, int y) {
 	if (_button_1p.getRect().contains(x, y)) {
 		_button_1p.setHover(true);
 		return CLICK_1P;
+	} else if (_button_2p.getRect().contains(x, y)) {
+		_button_2p.setHover(true);
+		return CLICK_2P;
 	} else if (_speed_down.getRect().contains(x, y)) {
 		_speed_down.setHover(true);
 		return SPEED_DOWN;
@@ -154,6 +166,7 @@ void	Menu::draw(sf::RenderTarget &win){
 	}
 
 	_button_1p.draw(win);
+	_button_2p.draw(win);
 	_speed_down.draw(win);
 	_speed_up.draw(win);
 }
