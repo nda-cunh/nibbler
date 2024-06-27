@@ -30,29 +30,6 @@ GameOver::GameOver() {
 		_text_best.setPosition(215, 175);
 		_text_best.setFillColor(sf::Color::White);
 	}
-	{
-		const auto	size = texture_gameover->getSize();
-		const auto	spacing = 10;
-		const auto	y_begin = size.y + 10;
-		const float	big_ratio = 3.f / 5.f, small_ratio = 2.f / 5.f;
-
-		_button_retry.setTxtSize(25);
-		_button_retry.setRect(10, y_begin,
-							  size.x * big_ratio - 2.f * spacing, 50);
-		_button_retry.setBgColor(sf::Color(0x4dc1f9ff));
-		_button_retry.setTxtColor(sf::Color::White);
-		_button_retry.setClickEvent(CLICK_1P);
-		_button_retry.setTxt("Try Again");
-
-		_button_menu.setTxtSize(25);
-		_button_menu.setRect(size.x * big_ratio, y_begin,
-							 size.x * small_ratio - spacing, 50);
-		_button_menu.setBgColor(sf::Color(0x4dc1f9ff));
-		_button_menu.setTxtColor(sf::Color::White);
-		_button_menu.setClickEvent(CLICK_MENU);
-		_button_menu.setTxt("Menu");
-
-	}
 }
 
 GameOver::GameOver(const GameOver &other) { *this = other; }
@@ -113,6 +90,34 @@ void GameOver::setScore(const int n) {
 
 	if (n_str != _text_score.getString())
 		_text_score.setString(n_str);
+}
+
+
+void GameOver::setPosition(const float x, const float y) {
+	const auto	size = texture_gameover->getSize();
+	const auto	spacing = 20;
+	auto		y_begin = size.y + 10;
+	const float	big_ratio = 3.f / 5.f, small_ratio = 2.f / 5.f;
+
+	if (y * 2 / TILEf <= 13)
+		y_begin = size.y - 70;
+
+	_button_retry.setTxtSize(25);
+	_button_retry.setRect(spacing, y_begin,
+			size.x * big_ratio - 2.f * spacing, 50);
+	_button_retry.setBgColor(sf::Color(0x4dc1f9ff));
+	_button_retry.setTxtColor(sf::Color::White);
+	_button_retry.setClickEvent(CLICK_1P);
+	_button_retry.setTxt("Try Again");
+
+	_button_menu.setTxtSize(25);
+	_button_menu.setRect(size.x * big_ratio, y_begin,
+			size.x * small_ratio - spacing, 50);
+	_button_menu.setBgColor(sf::Color(0x4dc1f9ff));
+	_button_menu.setTxtColor(sf::Color::White);
+	_button_menu.setClickEvent(CLICK_MENU);
+	_button_menu.setTxt("Menu");
+	sf::Sprite::setPosition(x, y);
 }
 
 

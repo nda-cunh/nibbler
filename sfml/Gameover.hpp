@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "Button.hpp"
+#include "config.h"
 
 class GameOver : public sf::Sprite
 {
@@ -29,6 +30,7 @@ class GameOver : public sf::Sprite
 		Event collides(int x, int y);
 
 		/* ---- Accessors ---- */
+		void setPosition(const float x, const float y);
 		void setBestScore(const int n);
 		void setScore(const int n);
 
