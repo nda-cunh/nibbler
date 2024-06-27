@@ -27,6 +27,11 @@ run: all
 run2: all
 	valgrind ./$(NAME) 15 20
 
+run3: all
+	@read -p "Enter the width:  " width; \
+	 read -p "Enter the height: " height; \
+	./$(NAME) $$width $$height
+
 clean:
 	ninja -C build clean || true
 
