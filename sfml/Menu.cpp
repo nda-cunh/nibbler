@@ -20,6 +20,7 @@ Menu::Menu(const Menu &other) {
 Menu	&Menu::operator=(const Menu &rhs) {
 	if (this == &rhs)
 		return *this;
+	_font = std::make_unique<sf::Font>(*rhs._font.get());
 	_last_click = rhs._last_click;
 	_speed = rhs._speed;
 	_size = rhs._size;
@@ -28,6 +29,7 @@ Menu	&Menu::operator=(const Menu &rhs) {
 	_speed_up = rhs._speed_up;
 	return *this;
 }
+
 
 /* ____ SETTER ____ */
 
@@ -38,7 +40,6 @@ void	Menu::setSpeed(int speed) {
 
 /* ____ INIT ACTIVITIES ____ */
 
-
 void	Menu::init_menu(int width, int height) {
 	sf::Vector2f	beg = {0.2f * width, 0.13f * height};
 	sf::Color		menu_color(0x4DC1F9FF);
@@ -46,7 +47,6 @@ void	Menu::init_menu(int width, int height) {
 	_font = std::make_unique<sf::Font>();
 	if (_font->loadFromFile("./sfml/coolvetica.otf") == false)
 		throw std::runtime_error("can't load coolvetica.otf");
-
 
 	_button_1p.setTxtColor(sf::Color::Black);
 	_button_1p.setTxtSize(0.08 * std::min(height, width));
@@ -67,7 +67,7 @@ void	Menu::init_menu(int width, int height) {
 		b.setTxtSize(0.08 * min);
 		b.setTxt("speed");
 
-		beg = {0.3f * width, 0.9f * height};
+		beg = {0.29f * width, 0.91f * height};
 
 		_speed_down.setTxtSize(0.06 * min);
 		_speed_down.setTxtColor(sf::Color::Black);
@@ -76,7 +76,7 @@ void	Menu::init_menu(int width, int height) {
 		_speed_down.setClickEvent(SPEED_DOWN);
 		_speed_down.setTxt("-");
 
-		beg.x = width - beg.x - 0.08 * min;
+		beg.x = width - beg.x - 0.07 * min;
 
 		_speed_up.setTxtSize(0.06 * min);
 		_speed_up.setTxtColor(sf::Color::Black);
@@ -84,22 +84,19 @@ void	Menu::init_menu(int width, int height) {
 		_speed_up.setBgColor(menu_color);
 		_speed_up.setClickEvent(SPEED_UP);
 		_speed_up.setTxt("+");
-
-
-		beg = {width / 2.5f, 0.89f * height};
-
-		b.setTxtColor(sf::Color(0x131313EE));
-		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
-		b.setBgColor(sf::Color(0));
-		b.setTxt("oooooo");
-
-		b.setTxtColor(menu_color);
-		b.setRect(beg.x, beg.y, 0.07 * min, 0.07 * min);
-		b.setBgColor(sf::Color(0));
-		b.setTxt("");
 	}
 }
 
+void Menu::formatText(sf::Text &text, float height) {
+	text.setFont(*_font);
+	text.setPosition(_size.x * 0.5, height);
+
+    // Center the text
+    sf::FloatRect textRect = text.getGlobalBounds();
+    text.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
+}
+
+/* ____ PUBLIC METHODS ____ */
 
 Event	Menu::collides(int x, int y) {
 
@@ -122,18 +119,37 @@ Event	Menu::collides(int x, int y) {
 	return NONE;
 }
 
-
 void	Menu::draw(sf::RenderTarget &win){
 	sf::Color	menu_color(0x4DC1F9FF);
-	win.clear();
+	int			min_fontsize = std::max(_size.y * 0.05, 34.);
 
+	win.clear();
 	{
-		sf::Text text;
-		text.setFont(*_font.get());
-		text.setString("Hello, SFML!");
-		text.setCharacterSize(24);
-		text.setFillColor(sf::Color::White);
-		text.setPosition(300, 200);
+		sf::Text	text;
+
+		text.setString("SupraSnake");
+		text.setFillColor(menu_color);
+		text.setCharacterSize(_size.y * 0.1);
+		this->formatText(text, _size.y * 0.20);
+		win.draw(text);
+
+		text.setString("Speed");
+		text.setFillColor(menu_color);
+		text.setCharacterSize(_size.y * 0.05);
+		this->formatText(text, _size.y * 0.85);
+		win.draw(text);
+
+		text.setString("oooooo");
+		text.setFillColor(sf::Color(0x131313EE));
+		text.setCharacterSize(min_fontsize);
+		formatText(text, 0.91f * _size.y);
+		win.draw(text);
+
+		text.setString(
+				std::string(_speed, 'o') + std::string((6 - _speed) * 2, ' '));
+		text.setFillColor(menu_color);
+		text.setCharacterSize(min_fontsize);
+		formatText(text, 0.91f * _size.y);
 		win.draw(text);
 	}
 

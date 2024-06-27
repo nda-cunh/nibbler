@@ -19,6 +19,7 @@ class Menu {
 	Position	_size;
 
 	/* ---- Init Activities ---- */
+	void 	formatText(sf::Text &text, float height);
 	void	init_menu(int width, int height);
 
 	public:
