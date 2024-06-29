@@ -40,36 +40,41 @@ void Header::create(int width, int height) {
 		throw std::runtime_error("can't load snakes.bmp");
 
 	const float	w = this->getSize().x;
-	const float shift = w * 0.5f + 80;
+	const float shift_x = w * 0.58f;
+	const sf::Vector2f	score_pos = {w / 12, 10}, best_pos = {w * 3 / 12, 10};
 
 	// Texts
 	_text_score[0].setFont(*_font);
-	_text_score[0].setPosition({80, 20});
+	_text_score[0].setOrigin({-20, -10});
+	_text_score[0].setPosition(score_pos);
 	_text_score[1].setFont(*_font);
-	_text_score[1].setPosition({shift + 200, 20});
+	_text_score[1].setOrigin({-20, -10});
+	_text_score[1].setPosition(best_pos + sf::Vector2f{shift_x, 0});
 
 	_text_best[0].setFont(*_font);
-	_text_best[0].setPosition({200, 20});
+	_text_best[0].setOrigin({-20, -10});
+	_text_best[0].setPosition(best_pos);
 	_text_best[1].setFont(*_font);
-	_text_best[1].setPosition({shift + 80, 20});
+	_text_best[1].setOrigin({-20, -10});
+	_text_best[1].setPosition(score_pos + sf::Vector2f{shift_x, 0});
 
 	// Icons
 	_icon_score[0].setTexture(*_texture);
-	_icon_score[0].setPosition({20, 10});
-	_icon_score[0].setScale({0.75, 0.75});
+	_icon_score[0].setPosition(score_pos);
+	_icon_score[0].setScale({0.45, 0.45});
 	_icon_score[0].setTextureRect({0, 0, 80, 80});
 	_icon_score[1].setTexture(*_texture);
-	_icon_score[1].setPosition({shift + 140, 10});
-	_icon_score[1].setScale({0.75, 0.75});
+	_icon_score[1].setPosition(best_pos + sf::Vector2f{shift_x, 0});
+	_icon_score[1].setScale({0.45, 0.45});
 	_icon_score[1].setTextureRect({0, 0, 80, 80});
 
 	_icon_best[0].setTexture(*_texture);
-	_icon_best[0].setPosition({140, 10});
-	_icon_best[0].setScale({0.75, 0.75});
+	_icon_best[0].setPosition(best_pos);
+	_icon_best[0].setScale({0.45, 0.45});
 	_icon_best[0].setTextureRect({80, 0, 80, 80});
 	_icon_best[1].setTexture(*_texture);
-	_icon_best[1].setPosition({shift + 20, 10});
-	_icon_best[1].setScale({0.75, 0.75});
+	_icon_best[1].setPosition(score_pos + sf::Vector2f{shift_x, 0});
+	_icon_best[1].setScale({0.45, 0.45});
 	_icon_best[1].setTextureRect({80, 0, 80, 80});
 
 	// Snakes
@@ -87,18 +92,21 @@ void Header::create(int width, int height) {
 
 /* ____ ACCESSORS ____ */
 
+
 void Header::setScore(int n, int idx) {
 	std::string	n_str = std::to_string(n);
 
-	if (n_str != _text_score[idx].getString())
-		_text_score[idx].setString(n_str);
+	if (n_str == _text_score[idx].getString())
+		return ;
+	_text_score[idx].setString(n_str);
 }
 
 void Header::setBestScore(int n, int idx) {
 	std::string	n_str = std::to_string(n);
 
-	if (n_str != _text_best[idx].getString())
-		_text_best[idx].setString(n_str);
+	if (n_str == _text_best[idx].getString())
+		return ;
+	_text_best[idx].setString(n_str);
 }
 
 void Header::setGameMode(bool is_multiplayer) {
