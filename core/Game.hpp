@@ -13,6 +13,7 @@
 
 class Game {
 	private:
+		Activity				_mode;
 		int						_score[2];
 		int						_best_score[2];
 		double					_speed;

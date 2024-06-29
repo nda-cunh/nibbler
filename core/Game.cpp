@@ -15,6 +15,7 @@ Game::Game(const int width, const int height, ModuleAudio *audio, Activity act) 
 	}
 	_size = {width, height};
 	_is_over = false;
+	_mode = act;
 	_score[0] = 0;
 	_score[1] = 0;
 	_best_score[0] = 0;
@@ -73,13 +74,15 @@ void Game::moveSnake (const Direction &dir, int idx) {
 	const Direction	snake_dir = _snake[idx].getDirection();
 	const Position	new_head_pos = _snake[idx].move(dir);
 	const auto		snake_pos = _snake[idx].getPositions();
+	const auto		other_snake_pos = _snake[idx ^ 1].getPositions();
 	const auto		food_it = FIND(_foods, new_head_pos);
 
 
 	// Check if snake is out of bounds or if it collides with itself
 	if ((new_head_pos.x >= _size.x || new_head_pos.x < 0) || 
 		(new_head_pos.y >= _size.y || new_head_pos.y < 0) ||
-		(COUNT(snake_pos, new_head_pos) > 1))
+		COUNT(snake_pos, new_head_pos) > 1 ||
+		(this->_mode == ON_GAME_2P && COUNT(other_snake_pos, new_head_pos) > 0))
 	{
 		_is_over = true;
 		_audio->playSound(IAudioModule::DEAD);
@@ -156,19 +159,20 @@ Game::Game(const Game &src) {
 	*this = src;
 }
 
-Game &Game::operator=(const Game &src) {
-	if (this == &src)
+Game &Game::operator=(const Game &rhs) {
+	if (this == &rhs)
 		return *this;
-	_score[0] = src._score[0];
-	_score[1] = src._score[1];
-	_best_score[0] = src._best_score[0];
-	_best_score[1] = src._best_score[1];
-	_speed = src._speed;
-	_is_over = src._is_over;
-	_size = src._size;
-	_foods = src._foods;
-	_snake[0] = src._snake[0];
-	_snake[1] = src._snake[1];
-	_audio = src._audio;
+	_score[0] = rhs._score[0];
+	_score[1] = rhs._score[1];
+	_best_score[0] = rhs._best_score[0];
+	_best_score[1] = rhs._best_score[1];
+	_speed = rhs._speed;
+	_mode = rhs._mode;
+	_is_over = rhs._is_over;
+	_size = rhs._size;
+	_foods = rhs._foods;
+	_snake[0] = rhs._snake[0];
+	_snake[1] = rhs._snake[1];
+	_audio = rhs._audio;
 	return *this;
 }
