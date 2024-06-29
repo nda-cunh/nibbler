@@ -5,17 +5,7 @@
 Snake::Snake () {
 	if (texture_snake.loadFromFile("./sfml/snake.bmp") == false)
 		throw std::runtime_error("can't load snake.bmp");
-	s_eyes_right.setTexture(texture_snake);
-	s_eyes_right.setTexture(texture_snake);
-	s_eyes_right.addFrames({1, 15, 28, 28}, {29, 0}, 9);
-	s_eyes_right.setFreq(3.0);
-	s_eyes_right.setSpeed(0.07);
-
-	s_eyes_left.setTexture(texture_snake);
-	s_eyes_left.setTexture(texture_snake);
-	s_eyes_left.addFrames({301, 15, 28, 28}, {29, 0}, 9);
-	s_eyes_left.setFreq(3.0);
-	s_eyes_left.setSpeed(0.07);
+	this->setSprites(0);
 
 	s_tongue.setTexture(texture_snake);
 	s_tongue.addFrames({1, 127, 48, 24}, {49, 0}, 21);
@@ -69,11 +59,10 @@ static inline sf::Vector2f	get_position(Position pos, bool is_vertical, bool is_
 	}
 }
 
-
-void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &positions) {
+void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &positions) const {
 	sf::VertexArray	vertices(sf::PrimitiveType::TriangleStrip, positions.size() * 4);
-	const sf::Color color = {81, 128, 243};
 	double			width = 0.8 * TILE;
+	sf::Color		tmp_color = _color;
 	sf::CircleShape	circle(width / 2);
 	bool			is_vertical = true;
 	double			min_width;
@@ -87,10 +76,11 @@ void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &pos
 	else
 		min_width = TILE * 0.5;
 
+
 	// Draw every corner of first segment
 	for (int j = 0; j < 4; ++j) {
 		vertices[j].position = get_position(positions[0], true, j % 2 == 0, width);
-		vertices[j].color = color;
+		vertices[j].color = tmp_color;
 	}
 
 	w_step = (width - min_width) / positions.size();
@@ -103,7 +93,7 @@ void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &pos
 
 			circle.setPosition(sf::Vector2f(positions[i - 1].x * TILEf + TILEf / 2.0,
 									positions[i - 1].y * TILEf + TILEf / 2.0));
-			circle.setFillColor(color);
+			circle.setFillColor(tmp_color);
 			circle.setOrigin(sf::Vector2f(width / 2.0, width / 2.0));
 			circle.setRadius(width / 2.0);
 			window.draw(circle);
@@ -113,11 +103,11 @@ void Snake::draw_body(sf::RenderTexture& window, const std::deque<Position> &pos
 		for (int j = 0; j < 4; ++j) {
 			vertices[i * 4 + j].position = get_position(positions[i - (j < 2)],
 												is_vertical, j % 2 == 0, width);
-			vertices[i * 4 + j].color = color;
+			vertices[i * 4 + j].color = tmp_color;
 		}
 	}
 
-	circle.setFillColor(color);
+	circle.setFillColor(tmp_color);
 	circle.setPosition(sf::Vector2f(positions[i - 1].x * TILEf + TILEf / 2.0,
 								positions[i - 1].y * TILEf + TILEf / 2.0));
 	circle.setOrigin(sf::Vector2f(width / 2.0, width / 2.0));
@@ -144,7 +134,7 @@ static inline Direction getDirection(const std::deque<Position> &snake) {
 	}
 }
 
-void Snake::draw_head(sf::RenderTexture& window, const std::deque<Position> &snake) {
+void Snake::draw_head(sf::RenderTexture& window, const std::deque<Position> &snake){
 	texture_head.clear({0,0,0,0});
 	/* Eyes */
 	texture_head.draw(s_eyes_left.getFrame(-3, -4));
@@ -182,6 +172,26 @@ void Snake::draw_head(sf::RenderTexture& window, const std::deque<Position> &sna
 
 /* ____ PUBLIC METHODS ____ */
 
+void Snake::setSprites(int idx) {
+	const sf::Color colors[2] = {{81, 128, 243}, {243, 196, 81}};
+
+	this->_color = colors[idx];
+
+	s_eyes_right.clear();
+	s_eyes_right.setTexture(texture_snake);
+	s_eyes_right.setTexture(texture_snake);
+	s_eyes_right.addFrames({1 + idx * 575, 15, 28, 28}, {29, 0}, 9);
+	s_eyes_right.setFreq(3.0);
+	s_eyes_right.setSpeed(0.07);
+
+	s_eyes_left.clear();
+	s_eyes_left.setTexture(texture_snake);
+	s_eyes_left.setTexture(texture_snake);
+	s_eyes_left.addFrames({301 + idx * 575, 15, 28, 28}, {29, 0}, 9);
+	s_eyes_left.setFreq(3.0);
+	s_eyes_left.setSpeed(0.07);
+}
+
 void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &snake) {
 
 	/* Draw Body */
@@ -189,5 +199,4 @@ void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &
 
 	/* draw Head */
 	this->draw_head(window, snake);
-
 }

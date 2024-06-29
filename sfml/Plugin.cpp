@@ -33,14 +33,22 @@ void Plugin::open(int x, int y){
 	sf::ContextSettings settings;
 	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Nibbler", sf::Style::Default ^ sf::Style::Resize, settings);
 	header.create(window->getSize().x, 80);
+	
 	texture_game = std::make_shared<sf::RenderTexture>();
 	texture_game->create(TILE * x, TILE * y);
+	
 	game.setTexture(texture_game->getTexture());
 	game.setPosition(40, 120);
+
 	background.init(window->getSize());
 	gameover.setPosition(TILEf * x / 2.0, TILEf * y / 2.0);
+	
 	dark_background.setFillColor({0,0,0,150});
 	dark_background.setSize({TILEf*x, TILEf*y});
+
+	snake_p1.setSprites(0);
+	snake_p2.setSprites(1);
+	
 	menu = Menu(TILE * x + 80, TILE * y + 160);
 }
 

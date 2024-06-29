@@ -10,6 +10,7 @@ class Snake
 {
 	sf::RenderTexture	texture_head;
 	sf::Texture 		texture_snake;
+	sf::Color			_color;
 	Animation				s_eyes_left;
 	Animation				s_eyes_right;
 	Animation				s_tongue;
@@ -17,7 +18,7 @@ class Snake
 
 	/* ---- Private Methods ---- */
 	inline void draw_head(sf::RenderTexture& window, const std::deque<Position> &snake);
-	inline void draw_body(sf::RenderTexture& window, const std::deque<Position> &positions);
+	inline void draw_body(sf::RenderTexture& window, const std::deque<Position> &positions) const;
 
 	public:
 		/* ---- Constructors & Coplien ---- */
@@ -29,6 +30,7 @@ class Snake
 
 		/* ---- Public Methods ---- */
 		void update_snake(sf::RenderTexture &window, const std::deque<Position> &snake);
+		void setSprites(int idx);
 };
 
 #endif
