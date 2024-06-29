@@ -165,9 +165,9 @@ void Plugin::update_food(Position &position) {
 }
 
 void Plugin::update_score(int score_p1, int score_p2) {
-	gameover.setScore(score_p1); 
+	gameover.setScore(score_p1, 0); 
 	header.setScore(score_p1, 0);
-	gameover.setScore(score_p2); 
+	gameover.setScore(score_p2, 1); 
 	header.setScore(score_p2, 1);
 }
 
@@ -176,8 +176,9 @@ void Plugin::update_speed(int speed) {
 }
 
 void Plugin::Plugin::update_bestscore(int best_score_p1, int best_score_p2) {
-	gameover.setBestScore(best_score_p1); 
+	gameover.setBestScore(best_score_p1, 0); 
 	header.setBestScore(best_score_p1, 0);
+	gameover.setBestScore(best_score_p2, 1); 
 	header.setBestScore(best_score_p2, 1);
 }
 
@@ -193,10 +194,12 @@ void Plugin::clear () {
 /* ____ DISPLAY ____ */
 
 void Plugin::update_game_mode(const Activity act) {
+	const bool is_multiplayer = act == Activity::ON_GAME_2P;
 	if (act == game_mode)
 		return ;
 	this->game_mode = act;
-	this->header.setGameMode(act == Activity::ON_GAME_2P);
+	this->header.setGameMode(is_multiplayer);
+	this->gameover.setGameMode(is_multiplayer);
 }
 
 void Plugin::display (const Activity act) {
