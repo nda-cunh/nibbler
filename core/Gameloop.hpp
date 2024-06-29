@@ -61,16 +61,16 @@ class Gameloop
 					dir_p1 = Down;
 					break;
 				case W_UP:
-					dir_p2 = Right;
+					dir_p2 = Up;
 					break;
 				case A_LEFT:
 					dir_p2 = Left;
 					break;
 				case S_DOWN:
-					dir_p2 = Up;
+					dir_p2 = Down;
 					break;
 				case D_RIGHT:
-					dir_p2 = Down;
+					dir_p2 = Right;
 					break;
 				case ENTER:
 					if (!game.over())
