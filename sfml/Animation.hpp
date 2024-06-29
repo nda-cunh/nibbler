@@ -30,6 +30,7 @@ class Animation {
 
 		void addFrames(const std::vector<Rect> &v);
 		void addFrames(sf::Rect<int> first_frame, sf::Vector2<int> delta, int nb_frame);
+		void clear( void );
 
 		sf::Sprite	getFrame(float x, float y);
 };
