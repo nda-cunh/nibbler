@@ -166,7 +166,9 @@ void Plugin::update_food(Position &position) {
 
 void Plugin::update_score(int score_p1, int score_p2) {
 	gameover.setScore(score_p1); 
-	header.setScore(score_p1);
+	header.setScore(score_p1, 0);
+	gameover.setScore(score_p2); 
+	header.setScore(score_p2, 1);
 }
 
 void Plugin::update_speed(int speed) {
@@ -175,7 +177,8 @@ void Plugin::update_speed(int speed) {
 
 void Plugin::Plugin::update_bestscore(int best_score_p1, int best_score_p2) {
 	gameover.setBestScore(best_score_p1); 
-	header.setBestScore(best_score_p1);
+	header.setBestScore(best_score_p1, 0);
+	header.setBestScore(best_score_p2, 1);
 }
 
 void Plugin::clear () {
@@ -189,13 +192,21 @@ void Plugin::clear () {
 
 /* ____ DISPLAY ____ */
 
+void Plugin::update_game_mode(const Activity act) {
+	if (act == game_mode)
+		return ;
+	this->game_mode = act;
+	this->header.setGameMode(act == Activity::ON_GAME_2P);
+}
+
 void Plugin::display (const Activity act) {
 	gameover.update();
 
 	if (act == Activity::ON_GAME_OVER) {
 		texture_game->draw(dark_background);
 		texture_game->draw(gameover);
-	}
+	} else if (act != Activity::ON_MENU)
+		this->update_game_mode(act);
 
 	texture_game->display();
 	game.setTexture(texture_game->getTexture());

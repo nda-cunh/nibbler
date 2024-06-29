@@ -3,15 +3,20 @@
 
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include "config.h"
 
 class Header : public sf::RectangleShape
 {
 	std::shared_ptr<sf::Font>		_font;
 	std::shared_ptr<sf::Texture>	_texture;
-	sf::Text	_text_score;
-	sf::Text	_text_best;
-	sf::Sprite	_icon_score;
-	sf::Sprite	_icon_best;
+	std::shared_ptr<sf::Texture>	_texture_snakes;
+
+	bool		_is_multiplayer;
+	sf::Text	_text_score[2];
+	sf::Text	_text_best[2];
+	sf::Sprite	_icon_score[2];
+	sf::Sprite	_icon_best[2];
+	sf::Sprite	_icon_snake[2];
 
 	public:
 		/* ---- Constructors & Coplien ---- */
@@ -25,8 +30,9 @@ class Header : public sf::RectangleShape
 		void create (int width, int height);
 
 		/* ---- Accessors ---- */
-		void setScore (int n);
-		void setBestScore (int n);
+		void setScore		(int n, int idx);
+		void setBestScore	(int n, int idx);
+		void setGameMode	(bool is_multiplayer);
 
 		/* ---- Draw method ---- */
 		void draw_self (sf::RenderWindow &surface);

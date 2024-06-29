@@ -17,21 +17,27 @@
 class Plugin : public IPlugin {
 	std::shared_ptr<sf::RenderWindow>	window;
 	std::shared_ptr<sf::RenderTexture>	texture_game;
-	sf::RectangleShape dark_background;
+	sf::RectangleShape 					dark_background;
+	// Background
 	Background	background;
-	GameOver	gameover;
 	Header		header;
+	// Activities
+	Activity	game_mode;
+	GameOver	gameover;
 	sf::Sprite	game;
 	Menu		menu;
-
+	// Items
 	Snake		snake_p1;
 	Snake		snake_p2;
 	Apple		apple;
+
 
 	/* ---- Event ---- */
 	Event	handle_keyboard_event(sf::Event	event) ;
 	Event	handle_mouse_event(const sf::Event &event, const Activity &act);
 	void	handle_mouse_move(const sf::Event &event, const Activity &act);
+
+	void	update_game_mode(const Activity act);
 
 	public:
 		/* ---- Coplien ---- */
