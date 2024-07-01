@@ -100,14 +100,11 @@ Event	Plugin::handle_mouse_event(const sf::Event &event, const Activity &act) {
 	switch (act) {
 		case Activity::ON_GAME_OVER:
 			return gameover.collides(pos.x - 40, pos.y - 120);
-			break;
 		case Activity::ON_MENU:
 			return menu.collides(pos.x, pos.y);
-			break;
 		default:
-			break;
+			return NONE;
 	}
-	return NONE;
 }
 
 void	Plugin::handle_mouse_move(const sf::Event &e, const Activity &act) {
@@ -136,12 +133,16 @@ Event Plugin::poll_event(Activity act){
 				return CLOSE;
 			case sf::Event::KeyPressed:
 				e = handle_keyboard_event(event);
+				if (e != NONE)
+					return e;
 				break;
 			case sf::Event::MouseMoved:
 				handle_mouse_move(event, act);
 				break;
 			case sf::Event::MouseButtonPressed:
 				e = handle_mouse_event(event, act);
+				if (e != NONE)
+					return e;
 				break;
 			default:
 				e = NONE;
