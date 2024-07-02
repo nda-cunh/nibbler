@@ -127,6 +127,8 @@ void	Plugin::handle_mouse_move(const sf::Event &e, const Activity &act) {
 Event Plugin::poll_event(Activity act){
 	sf::Event event;
 	Event e = NONE;
+	Event last = NONE;
+
 	while (window->pollEvent(event)) {
 		// Handle the event
 		switch (event.type) {
@@ -134,7 +136,7 @@ Event Plugin::poll_event(Activity act){
 				return CLOSE;
 			case sf::Event::KeyPressed:
 				e = handle_keyboard_event(event);
-				if (e != NONE)
+				if (e != NONE && e != last)
 					return e;
 				break;
 			case sf::Event::MouseMoved:
@@ -142,13 +144,14 @@ Event Plugin::poll_event(Activity act){
 				break;
 			case sf::Event::MouseButtonPressed:
 				e = handle_mouse_event(event, act);
-				if (e != NONE)
+				if (e != NONE && e != last)
 					return e;
 				break;
 			default:
 				e = NONE;
 				break;
 		}
+		last = e;
 	}
 	return e;
 }
