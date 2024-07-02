@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Plugin.hpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nda-cunh <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/02 21:51:34 by nda-cunh          #+#    #+#             */
+/*   Updated: 2024/07/02 21:52:48 by nda-cunh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <memory>
 #include <stdexcept>
 #include <SDL2/SDL.h>
@@ -21,11 +33,11 @@ class Plugin : public IPlugin {
 		void open (int x, int y) override;
 		void close () override;
 		Event poll_event (Activity) override;
-		void update_snake (const std::deque<Position> &queue, Direction) override;
+		void update_snake (const std::deque<Position> &snake1, const std::deque<Position> &snake2) override;
 		void update_food (Position &position) override;
-		void update_score (int score) override;
+		void update_score (int score, int score_2) override;
 		void update_speed(int speed) override;
-		void update_bestscore (int score) override;
+		void update_bestscore (int score, int score_2) override;
 		void clear () override;
 		void display (Activity activity) override;
 

@@ -81,7 +81,7 @@ void Menu::collide_hover (int x, int y) {
 	else if (button_plus->collide(x, y))
 		button_plus->hover();
 }
-
+// 
 ////////////////////////////////////////////////
 /// Setters and Getters
 ////////////////////////////////////////////////

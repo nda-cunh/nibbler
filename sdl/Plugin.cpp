@@ -92,6 +92,18 @@ static inline Event event_keydown(SDL_Scancode scancode) {
 		case SDL_SCANCODE_LEFT:
 			e = LEFT;
 			break;
+		case SDL_SCANCODE_A:
+			e = A_LEFT;
+			break;
+		case SDL_SCANCODE_D:
+			e = D_RIGHT;
+			break;
+		case SDL_SCANCODE_W:
+			e = W_UP;
+			break;
+		case SDL_SCANCODE_S:
+			e = S_DOWN;
+			break;
 		case SDL_SCANCODE_RIGHT:
 			e = RIGHT;
 			break;
@@ -186,16 +198,16 @@ Event Plugin::poll_event (Activity)   {
 /**
  * Update the snake on the screen
  */
-void Plugin::update_snake (const std::deque<Position> &queue, Direction)  {
+void Plugin::update_snake (const std::deque<Position> &snake1, const std::deque<Position>&) { 
 	SDL_Rect rect = { 0, 0, tile_size, tile_size };
 
-	for (const auto &pos : queue) {
+	for (const auto &pos : snake1) {
 		rect.x = pos.x * tile_size,
 			rect.y = pos.y * tile_size,
 			render_game.draw_rect(&rect, 81, 128, 243);
 	}
-	rect.x = queue[0].x * tile_size,
-		rect.y = queue[0].y * tile_size,
+	rect.x = snake1[0].x * tile_size,
+		rect.y = snake1[0].y * tile_size,
 		render_game.draw_rect (&rect, 49, 94, 255);
 }
 
@@ -212,7 +224,7 @@ void Plugin::update_food (Position &position)  {
 	render_game.draw_rect (&rect, 255, 0, 0);
 }
 
-void Plugin::update_score (int score)  {
+void Plugin::update_score (int score, int)  {
 	SDL_Rect rect;
 
 	rect = {tile_size, tile_size / 2, tile_size, tile_size};
@@ -227,7 +239,7 @@ void Plugin::update_score (int score)  {
 	gameover.update_score(score);
 }
 
-void Plugin::update_bestscore (int score)  {
+void Plugin::update_bestscore (int score, int)  {
 	SDL_Rect rect;
 
 	rect = {190, tile_size / 2, tile_size, tile_size};
@@ -270,9 +282,6 @@ void Plugin::display (Activity activity)  {
 	switch (activity) {
 		case ON_MENU:
 			menu.draw(renderer);
-			break;
-
-		case ON_GAME:
 			break;
 
 		case ON_GAME_OVER:

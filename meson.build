@@ -3,6 +3,6 @@ project('nibbler', ['cpp', 'vala'], default_options : ['warning_level=3', 'cpp_s
 subdir('core')
 subdir('sfml')
 # subdir('raylib')
-# subdir('sdl')
+subdir('sdl')
 subdir('audio')
 # subdir('sfml_bis')

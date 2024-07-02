@@ -46,7 +46,6 @@ void Button::create (int width, int height) {
 	cairo_context = std::shared_ptr<cairo_t>(cairo_create(cairo_surface.get()), cairo_destroy);
 	if (cairo_context == NULL)
 		throw std::runtime_error("cairo_create failed");
-
 }
 
 ////////////////////////////////////////////////
