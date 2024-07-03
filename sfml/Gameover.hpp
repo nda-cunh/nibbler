@@ -8,18 +8,21 @@
 
 class GameOver : public sf::Sprite
 {
-	std::unique_ptr<sf::RenderTexture>	surface;
-	std::unique_ptr<sf::Texture> 		texture_gameover;
-	std::unique_ptr<sf::Texture> 		texture_gameover_2p;
-	sf::Sprite	sprite_gameover[2];
-	bool		_is_multiplayer;
-	// Texts
-	sf::Text	_text_score[2];
-	sf::Text	_text_best[2];
-	sf::Font	_font;
-	// Buttons
-	Button		_button_menu;
-	Button		_button_retry;
+	private:
+		std::unique_ptr<sf::RenderTexture>	surface;
+		std::unique_ptr<sf::Texture> 		texture_gameover;
+		std::unique_ptr<sf::Texture> 		texture_gameover_2p;
+
+		// Texts
+		sf::Font	_font;
+		sf::Text	_text_score[2];
+		sf::Text	_text_best[2];
+
+		sf::Sprite	sprite_gameover[2];
+		bool		_is_multiplayer;
+		// Buttons
+		Button		_button_menu;
+		Button		_button_retry;
 
 	public:
 		/* ---- Constructors & Coplien ---- */

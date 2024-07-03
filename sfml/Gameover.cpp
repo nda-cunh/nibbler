@@ -5,6 +5,7 @@
 
 GameOver::GameOver() {
 	surface = std::make_unique<sf::RenderTexture>();
+
 	texture_gameover = std::make_unique<sf::Texture>();
 	if (texture_gameover->loadFromFile("./sfml/gameover.bmp") == false)
 		throw std::runtime_error("can't load gameover.bmp");
@@ -15,15 +16,7 @@ GameOver::GameOver() {
 
 	if (_font.loadFromFile("./sfml/coolvetica.otf") == false)
 		throw std::runtime_error("can't load coolvetica.otf");
-	{
-		auto size = texture_gameover->getSize();
-
-		surface->create(size.x, size.y + 60);
-		this->setTexture(surface->getTexture());
-		this->setOrigin(size.x / 2, size.y / 2);
-		sprite_gameover[0].setTexture(*texture_gameover);
-		sprite_gameover[1].setTexture(*texture_gameover_2p);
-	}
+	
 	{
 		_text_score[0].setFont(_font);
 		_text_score[0].setPosition(100, 160);
@@ -39,13 +32,22 @@ GameOver::GameOver() {
 		_text_best[1].setPosition(226, 195);
 		_text_best[1].setFillColor(sf::Color(0xf8dc92ff));
 	}
+
+	{
+		auto size = texture_gameover->getSize();
+
+		surface->create(size.x, size.y + 60);
+		this->setTexture(surface->getTexture());
+		this->setOrigin(size.x / 2.0, size.y / 2.0);
+		sprite_gameover[0].setTexture(*texture_gameover);
+		sprite_gameover[1].setTexture(*texture_gameover_2p);
+	}
+
 }
 
 GameOver::GameOver(const GameOver &other) { *this = other; }
 
 GameOver::~GameOver() {
-	texture_gameover.release();
-	surface.release();
 }
 
 GameOver &GameOver::operator=( const GameOver &rhs ) {
@@ -153,7 +155,9 @@ void GameOver::setPosition(const float x, const float y) {
 
 void GameOver::update() {
 	surface->clear({0,0,0,0});
-	surface->draw(sprite_gameover[_is_multiplayer]);
+	
+	// FIXME invalid read
+	// surface->draw(sprite_gameover[_is_multiplayer]);
 	surface->draw(_text_score[0]);
 	surface->draw(_text_best[0]);
 	if (_is_multiplayer) {

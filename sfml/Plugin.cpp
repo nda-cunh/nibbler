@@ -16,6 +16,7 @@ Plugin	&Plugin::operator=(const Plugin &rhs){
 	texture_game = rhs.texture_game;
 	dark_background = rhs.dark_background;
 	background = rhs.background;
+	game_mode = Activity::ON_NONE;
 	gameover = rhs.gameover;
 	header = rhs.header;
 	game = rhs.game;

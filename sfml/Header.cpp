@@ -119,12 +119,16 @@ void Header::setGameMode(bool is_multiplayer) {
 void Header::draw_self (sf::RenderWindow &surface) {
 	surface.draw(*this);
 
+	// FIXME invalid read of size 8 (_is_multiplayer)
+	/*
 	for (int i = 0; i < 1 + _is_multiplayer; ++i) {
 		surface.draw(_icon_best[i]);
 		surface.draw(_icon_score[i]);
 		surface.draw(_text_best[i]);
 		surface.draw(_text_score[i]);
-		if (_is_multiplayer)
-			surface.draw(_icon_snake[i]);
+		//FIXME invalid read
+		// if (_is_multiplayer)
+			// surface.draw(_icon_snake[i]);
 	}
+	*/
 }
