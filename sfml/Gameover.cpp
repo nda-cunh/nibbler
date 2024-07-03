@@ -3,7 +3,7 @@
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
 
-GameOver::GameOver() {
+GameOver::GameOver() : _is_multiplayer(false){
 	surface = std::make_unique<sf::RenderTexture>();
 
 	texture_gameover = std::make_unique<sf::Texture>();
@@ -156,8 +156,7 @@ void GameOver::setPosition(const float x, const float y) {
 void GameOver::update() {
 	surface->clear({0,0,0,0});
 	
-	// FIXME invalid read
-	// surface->draw(sprite_gameover[_is_multiplayer]);
+	surface->draw(sprite_gameover[_is_multiplayer]);
 	surface->draw(_text_score[0]);
 	surface->draw(_text_best[0]);
 	if (_is_multiplayer) {

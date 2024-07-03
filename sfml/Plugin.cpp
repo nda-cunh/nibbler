@@ -1,7 +1,7 @@
 # include "Plugin.hpp"
 
 /* ____ COPLIEN ____ */
-Plugin::Plugin() {}
+Plugin::Plugin() : game_mode(Activity::ON_NONE)  {}
 
 Plugin::Plugin(const Plugin &other) {
 	*this = other;
