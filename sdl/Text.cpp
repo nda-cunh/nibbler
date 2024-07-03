@@ -113,10 +113,14 @@ void Text::get_text_size (int &width, int &height) {
  * draw the text on the screen with position (px, py)
  */
 void Text::draw (SDL_Renderer *renderer, int px, int py) {
+	assert (renderer != NULL);
 	clear();
 	update_text();
 
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface.get());
+	if (texture == NULL)
+		throw std::runtime_error("SDL_CreateTextureFromSurface failed " + std::string(SDL_GetError()));
+	
 	SDL_Rect rect = {px, py, surface->w, surface->h};
 	SDL_RenderCopy(renderer, texture, NULL, &rect);
 	SDL_DestroyTexture(texture);
@@ -126,10 +130,14 @@ void Text::draw (SDL_Renderer *renderer, int px, int py) {
  * draw the text on the screen
  */
 void Text::draw (SDL_Renderer *renderer) {
+	assert (renderer != NULL);
 	clear();
 	update_text();
 
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface.get());
+	if (texture == NULL)
+		throw std::runtime_error("SDL_CreateTextureFromSurface failed " + std::string(SDL_GetError()));
+
 	SDL_Rect rect = {x, y, surface->w, surface->h};
 	SDL_RenderCopy(renderer, texture, NULL, &rect);
 	SDL_DestroyTexture(texture);

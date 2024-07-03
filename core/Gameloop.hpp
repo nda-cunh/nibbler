@@ -192,7 +192,7 @@ class Gameloop
 		ModuleAudio		_audio;
 		Activity		activity;
 		Activity		last_gamemode;
-		LIBS			lib = SFML;
+		LIBS			lib = SDL;
 		Direction		dir_p1;
 		Direction		dir_p2;
 		Timer			timer;

@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <cairo/cairo.h>
 #include <memory>
+#include <cassert>
 
 class Text {
 	public:

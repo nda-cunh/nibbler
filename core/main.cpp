@@ -34,7 +34,8 @@ int	main(int argc, char **argv)
 {
 	try {
 		/* Check Arguments */
-		int width, height;
+		int width = -1;
+		int height = -1;
 		if (!check_args(argc, argv, width, height))
 			return -1;
 

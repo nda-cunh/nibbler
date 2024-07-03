@@ -14,12 +14,18 @@ Plugin::Plugin (std::string so, int x, int y) {
 }
 
 Plugin::~Plugin(){
-	this->close();
-	auto func = (void(*)(IPlugin*))dlsym(handler, "unload");
-	if (func == NULL)
-		std::cerr << "can't dlsym \"unload\" function" << std::endl;
-	func(game);
-	dlclose(handler);
+	 try {
+        this->close();
+        auto func = (void(*)(IPlugin*))dlsym(handler, "unload");
+        if (func != nullptr) {
+            func(game);
+        } else {
+            std::cerr << "can't dlsym \"unload\" function" << std::endl;
+        }
+        dlclose(handler);
+    } catch (const std::exception& e) {
+        std::cerr << "Error in Plugin destructor: " << e.what() << std::endl;
+    }
 }
 		
 Plugin::Plugin(const Plugin &other) {

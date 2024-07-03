@@ -40,7 +40,7 @@ void Gameover::update_bestscore (int best_score) {
 /**
  * Draw the gameover screen
  */
-void Gameover::draw (SDL_Renderer* renderer, int px, int py) {
+void Gameover::draw (SDL_Renderer* renderer, int , int ) {
 	// draw the gameover screen
 	RenderTexture::draw (renderer, x_gameover, y_gameover);
 
