@@ -4,15 +4,19 @@
 /// Constructors and Destructor
 ////////////////////////////////////////////////
 
-Menu::Menu() {
-	text_title.set_text("SupraSnake");
+Menu::Menu() :
+	text_title("SupraSnake"),
+	text_speed("Speed"),
+	text_speed_value("0"),
+	button_play(),
+	button_plus(),
+	button_minus(),
+	speed(0),
+	width(0),
+	height(0)
+{
 	text_title.set_size_font(72);
-	text_speed_value.set_text("0");
-	text_speed.set_text("Speed");
 	text_speed.set_size_font(30);
-	speed = 0;
-	width = 0;
-	height = 0;
 }
 
 Menu::~Menu() {

@@ -6,7 +6,7 @@
 /*   By: nda-cunh <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 21:51:34 by nda-cunh          #+#    #+#             */
-/*   Updated: 2024/07/02 21:52:48 by nda-cunh         ###   ########.fr       */
+/*   Updated: 2024/07/04 23:16:13 by nda-cunh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ class Plugin : public IPlugin {
 		Text text_score;
 		Text text_bestscore;
 
-		const int tile_size = 32;
+		const int tile_size;
 		int width;
 		int height;
 		int x;

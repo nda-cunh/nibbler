@@ -1,12 +1,22 @@
 #include "Plugin.hpp"
 
-Plugin::Plugin () {
-	win = NULL;
-	renderer = NULL;
-	width = 0;
-	height = 0;
-	x = 0;
-	y = 0;
+Plugin::Plugin () :
+	win(NULL),
+	renderer(NULL),
+	damier(),
+	menu(),
+	gameover(),
+	render_game(),
+	text_score(),
+	text_bestscore(),
+	tile_size(32),
+	width(0),
+	height(0),
+	x(0),
+	y(0),
+	button_retry(),
+	button_menu()
+{
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		throw std::runtime_error("SDL_Init failed");
 }

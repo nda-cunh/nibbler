@@ -3,22 +3,38 @@
 ////////////////////////////////////////////////
 /// Constructors and Destructor
 ////////////////////////////////////////////////
+// std::shared_ptr<SDL_Surface> surface;
+// std::shared_ptr<cairo_surface_t> cairo_surface;
+// std::shared_ptr<cairo_t> cairo_context;
+// std::string text;
+// SDL_Colour color;
+// SDL_Colour background_color;
+// SDL_Colour background_color_hover;
+// 
+// int size_font;
+// bool is_hover = false;
+// int x;
+// int y;
 
-Button::Button () {
-	background_color_hover = {76, 158, 249, 255};
-	background_color = {76, 191, 248, 255};
-	size_font = 21;
-	color = {255, 255, 255, 255};
-	x = 0;
-	y = 0;
+Button::Button ():
+	surface(nullptr),
+	cairo_surface(nullptr),
+	cairo_context(nullptr),
+	text(""),
+	color({255, 255, 255, 255}),
+	background_color({76, 191, 248, 255}),
+	background_color_hover({76, 158, 249, 255}),
+	size_font(21),
+	is_hover(false),
+	x(0),
+	y(0)
+{
 }
 
 
 Button::Button (const std::string &str, int width, int height) : Button () {
 	int w, h;
 
-	x = 0;
-	y = 0;
 	this->text = str;
 	create (width, height);
 	get_text_size(w, h);
