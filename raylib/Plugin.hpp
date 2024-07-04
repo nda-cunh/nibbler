@@ -29,10 +29,10 @@ class Plugin : public IPlugin {
 		Event poll_event(Activity current_activity);
 
 		/* ---- Data ---- */
-		void update_snake(const std::deque<Position> &snake, Direction direction); 
+		void update_snake(const std::deque<Position> &snake, const std::deque<Position> &snake2 = {}); 
 		void update_food(Position &pos) ; 
-		void update_score(int n);
-		void update_bestscore(int n); 
+		void update_score(int score_p1, int score_p2 = 0);
+		void update_bestscore(int best_score_p1, int best_score_p2 = 0); 
 		void update_speed(int n); 
 
 		/* ---- Display ---- */

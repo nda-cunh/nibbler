@@ -89,8 +89,8 @@ Event Plugin::poll_event(Activity current_activity) {
 
 /* ____ DATA ____ */
 
-void Plugin::update_snake(const std::deque<Position> &snake, Direction direction) {
-	(void) direction;
+void Plugin::update_snake(const std::deque<Position> &snake, const std::deque<Position> &snake2) {
+	(void) snake2;
 	_game.setSnake(snake);
 }
 
@@ -98,12 +98,14 @@ void Plugin::update_food(Position &pos)  {
 	_game.addFood(pos);
 }
 
-void Plugin::update_score(int n){
-	_game.setScore(n);
+void Plugin::update_score(int score_p1, int score_p2){
+	(void) score_p2;
+	_game.setScore(score_p1);
 }
 
-void Plugin::update_bestscore(int n) {
-	_game.setBestScore(n);
+void Plugin::update_bestscore(int best_score_p1, int best_score_p2) {
+	(void) best_score_p2;
+	_game.setBestScore(best_score_p1);
 }
 
 void Plugin::update_speed(int speed) {
