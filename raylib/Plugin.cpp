@@ -16,6 +16,7 @@ Plugin &Plugin::operator=(const Plugin &rhs){
 	this->height = rhs.height;
 	this->_game = rhs._game;
 	this->_menu = rhs._menu;
+	this->_gameover = rhs._gameover;
 	return *this;
 }
 
@@ -30,6 +31,7 @@ void Plugin::open(int x, int y) {
 	height = (y + 3) * TILE_SIZE;
 	_game = Game(x, y, TILE_SIZE);
 	_menu = Menu(width, height, TILE_SIZE);
+	_gameover = GameOver(width, height, TILE_SIZE);
 	SetTraceLogLevel(LOG_ERROR);
 	InitWindow(width, height, "nibbler - raylib");
 }
@@ -47,13 +49,23 @@ Event Plugin::poll_event(Activity current_activity) {
 	int key = 42;
 	while (key != 0) {
 		if (IsMouseButtonPressed(0)) {
-			Event	e = _menu.checkCollision(current_activity,
+			Event	e;
+
+			if (current_activity == ON_GAME_OVER)
+				e = _gameover.checkCollision(current_activity,
 					GetMouseX(), GetMouseY());
+			else if (current_activity == ON_MENU)
+				e = _menu.checkCollision(current_activity,
+						GetMouseX(), GetMouseY());
+
 			if (e != NONE)
 				return e;
 		} else {
 			auto pos = GetMousePosition();
-			_menu.checkHover(current_activity, pos.x, pos.y);
+			if (current_activity == ON_GAME_OVER)
+				_gameover.checkHover(current_activity, pos.x, pos.y);
+			else if (current_activity == ON_MENU)
+				_menu.checkHover(current_activity, pos.x, pos.y);
 		}
 		key = GetKeyPressed();
 		switch (key) {
@@ -122,10 +134,13 @@ void Plugin::clear() {
 }
 
 void Plugin::display(const Activity act) {
-	if (act != ON_MENU)
+	if (act == ON_MENU)
+		_menu.draw(act);
+	else {
 		_game.draw();
-
-	_menu.draw(act);
+		if (act == ON_GAME_OVER)
+			_gameover.draw(act);
+	}
 	EndDrawing();
 	_game.resetFood();
 }

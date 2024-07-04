@@ -9,8 +9,10 @@ class Plugin : public IPlugin {
 	const int	TILE_SIZE = 32;
 	int 	width;
 	int 	height;
-	Game	_game;
-	Menu	_menu;
+
+	Game		_game;
+	Menu		_menu;
+	GameOver	_gameover;
 
 	public:
 
