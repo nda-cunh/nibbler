@@ -5,23 +5,23 @@ Game::Game()	{}
 
 Game::~Game()	{}
 
-Game::Game(const int width, const int height, ModuleAudio *audio, Activity act) {
-	_audio = audio;
+Game::Game(const int width, const int height, ModuleAudio *audio, Activity act) :
+	_mode(act),
+	_score{0, 0},
+	_best_score{0, 0},
+	_speed(0.075),
+	_is_over(false),
+	_size({width, height}),
+	_foods(std::vector<Position>()),
+	_snake{Snake(), Snake()},
+	_audio(audio)
+{ 
 	_snake[0].create(width, height);
 	_snake[1].create(width, height);
 	if (act == ON_GAME_2P) {
 		_snake[0].create(width, height, -1);
 		_snake[1].create(width, height, 1);
 	}
-	_size = {width, height};
-	_is_over = false;
-	_mode = act;
-	_score[0] = 0;
-	_score[1] = 0;
-	_best_score[0] = 0;
-	_best_score[1] = 0;
-	_foods = std::vector<Position>();
-	_speed = 0.075;
 	// for (int i = 0; i < width*height; ++i)
 	generateFood();
 }
