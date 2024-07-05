@@ -13,9 +13,7 @@ Plugin::Plugin () :
 	width(0),
 	height(0),
 	x(0),
-	y(0),
-	button_retry(),
-	button_menu()
+	y(0)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		throw std::runtime_error("SDL_Init failed");
@@ -79,18 +77,6 @@ void Plugin::open (int x, int y) {
 	////////////////////////////////////////
 
 	gameover.createGameOver(w, h);
-
-	////////////////////////////////////////
-	/// Buttons
-	////////////////////////////////////////
-	button_retry = std::make_shared<Button> ("Try Again", (gameover.get_width() / 3.0) *2, 50);
-	button_menu = std::make_shared<Button> ("Menu", gameover.get_width() / 3.0 - 10, 50);
-
-	int gameover_x, gameover_y;
-	gameover.get_position(gameover_x, gameover_y);
-
-	button_retry->set_position (gameover_x, gameover_y + gameover.get_height() + 10);
-	button_menu->set_position (gameover_x + button_retry->get_width() + 10, gameover_y + gameover.get_height() + 10);
 }
 
 void Plugin::close ()  {
@@ -145,12 +131,7 @@ Event Plugin::poll_event (Activity)   {
 
 			case SDL_MOUSEMOTION:
 				SDL_GetMouseState(&px, &py);
-				button_retry->unhover();
-				button_menu->unhover();
-				if (button_retry->collide(px, py))
-					button_retry->hover();
-				else if (button_menu->collide(px, py))
-					button_menu->hover();
+				gameover.onHover(px, py);
 				menu.collide_hover(px, py);
 				break;
 
@@ -160,10 +141,9 @@ Event Plugin::poll_event (Activity)   {
 					case SDL_BUTTON_LEFT:
 						Event res;
 						SDL_GetMouseState(&px, &py);
-						if (button_retry->collide(px, py))
-							return ENTER;
-						else if (button_menu->collide(px, py))
-							return CLICK_MENU;
+						res = gameover.onClick(px, py);
+						if (res != NONE)
+							return res;
 						res = menu.collide_click(px, py);
 						if (res != NONE)
 							return res;
@@ -286,15 +266,13 @@ void Plugin::clear ()  {
 }
 
 void Plugin::display (Activity activity)  {
-	// draw the game
-	render_game.draw (renderer, tile_size, tile_size*3);
-
 	switch (activity) {
 		case ON_MENU:
 			menu.draw(renderer);
 			break;
 
 		case ON_GAME_OVER:
+			render_game.draw (renderer, tile_size, tile_size*3);
 			SDL_Rect rect;
 			int w, h;
 			SDL_GetWindowSize(win, &w, &h);
@@ -304,12 +282,10 @@ void Plugin::display (Activity activity)  {
 
 			// Draw the gameover screen
 			gameover.draw(renderer);
-
-			button_retry->draw(renderer);
-			button_menu->draw(renderer);
 			break;
 
 		default:
+			render_game.draw (renderer, tile_size, tile_size*3);
 			break;
 	}
 
