@@ -22,6 +22,7 @@ class Menu
 		Text text_speed;
 		Text text_speed_value;
 		std::shared_ptr<Button> button_play;
+		std::shared_ptr<Button> button_play2;
 		std::shared_ptr<Button> button_plus;
 		std::shared_ptr<Button> button_minus;
 		int speed;

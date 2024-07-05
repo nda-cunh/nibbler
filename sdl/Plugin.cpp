@@ -97,58 +97,40 @@ void Plugin::close ()  {
 }
 
 static inline Event event_keydown(SDL_Scancode scancode) {
-	Event e;
 	switch (scancode) {
 		case SDL_SCANCODE_LEFT:
-			e = LEFT;
-			break;
+			return LEFT;
 		case SDL_SCANCODE_A:
-			e = A_LEFT;
-			break;
+			return A_LEFT;
 		case SDL_SCANCODE_D:
-			e = D_RIGHT;
-			break;
+			return D_RIGHT;
 		case SDL_SCANCODE_W:
-			e = W_UP;
-			break;
+			return W_UP;
 		case SDL_SCANCODE_S:
-			e = S_DOWN;
-			break;
+			return S_DOWN;
 		case SDL_SCANCODE_RIGHT:
-			e = RIGHT;
-			break;
+			return RIGHT;
 		case SDL_SCANCODE_UP:
-			e = UP;
-			break;
+			return UP;
 		case SDL_SCANCODE_DOWN:
-			e = DOWN;
-			break;
+			return DOWN;
 		case SDL_SCANCODE_RETURN:
-			e = ENTER;
-			break;
+			return ENTER;
 		case SDL_SCANCODE_ESCAPE:
-			e = CLOSE;
-			break;
+			return CLOSE;
 		case SDL_SCANCODE_F1:
-			e = F1;
-			break;
+			return F1;
 		case SDL_SCANCODE_F2:
-			e = F2;
-			break;
+			return F2;
 		case SDL_SCANCODE_F3:
-			e = F3;
-			break;
+			return F3;
 		case SDL_SCANCODE_MINUS:
-			e = SPEED_DOWN;
-			break;
+			return SPEED_DOWN;
 		case SDL_SCANCODE_KP_PLUS:
-			e = SPEED_UP;
-			break;
+			return SPEED_UP;
 		default:
-			e = NONE;
-			break;
+			return NONE;
 	}
-	return e;
 }
 
 Event Plugin::poll_event (Activity)   {
@@ -157,7 +139,6 @@ Event Plugin::poll_event (Activity)   {
 	Event e = NONE;
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
-
 			case SDL_QUIT:
 				e = CLOSE;
 				break;
@@ -200,16 +181,23 @@ Event Plugin::poll_event (Activity)   {
 				e = NONE;
 				break;
 		}
+		if (e != NONE)
+			return e;
 	}
 	return e;
 }
 
 
+
+
+
 /**
  * Update the snake on the screen
  */
-void Plugin::update_snake (const std::deque<Position> &snake1, const std::deque<Position>&) { 
-	SDL_Rect rect = { 0, 0, tile_size, tile_size };
+void Plugin::update_snake (const std::deque<Position> &snake1, const std::deque<Position>&snake2) { 
+	SDL_Rect rect;
+
+	rect = { 0, 0, tile_size, tile_size };
 
 	for (const auto &pos : snake1) {
 		rect.x = pos.x * tile_size,
@@ -219,6 +207,18 @@ void Plugin::update_snake (const std::deque<Position> &snake1, const std::deque<
 	rect.x = snake1[0].x * tile_size,
 		rect.y = snake1[0].y * tile_size,
 		render_game.draw_rect (&rect, 49, 94, 255);
+
+	if (snake2.empty())
+		return;
+
+	for (const auto &pos : snake2) {
+		rect.x = pos.x * tile_size,
+			rect.y = pos.y * tile_size,
+			render_game.draw_rect(&rect, 243, 196, 81);
+	}
+	rect.x = snake2[0].x * tile_size,
+		rect.y = snake2[0].y * tile_size,
+		render_game.draw_rect (&rect, 223, 176, 61);
 }
 
 /**

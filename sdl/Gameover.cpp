@@ -4,14 +4,13 @@
 /// Constructors and Destructor
 ////////////////////////////////////////////////
 
-Gameover::Gameover () : RenderTexture(),
+Gameover::Gameover () : RenderTexture("./sdl/snake_sdl.bmp"),
 	x_gameover(0),
 	y_gameover(0),
 	score(0),
 	best_score(0),
 	text()
 {
-	create("./sdl/snake_sdl.bmp");
 }
 
 void Gameover::createGameOver (int width, int height) {

@@ -9,6 +9,7 @@ Menu::Menu() :
 	text_speed("Speed"),
 	text_speed_value("0"),
 	button_play(),
+	button_play2(),
 	button_plus(),
 	button_minus(),
 	speed(0),
@@ -26,9 +27,12 @@ Menu::~Menu() {
 void Menu::create (int width, int height) {
 	this->width = width;
 	this->height = height;
-	button_play = std::make_shared<Button> ("Play", width / 2.0, 80);
+	button_play = std::make_shared<Button> ("Play 1P", width / 2.0, 80);
 	button_play->set_size_font(42);
 	button_play->set_color(0, 0, 0);
+	button_play2 = std::make_shared<Button> ("Play 2P", width / 2.0, 80);
+	button_play2->set_size_font(42);
+	button_play2->set_color(0, 0, 0);
 	button_minus = std::make_shared<Button> ("-", 40, 40);
 	button_minus->set_size_font(20);
 	button_minus->set_color(0, 0, 0);
@@ -37,6 +41,7 @@ void Menu::create (int width, int height) {
 	button_plus->set_color(0, 0, 0);
 
 	button_play->set_position(width / 2.0 - button_play->get_width() / 2.0, 150);
+	button_play2->set_position(width / 2.0 - button_play->get_width() / 2.0, 240);
 	button_minus->set_position(0, height - 84);
 	button_plus->set_position(42, height - 42);
 	text_speed_value.set_position(10, (height - 42) + 5);
@@ -57,6 +62,7 @@ void Menu::draw (SDL_Renderer *renderer) {
 	text_title.draw(renderer, width / 2.0 - text_title.get_width() /2.0, 25);
 
 	button_play->draw(renderer);
+	button_play2->draw(renderer);
 	button_minus->draw(renderer);
 	button_plus->draw(renderer);
 	text_speed_value.draw(renderer);
@@ -70,6 +76,8 @@ Event Menu::collide_click (int x, int y) {
 		return Event::SPEED_DOWN;
 	else if (button_plus->collide(x, y))
 		return Event::SPEED_UP;
+	else if (button_play2->collide(x, y))
+		return Event::CLICK_2P;
 	return NONE;
 }
 
@@ -77,6 +85,7 @@ void Menu::collide_hover (int x, int y) {
 	button_play->unhover();
 	button_minus->unhover();
 	button_plus->unhover();
+	button_play2->unhover();
 
 	if (button_play->collide(x, y))
 		button_play->hover();
@@ -84,6 +93,8 @@ void Menu::collide_hover (int x, int y) {
 		button_minus->hover();
 	else if (button_plus->collide(x, y))
 		button_plus->hover();
+	else if (button_play2->collide(x, y))
+		button_play2->hover();
 }
 // 
 ////////////////////////////////////////////////

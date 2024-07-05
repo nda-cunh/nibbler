@@ -14,15 +14,16 @@ class RenderTexture
 {
 	public:
 		RenderTexture();
+		RenderTexture(int width, int height);
+		RenderTexture(const std::string &path);
 		RenderTexture(const RenderTexture &other);
 		RenderTexture &operator=(const RenderTexture &other);
 
 		void create(int width, int height);
-		void create(const std::string &path);
 		void clear();
 		virtual void draw(RenderTexture &texture, int x, int y);
 		virtual void draw(SDL_Renderer*renderer, int x, int y);
-		virtual void draw (SDL_Surface *surface, int x, int y);
+		virtual void draw(SDL_Surface *surface, int x, int y);
 		virtual void draw_rect(SDL_Rect *rect, int red, int green, int blue);
 		~RenderTexture();
 		int get_width();

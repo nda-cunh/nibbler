@@ -5,7 +5,9 @@
 /// Constructors and Destructor
 ////////////////////////////////////////////////
 
-RenderTexture::RenderTexture() {
+RenderTexture::RenderTexture() :
+	surface(nullptr)
+{
 }
 
 
@@ -25,6 +27,15 @@ RenderTexture &RenderTexture::operator=(const RenderTexture &other) {
 RenderTexture::~RenderTexture() {
 }
 
+RenderTexture::RenderTexture(int width, int height) {
+	create(width, height);
+}
+
+RenderTexture::RenderTexture(const std::string &path) {
+	surface = std::shared_ptr<SDL_Surface>(SDL_LoadBMP(path.c_str()), SDL_FreeSurface);
+	if (surface.get() == NULL)
+		throw std::runtime_error("SDL_LoadBMP failed");
+}
 
 /**
  * Create a rendertexture with a width and height
@@ -33,15 +44,6 @@ void RenderTexture::create(int width, int height) {
 	surface = std::shared_ptr<SDL_Surface>(SDL_CreateRGBSurfaceWithFormat(0, width, height, 32, SDL_PIXELFORMAT_ARGB8888), SDL_FreeSurface);
 	if (surface.get() == NULL)
 		throw std::runtime_error("SDL_CreateRGBSurface failed");
-}
-
-/**
- * Create a rendertexture from a bmp file
- */
-void RenderTexture::create(const std::string &path) {
-	surface = std::shared_ptr<SDL_Surface>(SDL_LoadBMP(path.c_str()), SDL_FreeSurface);
-	if (surface.get() == NULL)
-		throw std::runtime_error("SDL_LoadBMP failed");
 }
 
 ////////////////////////////////////////////////
