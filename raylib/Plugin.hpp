@@ -10,9 +10,12 @@ class Plugin : public IPlugin {
 	int 	width;
 	int 	height;
 
+	Activity	_game_mode;
 	Game		_game;
 	Menu		_menu;
 	GameOver	_gameover;
+
+	void update_game_mode(const Activity act);
 
 	public:
 

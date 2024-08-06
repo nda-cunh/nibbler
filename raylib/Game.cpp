@@ -12,6 +12,7 @@ Game::Game(const Game &o): TILE_SIZE(o.TILE_SIZE) {
 }
 
 Game::Game(int w, int h, int tile_size) : TILE_SIZE(tile_size) {
+	_background = RenderTexture();
 	this->_size = {(w + 2) * TILE_SIZE, (h + 3) * TILE_SIZE};
 	_snake = Snake(NULL, TILE_SIZE);
 }
@@ -47,12 +48,16 @@ void Game::setBestScore(int score) { _best_score = score; }
 
 /* ____ DRAW METHODS ____ */
 
-void Game::init_background() {
+void Game::init_background(bool is_multiplayer) {
 	bool is_dark = true;
 	Color colors[2] = {
 		GetColor(0xA2D149FF),
 		GetColor(0xAAD751FF)
 	};
+
+	if (_background.id != 0)
+		UnloadTexture(_background.texture);
+	
 	_background = LoadRenderTexture(_size.x, _size.y);
 
 	BeginTextureMode(_background);
@@ -66,6 +71,21 @@ void Game::init_background() {
 						TILE_SIZE, TILE_SIZE,
 						colors[static_cast<int>(is_dark)]);
 			}
+		}
+		if (is_multiplayer) {
+			Rectangle	rec = {_size.x * 0.45f, TILE_SIZE * 21.7f,
+					TILE_SIZE * 1.f - 2.f * SHIFT, TILE_SIZE * 1.f};
+			Vector2		pos_circle = {_size.x * 0.45f + TILE_SIZE * 0.5f - SHIFT,
+					TILE_SIZE * 21.4f};
+
+			DrawRectangleRounded(rec, 0.5f, 10, GetColor(0x315ec9ff));
+			DrawCircleV(pos_circle,
+					TILE_SIZE * 0.5f - SHIFT, GetColor(0x4e7cf6ff));
+			rec.x = _size.x * 0.55f;
+			DrawRectangleRounded(rec, 0.5f, 10, GetColor(0x315e00ff));
+			pos_circle.x = rec.x + TILE_SIZE * 0.5f - SHIFT;
+			DrawCircleV(pos_circle,
+					TILE_SIZE * 0.5f - SHIFT, GetColor(0x4e7c00ff));
 		}
 	}
 	EndTextureMode();
@@ -96,7 +116,7 @@ void Game::draw_score() {
 	char score[10] = "";
 
 	sprintf(score, "SCORE %3d", _score);
-	DrawText(score, TILE_SIZE, 0.5 * TILE_SIZE, txt_size, WHITE);
+	// DrawText(score, TILE_SIZE, 0.5 * TILE_SIZE, txt_size, WHITE);
 }
 
 void Game::draw_best_score() {
@@ -105,8 +125,8 @@ void Game::draw_best_score() {
 	char score[10] = "";
 
 	sprintf(score, "BEST %3d", _best_score);
-	DrawText(score, beg, 0.5 * TILE_SIZE, txt_size,
-			GetColor(0xFFD700FF));
+	// DrawText(score, beg, 0.5 * TILE_SIZE, txt_size,
+			// GetColor(0xFFD700FF));
 }
 
 void Game::draw() {

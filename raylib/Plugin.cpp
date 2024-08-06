@@ -125,6 +125,18 @@ void Plugin::update_speed(int speed) {
 }
 
 
+void Plugin::update_game_mode(const Activity act) {
+	const bool is_multiplayer = act == Activity::ON_GAME_2P;
+
+	if (act == this->_game_mode)
+		return ;
+	if (act != ON_GAME_OVER) {
+		this->_game_mode = act;
+		this->_game.init_background(is_multiplayer);
+	}
+}
+
+
 /* ____ DISPLAY ____ */
 
 void Plugin::clear() {
@@ -137,6 +149,7 @@ void Plugin::display(const Activity act) {
 	if (act == ON_MENU)
 		_menu.draw(act);
 	else {
+		update_game_mode(act);
 		_game.draw();
 		if (act == ON_GAME_OVER)
 			_gameover.draw(act);

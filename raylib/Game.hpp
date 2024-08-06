@@ -16,7 +16,6 @@ class Game {
 
 
 	/* ---- Private Draw Methods ---- */
-	void	init_background();
 	void	draw_background();
 	void	draw_score();
 	void	draw_food();
@@ -31,6 +30,7 @@ class Game {
 
 		Game	&operator=(const Game &);
 
+		void	init_background(bool = false);
 		/* ---- Accessors ---- */
 		void setSnake(const std::deque<Position> &snake);
 		void addFood(Position pos);
