@@ -28,7 +28,7 @@ class Game {
 	public:
 		/* ---- Constructors ---- */
 		Game();
-		Game(const int width, const int height, ModuleAudio *audio, Activity act = ON_GAME_1P);
+		Game(const int width, const int height, ModuleAudio *audio, Activity act = ON_MENU);
 		~Game();
 		void setAudio(ModuleAudio *audio);
 		/* ---- Coplien  ---- */

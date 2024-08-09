@@ -13,10 +13,10 @@
 class Gameloop
 {
 	public:
-		Gameloop(int width, int height) : FPS(120), frameDelay(1000 / FPS), width(width), height(height), game (width, height, &_audio) {
+		Gameloop(int width, int height) : FPS(120), frameDelay(1000 / FPS), width(width), height(height), game (width, height, &_audio, ON_MENU) {
 			plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 			plugin->update_speed(game.getLevelSpeed());
-			activity = ON_GAME_1P;
+			activity = ON_MENU;
 			last_gamemode = ON_GAME_1P;
 			dir_p1 = Down;
 			dir_p2 = Down;
