@@ -62,7 +62,6 @@ void Plugin::open (int x, int y) {
 	int h;
 	SDL_GetWindowSize(win, &w, &h);
 
-	menu.create(w, h);
 
 	////////////////////////////////////////
 	/// Gameover
@@ -73,14 +72,12 @@ void Plugin::open (int x, int y) {
 	////////////////////////////////////////
 	/// Buttons
 	////////////////////////////////////////
-	button_retry = std::make_shared<Button> ("Try Again", (gameover.get_width() / 3.0) *2, 50);
-	button_menu = std::make_shared<Button> ("Menu", gameover.get_width() / 3.0 - 10, 50);
+	button_retry = std::make_shared<Button> ("Try Again", (gameover.get_width()) , 50);
 
 	int gameover_x, gameover_y;
 	gameover.get_position(gameover_x, gameover_y);
 
 	button_retry->set_position (gameover_x, gameover_y + gameover.get_height() + 10);
-	button_menu->set_position (gameover_x + button_retry->get_width() + 10, gameover_y + gameover.get_height() + 10);
 }
 
 void Plugin::close ()  {
@@ -143,12 +140,8 @@ Event Plugin::poll_event (Activity)   {
 			case SDL_MOUSEMOTION:
 				SDL_GetMouseState(&px, &py);
 				button_retry->unhover();
-				button_menu->unhover();
 				if (button_retry->collide(px, py))
 					button_retry->hover();
-				else if (button_menu->collide(px, py))
-					button_menu->hover();
-				menu.collide_hover(px, py);
 				break;
 
 
@@ -159,9 +152,6 @@ Event Plugin::poll_event (Activity)   {
 						SDL_GetMouseState(&px, &py);
 						if (button_retry->collide(px, py))
 							return ENTER;
-						else if (button_menu->collide(px, py))
-							return CLICK_MENU;
-						res = menu.collide_click(px, py);
 						if (res != NONE)
 							return res;
 						break;
@@ -243,7 +233,6 @@ void Plugin::update_bestscore (int score)  {
 }
 
 void Plugin::update_speed (int speed)  {
-	menu.update_speed(speed);
 }
 
 
@@ -269,7 +258,6 @@ void Plugin::display (Activity activity)  {
 
 	switch (activity) {
 		case ON_MENU:
-			menu.draw(renderer);
 			break;
 
 		case ON_GAME:
@@ -287,7 +275,6 @@ void Plugin::display (Activity activity)  {
 			gameover.draw(renderer);
 
 			button_retry->draw(renderer);
-			button_menu->draw(renderer);
 			break;
 
 		default:

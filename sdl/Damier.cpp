@@ -4,11 +4,7 @@
 /// Constructors and Destructor
 ////////////////////////////////////////////////
 
-Damier::Damier() {
-	this->x = 0;
-	this->y = 0;
-	this->tile_size = 0;
-}
+Damier::Damier() : tile_size(0), x(0), y(0) { }
 
 Damier::Damier (const Damier &d) {
 	this->x = d.x;
@@ -25,9 +21,7 @@ Damier &Damier::operator= (const Damier &d) {
 	return *this;
 }
 
-Damier::~Damier() {
-
-}
+Damier::~Damier() { }
 
 void Damier::create (int width, int height, int tile_size, int x, int y) {
 	this->x = x;

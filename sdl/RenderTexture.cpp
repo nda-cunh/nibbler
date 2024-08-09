@@ -5,8 +5,7 @@
 /// Constructors and Destructor
 ////////////////////////////////////////////////
 
-RenderTexture::RenderTexture() {
-}
+RenderTexture::RenderTexture() { }
 
 
 RenderTexture::RenderTexture(const RenderTexture &other) {
@@ -22,8 +21,7 @@ RenderTexture &RenderTexture::operator=(const RenderTexture &other) {
 	return *this;
 }
 
-RenderTexture::~RenderTexture() {
-}
+RenderTexture::~RenderTexture() { }
 
 
 /**

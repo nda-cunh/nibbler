@@ -12,7 +12,6 @@
 #include "Damier.hpp"
 #include "Button.hpp"
 #include "Gameover.hpp"
-#include "Menu.hpp"
 
 class Plugin : public IPlugin {
 	public:
@@ -34,7 +33,6 @@ class Plugin : public IPlugin {
 		SDL_Renderer* renderer;
 
 		Damier damier;
-		Menu menu;
 
 		Gameover gameover;
 		RenderTexture render_game;
@@ -48,6 +46,5 @@ class Plugin : public IPlugin {
 		int x;
 		int y;
 		std::shared_ptr<Button> button_retry;
-		std::shared_ptr<Button> button_menu;
 };
 

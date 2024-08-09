@@ -7,7 +7,6 @@ shared_library('sdl',
            'Damier.cpp',
            'Button.cpp',
            'Gameover.cpp',
-           'Menu.cpp',
            'Plugin.cpp',
            dependencies: dep,
            install : true)
