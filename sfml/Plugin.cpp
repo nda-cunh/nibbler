@@ -19,8 +19,8 @@ Plugin	&Plugin::operator=(const Plugin &rhs){
 	gameover = rhs.gameover;
 	header = rhs.header;
 	game = rhs.game;
-	menu = rhs.menu;
-	snake = rhs.snake;
+	snake_p1 = rhs.snake_p1;
+	snake_p2 = rhs.snake_p2;
 	apple = rhs.apple;
 	return *this;
 }
@@ -32,15 +32,22 @@ void Plugin::open(int x, int y){
 	sf::ContextSettings settings;
 	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TILE * x + 80, TILE * y + 160), "Nibbler", sf::Style::Default ^ sf::Style::Resize, settings);
 	header.create(window->getSize().x, 80);
+	
 	texture_game = std::make_shared<sf::RenderTexture>();
 	texture_game->create(TILE * x, TILE * y);
+	
 	game.setTexture(texture_game->getTexture());
 	game.setPosition(40, 120);
+
 	background.init(window->getSize());
 	gameover.setPosition(TILEf * x / 2.0, TILEf * y / 2.0);
+	
 	dark_background.setFillColor({0,0,0,150});
 	dark_background.setSize({TILEf*x, TILEf*y});
-	menu = Menu(TILE * x + 80, TILE * y + 160);
+
+	snake_p1.setSprites(0);
+	snake_p2.setSprites(1);
+	
 }
 
 void Plugin::close(){
@@ -76,19 +83,12 @@ Event	Plugin::handle_keyboard_event(sf::Event	event) {
 }
 
 Event	Plugin::handle_mouse_event(const sf::Event &event, const Activity &act) {
-	if (event.mouseButton.button != sf::Mouse::Left)
-		return NONE;
-	sf::Vector2i	pos = sf::Mouse::getPosition(*this->window);
+	if (event.mouseButton.button == sf::Mouse::Left) {
+		if (act == Activity::ON_GAME_OVER) {
+			sf::Vector2i	pos = sf::Mouse::getPosition(*this->window);
 
-	switch (act) {
-		case Activity::ON_GAME_OVER:
 			return gameover.collides(pos.x - 40, pos.y - 120);
-			break;
-		case Activity::ON_MENU:
-			return menu.collides(pos.x, pos.y);
-			break;
-		default:
-			break;
+		}
 	}
 	return NONE;
 }
@@ -97,21 +97,15 @@ void	Plugin::handle_mouse_move(const sf::Event &e, const Activity &act) {
 	sf::Vector2f	game_shift = game.getPosition();
 	sf::Vector2i	pos = sf::Mouse::getPosition(*this->window);
 
-	switch (act) {
-		case Activity::ON_GAME_OVER:
-			gameover.collides(pos.x - game_shift.x, pos.y - game_shift.y);
-			break;
-		case Activity::ON_MENU:
-			menu.collides(pos.x, pos.y);
-			break;
-		default:
-			break;
-	}
+	if (act == Activity::ON_GAME_OVER)
+		gameover.collides(pos.x - game_shift.x, pos.y - game_shift.y);
 }
 
 Event Plugin::poll_event(Activity act){
 	sf::Event event;
 	Event e = NONE;
+	Event last = NONE;
+
 	while (window->pollEvent(event)) {
 		// Handle the event
 		switch (event.type) {
@@ -119,17 +113,22 @@ Event Plugin::poll_event(Activity act){
 				return CLOSE;
 			case sf::Event::KeyPressed:
 				e = handle_keyboard_event(event);
+				if (e != NONE && e != last)
+					return e;
 				break;
 			case sf::Event::MouseMoved:
 				handle_mouse_move(event, act);
 				break;
 			case sf::Event::MouseButtonPressed:
 				e = handle_mouse_event(event, act);
+				if (e != NONE && e != last)
+					return e;
 				break;
 			default:
 				e = NONE;
 				break;
 		}
+		last = e;
 	}
 	return e;
 }
@@ -137,26 +136,32 @@ Event Plugin::poll_event(Activity act){
 
 /* ____ DATA ____ */
 
-void Plugin::update_snake(const std::deque<Position> &queue, Direction direction) {
-	snake.update_snake(*texture_game, queue, direction);
+void Plugin::update_snake(const std::deque<Position> &p1, const std::deque<Position> &p2) {
+	snake_p1.update_snake(*texture_game, p1);
+	if (p2.size() > 0)
+		snake_p2.update_snake(*texture_game, p2);
 }
 
 void Plugin::update_food(Position &position) {
 	apple.update_food (*texture_game, position);
 }
 
-void Plugin::update_score(int n) {
-	gameover.setScore(n); 
-	header.setScore(n);
+void Plugin::update_score(int score_p1, int score_p2) {
+	gameover.setScore(score_p1, 0); 
+	header.setScore(score_p1, 0);
+	gameover.setScore(score_p2, 1); 
+	header.setScore(score_p2, 1);
 }
 
 void Plugin::update_speed(int speed) {
-	this->menu.setSpeed(speed);
+	(void) speed;
 }
 
-void Plugin::Plugin::update_bestscore(int n) {
-	gameover.setBestScore(n); 
-	header.setBestScore(n);
+void Plugin::update_bestscore(int best_score_p1, int best_score_p2) {
+	gameover.setBestScore(best_score_p1, 0); 
+	header.setBestScore(best_score_p1, 0);
+	gameover.setBestScore(best_score_p2, 1); 
+	header.setBestScore(best_score_p2, 1);
 }
 
 void Plugin::clear () {
@@ -170,19 +175,21 @@ void Plugin::clear () {
 
 /* ____ DISPLAY ____ */
 
+void Plugin::update_game_mode(const Activity) {
+}
+
 void Plugin::display (const Activity act) {
 	gameover.update();
 
 	if (act == Activity::ON_GAME_OVER) {
 		texture_game->draw(dark_background);
 		texture_game->draw(gameover);
-	}
+	} else if (act != Activity::ON_MENU)
+		this->update_game_mode(act);
 
 	texture_game->display();
 	game.setTexture(texture_game->getTexture());
 
 	window->draw(game);
-	if (act == Activity::ON_MENU)
-		menu.draw(*window);
 	window->display();
 }

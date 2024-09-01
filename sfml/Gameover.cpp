@@ -3,48 +3,61 @@
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
 
-GameOver::GameOver() {
+GameOver::GameOver() : _is_multiplayer(false){
+	surface = std::make_unique<sf::RenderTexture>();
+
+	texture_gameover = std::make_unique<sf::Texture>();
+	if (texture_gameover->loadFromFile("./sfml/gameover.bmp") == false)
+		throw std::runtime_error("can't load gameover.bmp");
+
+	texture_gameover_2p = std::make_unique<sf::Texture>();
+	if (texture_gameover_2p->loadFromFile("./sfml/gameover_2P.bmp") == false)
+		throw std::runtime_error("can't load gameover_2P.bmp");
+
+	if (_font.loadFromFile("./sfml/coolvetica.otf") == false)
+		throw std::runtime_error("can't load coolvetica.otf");
+	
 	{
-		texture_gameover = std::make_unique<sf::Texture>();
-		surface = std::make_unique<sf::RenderTexture>();
+		_text_score[0].setFont(_font);
+		_text_score[0].setPosition(100, 160);
+		_text_score[0].setFillColor(sf::Color(0xe0e6fbff));
+		_text_score[1].setFont(_font);
+		_text_score[1].setPosition(100, 195);
+		_text_score[1].setFillColor(sf::Color(0xf8dc92ff));
 
-		if (texture_gameover->loadFromFile("./sfml/gameover.bmp") == false)
-			throw std::runtime_error("can't load gameover.bmp");
+		_text_best[0].setFont(_font);
+		_text_best[0].setPosition(226, 160);
+		_text_best[0].setFillColor(sf::Color(0xe0e6fbff));
+		_text_best[1].setFont(_font);
+		_text_best[1].setPosition(226, 195);
+		_text_best[1].setFillColor(sf::Color(0xf8dc92ff));
+	}
 
+	{
 		auto size = texture_gameover->getSize();
 
 		surface->create(size.x, size.y + 60);
 		this->setTexture(surface->getTexture());
-		this->setOrigin(size.x / 2, size.y / 2);
-		sprite_gameover.setTexture(*texture_gameover);
+		this->setOrigin(size.x / 2.0, size.y / 2.0);
+		sprite_gameover[0].setTexture(*texture_gameover);
+		sprite_gameover[1].setTexture(*texture_gameover_2p);
 	}
-	{
-		if (_font.loadFromFile("./sfml/coolvetica.otf") == false)
-			throw std::runtime_error("can't load coolvetica.otf");
 
-		_text_score.setFont(_font);
-		_text_score.setPosition(90, 175);
-		_text_score.setFillColor(sf::Color::White);
-
-		_text_best.setFont(_font);
-		_text_best.setPosition(215, 175);
-		_text_best.setFillColor(sf::Color::White);
-	}
 }
 
 GameOver::GameOver(const GameOver &other) { *this = other; }
 
 GameOver::~GameOver() {
-	texture_gameover.release();
-	surface.release();
 }
 
 GameOver &GameOver::operator=( const GameOver &rhs ) {
 	if (&rhs == this)
 		return *this;
-	sprite_gameover = rhs.sprite_gameover;
-	_text_best = rhs._text_best;
-	_text_score = rhs._text_score;
+	for (int i = 0; i < 2; i++) {
+		_text_score[i] = rhs._text_score[i];
+		_text_best[i] = rhs._text_best[i];
+		sprite_gameover[i] = rhs.sprite_gameover[i];
+	}
 	_font = rhs._font;
 	_button_menu = rhs._button_menu;
 	_button_retry = rhs._button_retry;
@@ -70,7 +83,7 @@ Event	GameOver::collides(int x, int y) {
 		return CLICK_MENU;
 	} else if (_button_retry.getRect().contains(x, y)) {
 		_button_retry.setHover(true);
-		return CLICK_1P;
+		return ENTER;
 	}
 	return NONE;
 }
@@ -78,18 +91,35 @@ Event	GameOver::collides(int x, int y) {
 
 /* ____ ACCESSORS ____ */
 
-void GameOver::setBestScore(const int n) {
-	std::string	n_str = std::to_string(n);
+inline static void	centerTextHorizontally(sf::Text &text) {
+	auto center = text.getGlobalBounds().getSize() / 2.f;
+	auto localBounds = center + text.getLocalBounds().getPosition();
 
-	if (n_str != _text_best.getString())
-		_text_best.setString(n_str);
+	text.setOrigin({localBounds.x, 0});
 }
 
-void GameOver::setScore(const int n) {
+void GameOver::setBestScore(const int n, int idx) {
 	std::string	n_str = std::to_string(n);
 
-	if (n_str != _text_score.getString())
-		_text_score.setString(n_str);
+	if (n_str == _text_best[idx].getString())
+		return ;
+	// Set the score text
+	_text_best[idx].setString(n_str);
+	centerTextHorizontally(_text_best[idx]);
+}
+
+void GameOver::setScore(const int n, int idx) {
+	std::string	n_str = std::to_string(n);
+
+	if (n_str == _text_score[idx].getString())
+		return ;
+	// Set the score text
+	_text_score[idx].setString(n_str);
+	centerTextHorizontally(_text_score[idx]);
+}
+
+void GameOver::setGameMode(bool is_multiplayer) {
+	_is_multiplayer = is_multiplayer;
 }
 
 
@@ -125,9 +155,14 @@ void GameOver::setPosition(const float x, const float y) {
 
 void GameOver::update() {
 	surface->clear({0,0,0,0});
-	surface->draw(sprite_gameover);
-	surface->draw(_text_score);
-	surface->draw(_text_best);
+	
+	surface->draw(sprite_gameover[_is_multiplayer]);
+	surface->draw(_text_score[0]);
+	surface->draw(_text_best[0]);
+	if (_is_multiplayer) {
+		surface->draw(_text_score[1]);
+		surface->draw(_text_best[1]);
+	}
 	_button_menu.draw(*surface.get());
 	_button_retry.draw(*surface.get());
 	surface->display();

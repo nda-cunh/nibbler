@@ -12,25 +12,29 @@
 #include "Background.hpp"
 #include "Header.hpp"
 #include "Gameover.hpp"
-#include "Menu.hpp"
 
 class Plugin : public IPlugin {
 	std::shared_ptr<sf::RenderWindow>	window;
 	std::shared_ptr<sf::RenderTexture>	texture_game;
-	sf::RectangleShape dark_background;
+	sf::RectangleShape 					dark_background;
+	// Background
 	Background	background;
-	GameOver	gameover;
 	Header		header;
+	// Activities
+	GameOver	gameover;
 	sf::Sprite	game;
-	Menu		menu;
-
-	Snake		snake;
+	// Items
+	Snake		snake_p1;
+	Snake		snake_p2;
 	Apple		apple;
+
 
 	/* ---- Event ---- */
 	Event	handle_keyboard_event(sf::Event	event) ;
 	Event	handle_mouse_event(const sf::Event &event, const Activity &act);
 	void	handle_mouse_move(const sf::Event &event, const Activity &act);
+
+	void	update_game_mode(const Activity act);
 
 	public:
 		/* ---- Coplien ---- */
@@ -48,11 +52,11 @@ class Plugin : public IPlugin {
 		Event poll_event(Activity act);
 
 		/* ---- Data ---- */
-		void update_snake(const std::deque<Position> &queue, Direction direction);
+		void update_snake(const std::deque<Position> &p1, const std::deque<Position> &p2 = {});
 		void update_food(Position &position) ;
-		void update_score(int n) ;
-		void update_bestscore(int n) ;
-		void update_speed(int n) ;
+		void update_score(int score_p1, int score_p2 = 0);
+		void update_bestscore(int bestscore_p1, int bestscore_p2 = 0);
+		void update_speed(int n);
 
 		/* ---- Display ---- */
 		void clear () ;

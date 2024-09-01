@@ -54,6 +54,10 @@ void Animation::addFrames(sf::Rect<int> first_frame, sf::Vector2<int> delta, int
 	}
 }
 
+void Animation::clear( void ) {
+	_frames.clear();
+}
+
 sf::Sprite	Animation::getFrame(float x, float y) {
 	sf::Sprite		sprite(_tex);
 	double			time_spent = _timer.elapsed();
