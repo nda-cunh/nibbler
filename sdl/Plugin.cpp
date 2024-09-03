@@ -148,6 +148,7 @@ Event Plugin::poll_event (Activity)   {
 			case SDL_MOUSEBUTTONUP:
 				switch (event.button.button) {
 					case SDL_BUTTON_LEFT:
+						// TODO ndacunh: res inutile? car non reset
 						Event res;
 						SDL_GetMouseState(&px, &py);
 						if (button_retry->collide(px, py))
@@ -233,6 +234,7 @@ void Plugin::update_bestscore (int score)  {
 }
 
 void Plugin::update_speed (int speed)  {
+	(void) speed;
 }
 
 
