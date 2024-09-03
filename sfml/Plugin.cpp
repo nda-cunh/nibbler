@@ -97,6 +97,7 @@ void	Plugin::handle_mouse_move(const sf::Event &e, const Activity &act) {
 	sf::Vector2f	game_shift = game.getPosition();
 	sf::Vector2i	pos = sf::Mouse::getPosition(*this->window);
 
+	(void) e;
 	if (act == Activity::ON_GAME_OVER)
 		gameover.collides(pos.x - game_shift.x, pos.y - game_shift.y);
 }
@@ -136,32 +137,26 @@ Event Plugin::poll_event(Activity act){
 
 /* ____ DATA ____ */
 
-void Plugin::update_snake(const std::deque<Position> &p1, const std::deque<Position> &p2) {
-	snake_p1.update_snake(*texture_game, p1);
-	if (p2.size() > 0)
-		snake_p2.update_snake(*texture_game, p2);
+void Plugin::update_snake(const std::deque<Position> &p, Direction) {
+	snake_p1.update_snake(*texture_game, p);
 }
 
 void Plugin::update_food(Position &position) {
 	apple.update_food (*texture_game, position);
 }
 
-void Plugin::update_score(int score_p1, int score_p2) {
-	gameover.setScore(score_p1, 0); 
-	header.setScore(score_p1, 0);
-	gameover.setScore(score_p2, 1); 
-	header.setScore(score_p2, 1);
+void Plugin::update_score(int score) {
+	gameover.setScore(score, 0); 
+	header.setScore(score, 0);
 }
 
 void Plugin::update_speed(int speed) {
 	(void) speed;
 }
 
-void Plugin::update_bestscore(int best_score_p1, int best_score_p2) {
-	gameover.setBestScore(best_score_p1, 0); 
-	header.setBestScore(best_score_p1, 0);
-	gameover.setBestScore(best_score_p2, 1); 
-	header.setBestScore(best_score_p2, 1);
+void Plugin::update_bestscore(int best_score) {
+	gameover.setBestScore(best_score, 0); 
+	header.setBestScore(best_score, 0);
 }
 
 void Plugin::clear () {
