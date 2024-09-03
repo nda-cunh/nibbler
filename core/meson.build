@@ -3,6 +3,8 @@ executable('nibbler',
            'main.cpp',
            'main_utils.cpp',
            'Plugin.cpp',
+           'Gameloop.cpp',
+           'ModuleAudio.cpp',
            'Snake.cpp',
            'Timer.cpp',
            install : true)

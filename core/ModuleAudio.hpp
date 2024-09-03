@@ -4,27 +4,17 @@
 
 class ModuleAudio : public IAudioModule { 
 	public:
-		ModuleAudio() {
-			handler = dlopen("./libaudio.so", RTLD_LAZY);
-			if (handler == NULL)
-				throw std::runtime_error("can't load libaudio.so");
-			auto func = (IAudioModule*(*)())dlsym(handler, "load");
-			if (func == NULL)
-				throw std::runtime_error("can't dlsym \"load\" function");
-			audio = func();
-		};
+		/* ---- Constructors ---- */
+		ModuleAudio();
+		ModuleAudio(const ModuleAudio&);
+		~ModuleAudio();
 
-		~ModuleAudio() {
-			auto func = (void(*)(IAudioModule*))dlsym(handler, "unload");
-			if (func != NULL)
-				func(audio);
-			if (dlclose(handler) != 0)
-				std::cerr << "dlclose have an error" << std::endl;
-		}
+		/* ---- Coplien  ---- */
+		ModuleAudio& operator=(const ModuleAudio&);
 
-		void playSound(const SoundType &soundType) {
-			audio->playSound(soundType);
-		}
+		/* ---- Methods ---- */
+		void playSound(const SoundType &soundType);
+
 	private:
 		IAudioModule *audio;
 		void* handler;
