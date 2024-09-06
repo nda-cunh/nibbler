@@ -1,6 +1,5 @@
 #include "Snake.hpp"
-#include <vector>
-
+#include <raylib.h>
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
 
@@ -52,9 +51,9 @@ Rectangle getRect(const Position &a, const Position &b, float TILE_SIZE) {
 	return {begin.x, begin.y, size.x, size.y};
 }
 
-void Snake::draw() {
+Position	Snake::draw() const{
 	if (_positions == NULL)
-		return ;
+		return {0, 0};
 	auto pos = _positions->begin();
 	auto prev = pos;
 	Rectangle	rect;
@@ -73,6 +72,7 @@ void Snake::draw() {
 	color = GetColor(0x4e7cf6ff);
 	DrawCircleV({TILE_SIZE * (pos->x + 1.5f), TILE_SIZE * (pos->y + 2.5f)},
 			TILE_SIZE * 0.5f - SHIFT, color);
+	return *pos;
 }
 
 

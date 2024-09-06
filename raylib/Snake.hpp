@@ -19,7 +19,7 @@ class Snake {
 		Snake	&operator=(const Snake &);
 
 		void update(const std::deque<Position> *snake);
-		void draw();
+		Position	draw() const;
 };
 
 #endif

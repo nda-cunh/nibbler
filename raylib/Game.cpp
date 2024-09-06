@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include "Button.hpp"
 #include <raylib.h>
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
@@ -12,20 +11,16 @@ Game::Game(const Game &o): TILE_SIZE(o.TILE_SIZE) {
 }
 
 Game::Game(int w, int h, int tile_size) : TILE_SIZE(tile_size) {
-	this->_size = {(w + 2) * TILE_SIZE, (h + 3) * TILE_SIZE};
+	this->_size = {(w + 2.f) * TILE_SIZE, (h + 3.f) * TILE_SIZE};
 	_snake = Snake(NULL, TILE_SIZE);
 }
 
-Game::~Game() {
-	if (_background.id != 0)
-		UnloadTexture(_background.texture);
-}
+Game::~Game() {}
 
 Game	&Game::operator=(const Game &rhs) {
 	if (this == &rhs)
 		return *this;
 	TILE_SIZE = rhs.TILE_SIZE;
-	_background = rhs._background;
 	_size = rhs._size;
 	_food = rhs._food;
 	_snake = rhs._snake;
@@ -47,38 +42,22 @@ void Game::setBestScore(int score) { _best_score = score; }
 
 /* ____ DRAW METHODS ____ */
 
-void Game::init_background() {
+void	Game::draw_background() {
 	bool is_dark = true;
 	Color colors[2] = {
 		GetColor(0xA2D149FF),
 		GetColor(0xAAD751FF)
 	};
-	_background = LoadRenderTexture(_size.x, _size.y);
-
-	BeginTextureMode(_background);
-	{
-		ClearBackground(GetColor(0x578a34ff));
-		for (int x = 1; x < _size.x / TILE_SIZE - 1; x++) {
-			is_dark = (x % 2 == 1);
-			for (int y = 1; y < _size.y / TILE_SIZE - 2; y++) {
-				is_dark = !is_dark;
-				DrawRectangle(x * TILE_SIZE, y * TILE_SIZE,
-						TILE_SIZE, TILE_SIZE,
-						colors[static_cast<int>(is_dark)]);
-			}
+	ClearBackground(GetColor(0x578a34ff));
+	for (int x = 1; x < _size.x / TILE_SIZE - 1; x++) {
+		is_dark = (x & 1);
+		for (int y = 2; y < _size.y / TILE_SIZE - 1; y++) {
+			is_dark = !is_dark;
+			DrawRectangle(x * TILE_SIZE, y * TILE_SIZE,
+					TILE_SIZE, TILE_SIZE,
+					colors[static_cast<int>(is_dark)]);
 		}
 	}
-	EndTextureMode();
-}
-
-void	Game::draw_background() {
-	static bool	first_display = true;
-
-	if (first_display) {
-		this->init_background();
-		first_display = false;
-	}
-	DrawTexture(_background.texture, 0, 0, RAYWHITE);
 }
 
 void Game::draw_food() {
@@ -111,8 +90,21 @@ void Game::draw_best_score() {
 
 void Game::draw() {
 	this->draw_background();
+	Position	head_pos = _snake.draw();
+
+	// Hide out of border head
+	if (!CheckCollisionPointRec(
+				{static_cast<float>(head_pos.x),
+				static_cast<float>(head_pos.y)},
+				{0, 0, _size.x/TILE_SIZE-2.f, _size.y/TILE_SIZE-3.f}))
+		DrawRectangle(TILE_SIZE * (head_pos.x + 1),
+				TILE_SIZE * (head_pos.y + 2),
+				TILE_SIZE, TILE_SIZE, GetColor(0x578a34ff));
+
+	// Draw scores
 	this->draw_score();
 	this->draw_best_score();
-	this->_snake.draw();
+
+	// Draw food
 	this->draw_food();
 }

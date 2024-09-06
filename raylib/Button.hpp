@@ -43,6 +43,6 @@ class Button {
 
 		/* ---- Display methods ---- */
 		void	reset();
-		void	draw();
+		void	draw() const;
 };
 #endif

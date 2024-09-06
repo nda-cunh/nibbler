@@ -1,13 +1,11 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "utils.hpp"
 #include "Snake.hpp"
 
 class Game {
 	int				TILE_SIZE;
-	RenderTexture2D			_background;
-	Position				_size;
+	Vector2			_size;
 	std::deque<Position>	_food;
 	Snake					_snake;
 	int						_score;
@@ -16,7 +14,6 @@ class Game {
 
 
 	/* ---- Private Draw Methods ---- */
-	void	init_background();
 	void	draw_background();
 	void	draw_score();
 	void	draw_food();

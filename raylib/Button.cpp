@@ -62,7 +62,7 @@ void	Button::reset() {
 	_click_event = NONE;
 }
 
-void	Button::draw() {
+void	Button::draw() const {
 	Color	bg_color = _bg_color;
 
 	if (_is_hover) {
