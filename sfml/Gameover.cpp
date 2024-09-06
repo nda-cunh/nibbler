@@ -80,7 +80,7 @@ Event	GameOver::collides(int x, int y) {
 	// Check if the mouse is hovering over a button
 	if (_button_menu.getRect().contains(x, y)) {
 		_button_menu.setHover(true);
-		return CLICK_MENU;
+		return CLOSE;
 	} else if (_button_retry.getRect().contains(x, y)) {
 		_button_retry.setHover(true);
 		return ENTER;
@@ -145,8 +145,8 @@ void GameOver::setPosition(const float x, const float y) {
 			size.x * small_ratio - spacing, 50);
 	_button_menu.setBgColor(sf::Color(0x4dc1f9ff));
 	_button_menu.setTxtColor(sf::Color::White);
-	_button_menu.setClickEvent(CLICK_MENU);
-	_button_menu.setTxt("Menu");
+	_button_menu.setClickEvent(CLOSE);
+	_button_menu.setTxt("Quit");
 	sf::Sprite::setPosition(x, y);
 }
 
