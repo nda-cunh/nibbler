@@ -6,7 +6,7 @@
 
 Damier::Damier() : tile_size(0), x(0), y(0) { }
 
-Damier::Damier (const Damier &d) {
+Damier::Damier (const Damier &d): RenderTexture(){
 	this->x = d.x;
 	this->y = d.y;
 	this->tile_size = d.tile_size;

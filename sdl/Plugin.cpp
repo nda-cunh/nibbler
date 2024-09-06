@@ -148,18 +148,15 @@ Event Plugin::poll_event (Activity)   {
 			case SDL_MOUSEBUTTONUP:
 				switch (event.button.button) {
 					case SDL_BUTTON_LEFT:
-						// TODO ndacunh: res inutile? car non reset
-						Event res;
 						SDL_GetMouseState(&px, &py);
 						if (button_retry->collide(px, py))
 							return ENTER;
-						if (res != NONE)
-							return res;
 						break;
 					default:
 						e = NONE;
 						break;
 				}
+				/* fallthrough */
 
 			case SDL_KEYDOWN:
 				e = event_keydown(event.key.keysym.scancode);
