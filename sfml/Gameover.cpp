@@ -45,7 +45,7 @@ GameOver::GameOver() : _is_multiplayer(false){
 
 }
 
-GameOver::GameOver(const GameOver &other) { *this = other; }
+GameOver::GameOver(const GameOver &other) : sf::Sprite() { *this = other; }
 
 GameOver::~GameOver() {
 }

@@ -3,7 +3,7 @@
 /* ____ CONSTRUCTOR & COPLIEN ____ */
 Background::Background(){}
 
-Background::Background( const Background &other ){
+Background::Background( const Background &other ) : sf::Sprite(){
 	*this = other;
 }
 

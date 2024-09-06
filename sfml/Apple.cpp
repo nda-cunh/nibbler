@@ -12,7 +12,7 @@ Apple::Apple () {
 	this->setOrigin({_texture->getSize().x / 2.0f, _texture->getSize().y / 2.0f});
 }
 
-Apple::Apple (const Apple &other){ *this = other; }
+Apple::Apple (const Apple &other) : sf::Sprite() { *this = other; }
 
 Apple::~Apple() {}
 

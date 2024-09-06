@@ -8,7 +8,7 @@ Header::Header () : _is_multiplayer(false) {
 	_texture = nullptr;
 	_texture_snakes = nullptr;
 }
-Header::Header (const Header &other) { *this = other; }
+Header::Header (const Header &other): sf::RectangleShape() { *this = other; }
 Header::~Header () {}
 
 
