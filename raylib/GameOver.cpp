@@ -60,10 +60,16 @@ Event	GameOver::checkCollision(Activity , float x, float y) {
 void	GameOver::checkHover(Activity, float x, float y) {
 	bool	has_hover = false;
 
-	if (CheckCollisionPointRec({x, y}, _button_restart.getRect()))
+	_button_quit.setHover(false);
+	_button_restart.setHover(false);
+
+	if (CheckCollisionPointRec({x, y}, _button_restart.getRect())) {
 		has_hover = true;
-	else if (CheckCollisionPointRec({x, y}, _button_quit.getRect()))
+		_button_restart.setHover(true);
+	} else if (CheckCollisionPointRec({x, y}, _button_quit.getRect())){
 		has_hover = true;
+		_button_quit.setHover(true);
+	}
 
 	if (has_hover)
 		SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);

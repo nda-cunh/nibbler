@@ -113,8 +113,7 @@ void Plugin::update_bestscore(int n) {
 	_game.setBestScore(n);
 }
 
-void Plugin::update_speed(int speed) {
-	_game_over.setSpeed(speed);
+void Plugin::update_speed(int) {
 }
 
 
