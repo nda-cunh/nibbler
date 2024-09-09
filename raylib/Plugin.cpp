@@ -1,6 +1,5 @@
 #include "Plugin.hpp"
 
-
 /* ____ COPLIEN ____ */
 
 Plugin::Plugin() {}
@@ -12,8 +11,8 @@ Plugin::Plugin(const Plugin &o) {
 Plugin &Plugin::operator=(const Plugin &rhs){
 	if (this == &rhs)
 		return *this;
-	this->width = rhs.width;
-	this->height = rhs.height;
+	this->_width = rhs._width;
+	this->_height = rhs._height;
 	this->_game = rhs._game;
 	this->_game_over = rhs._game_over;
 	return *this;
@@ -26,12 +25,12 @@ Plugin::~Plugin() {
 
 /* ____ PLUGIN ____ */
 void Plugin::open(int x, int y) {
-	width = (x + 2) * TILE_SIZE;
-	height = (y + 3) * TILE_SIZE;
+	_width = (x + 2) * TILE_SIZE;
+	_height = (y + 3) * TILE_SIZE;
 	_game = Game(x, y, TILE_SIZE);
-	_game_over = GameOver(width, height, TILE_SIZE);
+	_game_over = GameOver(_width, _height, TILE_SIZE);
 	SetTraceLogLevel(LOG_ERROR);
-	InitWindow(width, height, "nibbler - raylib");
+	InitWindow(_width, _height, "nibbler - raylib");
 }
 
 void Plugin::close() { 
@@ -40,21 +39,29 @@ void Plugin::close() {
 
 /* ____ EVENT ____ */
 
+Event	Plugin::check_mouse_events(const Activity &act){
+	auto	pos = GetMousePosition();
+	Event	e = NONE;
+
+	if (act != ON_GAME_OVER)
+		return e;
+	else if (IsMouseButtonPressed(0))
+		e = _game_over.checkCollision(ON_GAME_OVER, pos.x, pos.y);
+	else
+		_game_over.checkHover(ON_GAME_OVER, pos.x, pos.y);
+	return e;
+}
+
+
 Event Plugin::poll_event(Activity current_activity) {
 	if (WindowShouldClose())
 		return CLOSE;
 
 	int key = 42;
 	while (key != 0) {
-		if (IsMouseButtonPressed(0)) {
-			Event	e = _game_over.checkCollision(current_activity,
-					GetMouseX(), GetMouseY());
-			if (e != NONE)
-				return e;
-		} else {
-			auto pos = GetMousePosition();
-			_game_over.checkHover(current_activity, pos.x, pos.y);
-		}
+		Event mouse_event = check_mouse_events(current_activity);
+		if (mouse_event != NONE)
+			return mouse_event;
 		key = GetKeyPressed();
 		switch (key) {
 			case KEY_LEFT:

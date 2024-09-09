@@ -2,7 +2,7 @@
 #include <raylib.h>
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
-Game::Game(){
+Game::Game() {
 	this->_size = {1, 1};
 }
 

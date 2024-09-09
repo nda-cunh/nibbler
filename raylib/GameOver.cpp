@@ -9,9 +9,8 @@ GameOver::GameOver(const GameOver &other): TILE_SIZE(other.TILE_SIZE) {
 }
 
 GameOver::GameOver(int width, int height, int tile_size): TILE_SIZE(tile_size) {
-	this->init_game_over(width, height);
+	this->init_buttons(width, height);
 	_size = {static_cast<float>(width), static_cast<float>(height)};
-	_last_click.reset();
 }
 
 GameOver::~GameOver() {}
@@ -20,20 +19,13 @@ GameOver	&GameOver::operator=(const GameOver &rhs) {
 	if (this == &rhs)
 		return *this;
 	_size = rhs._size;
-	_last_click = rhs._last_click;
 	_button_quit = rhs._button_quit;
 	_button_restart = rhs._button_restart;
 	return *this;
 }
 
-/* ____ SETTER ____ */
-
-void	GameOver::setSpeed(int ) {
-}
-
 /* ____ INIT ACTIVITIES ____ */
-
-void	GameOver::init_game_over(int width, int height) {
+void	GameOver::init_buttons(int width, int height) {
 	Vector2		beg = {0.2f * width, 0.4f * height};
 	Vector2	size = {(width - 2.f * beg.x) / 2.1f, TILE_SIZE * 1.2f};
 
@@ -56,6 +48,7 @@ void	GameOver::init_game_over(int width, int height) {
 	_button_quit.centerText();
 }
 
+/* ____ METHODS ____ */
 Event	GameOver::checkCollision(Activity , float x, float y) {
 	if (CheckCollisionPointRec({x, y}, _button_restart.getRect()))
 		return _button_restart.getEvent();
@@ -90,6 +83,8 @@ void	GameOver::draw() const{
 		int txt_size = 0.07 * std::min(height, width);
 		Rectangle	rect = {beg.x, beg.y,
 			width - 2.f * beg.x, height - 2.f * beg.y};
+
+		// Text offset
 		Vector2	offset;
 
 		offset.x = (rect.width - 9 * txt_size / 1.5) / 2.f;

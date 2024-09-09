@@ -7,13 +7,16 @@
 
 class Plugin : public IPlugin {
 	const int	TILE_SIZE = 32;
-	int 	width;
-	int 	height;
+	int 	_width;
+	int 	_height;
 	Game	_game;
 	GameOver	_game_over;
 
-	public:
 
+	/* ---- Event ---- */
+	Event	check_mouse_events(const Activity &act);
+
+	public:
 		/* ---- Coplien ---- */
 		Plugin();
 		Plugin(const Plugin &);

@@ -4,8 +4,8 @@
 #include "Snake.hpp"
 
 class Game {
-	int				TILE_SIZE;
-	Vector2			_size;
+	int						TILE_SIZE;
+	Vector2					_size;
 	std::deque<Position>	_food;
 	Snake					_snake;
 	int						_score;
