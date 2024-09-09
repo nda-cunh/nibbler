@@ -19,6 +19,7 @@ class Snake
 	/* ---- Private Methods ---- */
 	inline void draw_head(sf::RenderTexture& window, const std::deque<Position> &snake);
 	inline void draw_body(sf::RenderTexture& window, const std::deque<Position> &positions) const;
+	void setSprites();
 
 	public:
 		/* ---- Constructors & Coplien ---- */
@@ -30,7 +31,6 @@ class Snake
 
 		/* ---- Public Methods ---- */
 		void update_snake(sf::RenderTexture &window, const std::deque<Position> &snake);
-		void setSprites(int idx);
 };
 
 #endif

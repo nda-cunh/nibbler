@@ -24,15 +24,14 @@ class Plugin : public IPlugin {
 	GameOver	gameover;
 	sf::Sprite	game;
 	// Items
-	Snake		snake_p1;
-	Snake		snake_p2;
+	Snake		snake;
 	Apple		apple;
 
 
 	/* ---- Event ---- */
 	Event	handle_keyboard_event(sf::Event	event) ;
 	Event	handle_mouse_event(const sf::Event &event, const Activity &act);
-	void	handle_mouse_move(const sf::Event &event, const Activity &act);
+	void	handle_mouse_move(const Activity &act);
 
 	void	update_game_mode(const Activity act);
 

@@ -29,9 +29,9 @@ void Background::init(sf::Vector2u size){
 	for (int i = 0; i < num_tiles_x; ++i) {
 		for (int j = 0; j < num_tiles_y; ++j) {
 			if ((i + j) % 2 == 0) {
-				rectangle.setFillColor(sf::Color(162, 209, 73)); // couleur de rectangle1
+				rectangle.setFillColor(sf::Color(162, 209, 73)); 
 			} else {
-				rectangle.setFillColor(sf::Color(170, 215, 81)); // couleur de rectangle2
+				rectangle.setFillColor(sf::Color(170, 215, 81));
 			}
 			rectangle.setPosition(i * TILE, j * TILE);
 			texture->draw(rectangle);

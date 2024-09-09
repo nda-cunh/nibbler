@@ -19,8 +19,7 @@ Plugin	&Plugin::operator=(const Plugin &rhs){
 	gameover = rhs.gameover;
 	header = rhs.header;
 	game = rhs.game;
-	snake_p1 = rhs.snake_p1;
-	snake_p2 = rhs.snake_p2;
+	snake = rhs.snake;
 	apple = rhs.apple;
 	return *this;
 }
@@ -44,10 +43,6 @@ void Plugin::open(int x, int y){
 	
 	dark_background.setFillColor({0,0,0,150});
 	dark_background.setSize({TILEf*x, TILEf*y});
-
-	snake_p1.setSprites(0);
-	snake_p2.setSprites(1);
-	
 }
 
 void Plugin::close(){
@@ -93,11 +88,10 @@ Event	Plugin::handle_mouse_event(const sf::Event &event, const Activity &act) {
 	return NONE;
 }
 
-void	Plugin::handle_mouse_move(const sf::Event &e, const Activity &act) {
+void	Plugin::handle_mouse_move(const Activity &act) {
 	sf::Vector2f	game_shift = game.getPosition();
 	sf::Vector2i	pos = sf::Mouse::getPosition(*this->window);
 
-	(void) e;
 	if (act == Activity::ON_GAME_OVER)
 		gameover.collides(pos.x - game_shift.x, pos.y - game_shift.y);
 }
@@ -118,7 +112,7 @@ Event Plugin::poll_event(Activity act){
 					return e;
 				break;
 			case sf::Event::MouseMoved:
-				handle_mouse_move(event, act);
+				handle_mouse_move(act);
 				break;
 			case sf::Event::MouseButtonPressed:
 				e = handle_mouse_event(event, act);
@@ -138,7 +132,7 @@ Event Plugin::poll_event(Activity act){
 /* ____ DATA ____ */
 
 void Plugin::update_snake(const std::deque<Position> &p, Direction) {
-	snake_p1.update_snake(*texture_game, p);
+	snake.update_snake(*texture_game, p);
 }
 
 void Plugin::update_food(Position &position) {
@@ -146,8 +140,8 @@ void Plugin::update_food(Position &position) {
 }
 
 void Plugin::update_score(int score) {
-	gameover.setScore(score, 0); 
-	header.setScore(score, 0);
+	gameover.setScore(score); 
+	header.setScore(score);
 }
 
 void Plugin::update_speed(int speed) {
@@ -155,8 +149,8 @@ void Plugin::update_speed(int speed) {
 }
 
 void Plugin::update_bestscore(int best_score) {
-	gameover.setBestScore(best_score, 0); 
-	header.setBestScore(best_score, 0);
+	gameover.setBestScore(best_score); 
+	header.setBestScore(best_score);
 }
 
 void Plugin::clear () {
@@ -179,7 +173,7 @@ void Plugin::display (const Activity act) {
 	if (act == Activity::ON_GAME_OVER) {
 		texture_game->draw(dark_background);
 		texture_game->draw(gameover);
-	} else if (act != Activity::ON_MENU)
+	} else
 		this->update_game_mode(act);
 
 	texture_game->display();

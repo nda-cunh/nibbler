@@ -14,7 +14,7 @@ Button::Button() {
 }
 
 Button::~Button() {
-	_font.release();
+	delete _font.release();
 }
 
 Button::Button(const Button &other) {

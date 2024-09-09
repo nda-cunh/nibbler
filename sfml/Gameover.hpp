@@ -11,15 +11,13 @@ class GameOver : public sf::Sprite
 	private:
 		std::unique_ptr<sf::RenderTexture>	surface;
 		std::unique_ptr<sf::Texture> 		texture_gameover;
-		std::unique_ptr<sf::Texture> 		texture_gameover_2p;
 
 		// Texts
 		sf::Font	_font;
-		sf::Text	_text_score[2];
-		sf::Text	_text_best[2];
+		sf::Text	_text_score;
+		sf::Text	_text_best;
 
-		sf::Sprite	sprite_gameover[2];
-		bool		_is_multiplayer;
+		sf::Sprite	sprite_gameover;
 		// Buttons
 		Button		_button_menu;
 		Button		_button_retry;
@@ -37,9 +35,8 @@ class GameOver : public sf::Sprite
 
 		/* ---- Accessors ---- */
 		void setPosition(const float x, const float y);
-		void setBestScore(const int n, int idx);
-		void setScore(const int n, int idx);
-		void setGameMode(bool is_multiplayer);
+		void setBestScore(const int n);
+		void setScore(const int n);
 
 		/* ---- Draw update ---- */
 		void update();

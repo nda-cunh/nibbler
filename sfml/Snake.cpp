@@ -5,18 +5,7 @@
 Snake::Snake () {
 	if (texture_snake.loadFromFile("./sfml/snake.bmp") == false)
 		throw std::runtime_error("can't load snake.bmp");
-	this->setSprites(0);
-
-	s_tongue.setTexture(texture_snake);
-	s_tongue.addFrames({1, 127, 48, 24}, {49, 0}, 21);
-	s_tongue.addFrames({{1, 127, 2, 2}});
-	s_tongue.setSpeed(0.08);
-	s_tongue.setFreq(6.0);
-
-	s_mouth.setTexture(texture_snake);
-	s_mouth.addFrames({{1, 58, 35, 54}});
-
-	texture_head.create(TILE * 2, TILE * 1.10);
+	this->setSprites();
 }
 
 Snake::Snake(const Snake &other) {
@@ -169,28 +158,38 @@ void Snake::draw_head(sf::RenderTexture& window, const std::deque<Position> &sna
 	window.draw(head);
 }
 
-
-/* ____ PUBLIC METHODS ____ */
-
-void Snake::setSprites(int idx) {
+void Snake::setSprites() {
 	const sf::Color colors[2] = {{81, 128, 243}, {243, 196, 81}};
 
-	this->_color = colors[idx];
+	this->_color = colors[0];
 
 	s_eyes_right.clear();
 	s_eyes_right.setTexture(texture_snake);
 	s_eyes_right.setTexture(texture_snake);
-	s_eyes_right.addFrames({1 + idx * 575, 15, 28, 28}, {29, 0}, 9);
+	s_eyes_right.addFrames({0, 15, 28, 28}, {29, 0}, 9);
 	s_eyes_right.setFreq(3.0);
 	s_eyes_right.setSpeed(0.07);
 
 	s_eyes_left.clear();
 	s_eyes_left.setTexture(texture_snake);
 	s_eyes_left.setTexture(texture_snake);
-	s_eyes_left.addFrames({301 + idx * 575, 15, 28, 28}, {29, 0}, 9);
+	s_eyes_left.addFrames({301, 15, 28, 28}, {29, 0}, 9);
 	s_eyes_left.setFreq(3.0);
 	s_eyes_left.setSpeed(0.07);
+
+	s_tongue.setTexture(texture_snake);
+	s_tongue.addFrames({1, 127, 48, 24}, {49, 0}, 21);
+	s_tongue.addFrames({{1, 127, 2, 2}});
+	s_tongue.setSpeed(0.08);
+	s_tongue.setFreq(6.0);
+
+	s_mouth.setTexture(texture_snake);
+	s_mouth.addFrames({{1, 58, 35, 54}});
+
+	texture_head.create(TILE * 2, TILE * 1.10);
 }
+
+/* ____ PUBLIC METHODS ____ */
 
 void Snake::update_snake(sf::RenderTexture &window, const std::deque<Position> &snake) {
 
