@@ -7,4 +7,5 @@ executable('nibbler',
            'ModuleAudio.cpp',
            'Snake.cpp',
            'Timer.cpp',
+           dependencies: dependency('glib-2.0'),
            install : true)
