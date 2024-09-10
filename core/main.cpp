@@ -1,4 +1,5 @@
 #include "./main_utils.h"
+#include "Gameloop.hpp"
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -85,7 +86,7 @@ int	main(int argc, char **argv)
 
 		std::cout << "\033[1;32m <===\033[92m Game Launched \033[32m==O-<\033[m" << std::endl;
 		std::cout << "width:" << width << " height:" << height << " speed:" << speed << std::endl;
-		main_plugin_loop(width, height);
+		Gameloop(width, height, speed);
 	} catch (std::exception &e) {
 		std::cerr << "Error runtime (" << e.what() << ")" << std::endl;
 	}
