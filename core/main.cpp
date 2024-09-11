@@ -12,12 +12,12 @@ int check_args_params(int ac, char **av, int &w, int &h, int &s) {
 
 	int width = 0;
 	int height = 0;
-	int speed = 2;
+	int speed = 3;
 
 	GOptionEntry entries[] = {
 		{ "width", 'w', 0, G_OPTION_ARG_INT, &width, "width of window", "(10-20)" },
 		{ "height", 'h', 0, G_OPTION_ARG_INT, &height, "height of window", "(10-20)" },
-		{ "speed", 's', 0, G_OPTION_ARG_INT, &speed, "speed of window", "(1-5)" },
+		{ "speed", 's', 0, G_OPTION_ARG_INT, &speed, "speed of snake", "(1-4)" },
 		{ NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL}
 	};
 
@@ -37,8 +37,8 @@ int check_args_params(int ac, char **av, int &w, int &h, int &s) {
 	} else if (width < 10 || width > 20 || height < 10 || height > 20) {
 		ERROR("Width and Height must be between 10 and 20");
 		return false;
-	} else if (speed < 1 || speed > 5) {
-		ERROR("Speed must be between 1 and 5");
+	} else if (speed < 1 || speed > 6) {
+		ERROR("Speed must be between 1 and 6");
 		return false;
 	}
 
@@ -68,7 +68,7 @@ bool	check_args(int ac, char **av, int &w, int &h, int &s) {
 		else {
 			w = width;
 			h = height;
-			s = 2;
+			s = 3;
 			return true;
 		}
 	} else

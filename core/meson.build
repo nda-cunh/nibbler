@@ -1,7 +1,6 @@
 executable('nibbler',
            'Game.cpp',
            'main.cpp',
-           'main_utils.cpp',
            'Plugin.cpp',
            'Gameloop.cpp',
            'ModuleAudio.cpp',

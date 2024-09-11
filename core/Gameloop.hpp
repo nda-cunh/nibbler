@@ -14,7 +14,7 @@ class Gameloop
 {
 	public:
 		/* ---- Constructors ---- */
-		Gameloop(int width, int height);
+		Gameloop(int width, int height, int speed);
 		Gameloop(const Gameloop &other);
 		/* ---- Coplien  ---- */
 		Gameloop &operator=(const Gameloop &rhs);
@@ -31,12 +31,12 @@ class Gameloop
 	private:
 		const std::map<LIBS, std::string> lib_names = {
 			{SFML,            "./libsfml.so"},
-			{SFML_BIS,        "./libsfml_bis.so"},
 			{SDL,             "./libsdl.so"},
 			{RAYLIB,          "./libraylib.so"}
 		};
 		const int	FPS;
 		const int	frameDelay;
+		const float	speedRate;
 		const int	width;
 		const int	height;
 

@@ -15,7 +15,6 @@ class Game {
 	private:
 		int						_score;
 		int						_best_score;
-		double					_speed;
 		bool					_is_over;
 		Position				_size;
 		std::vector<Position>	_foods;
@@ -38,10 +37,6 @@ class Game {
 		bool		over() const;
 		int			getScore() const;
 		int			getBestScore() const;
-		void 		increaseSpeed	( void );
-		void 		decreaseSpeed	( void );
-		double		getSpeed( void ) const;
-		int			getLevelSpeed( void ) const;
 		const Direction				&getSnakeDirection( void ) const;
 		const std::deque<Position>	&getSnakePositions( void ) const;
 		const std::vector<Position>	&getFoodPositions ( void ) const;

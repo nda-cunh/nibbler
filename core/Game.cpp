@@ -13,7 +13,6 @@ Game::Game(const int width, const int height, ModuleAudio *audio) {
 	_score = 0;
 	_best_score = 0;
 	_foods = std::vector<Position>();
-	_speed = 0.075;
 	// for (int i = 0; i < width*height; ++i)
 	generateFood();
 }
@@ -29,27 +28,6 @@ int		Game::getScore() const {
 
 int		Game::getBestScore() const {
 	return _best_score;
-}
-
-void 		Game::increaseSpeed	( void ) {
-	if (this->_speed <= 0.05)
-		return ;
-	_speed -= 0.0125;
-}
-
-void 		Game::decreaseSpeed	( void ) {
-	if (this->_speed >= 0.1)
-		return ;
-	_speed += 0.0125;
-}
-
-double		Game::getSpeed( void ) const {
-	return _speed;
-}
-
-int			Game::getLevelSpeed( void ) const {
-	int speed_level = 5 - (_speed - 0.05) / 0.0125 + 1;
-	return speed_level;
 }
 
 const std::deque<Position> &Game::getSnakePositions( void ) const {
@@ -121,7 +99,6 @@ Game	Game::newGame() const {
 	Game	new_game = Game(_size.x, _size.y, _audio);
 
 	new_game._best_score = _best_score;
-	new_game._speed = _speed;
 	return new_game;
 }
 
@@ -158,7 +135,6 @@ Game &Game::operator=(const Game &src) {
 		return *this;
 	_score = src._score;
 	_best_score = src._best_score;
-	_speed = src._speed;
 	_is_over = src._is_over;
 	_size = src._size;
 	_foods = src._foods;

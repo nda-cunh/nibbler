@@ -2,10 +2,10 @@
 
 
 /* ____ CONSTRUCTORS ____ */
-Gameloop::Gameloop(int width, int height)
-	: FPS(120), frameDelay(1000 / FPS), width(width), height(height), game (width, height, &_audio) {
+Gameloop::Gameloop(int width, int height, int speed)
+	: FPS(120), frameDelay(1000 / FPS), speedRate(0.125 - speed * 0.0125), 
+	  width(width), height(height), game (width, height, &_audio) {
 	plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
-	plugin->update_speed(game.getLevelSpeed());
 	activity = ON_GAME;
 	direction = Down;
 
@@ -13,9 +13,9 @@ Gameloop::Gameloop(int width, int height)
 }
 
 Gameloop::Gameloop(const Gameloop &other)
-	: FPS(other.FPS), frameDelay(other.frameDelay), width(other.width), height(other.height), game (other.game), _audio(other._audio) {
+	: FPS(other.FPS), frameDelay(other.frameDelay), speedRate(other.speedRate),
+	  width(other.width), height(other.height), game (other.game), _audio(other._audio) {
 	plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
-	plugin->update_speed(game.getLevelSpeed());
 	activity = ON_GAME;
 	direction = Down;
 
@@ -68,14 +68,6 @@ inline Event Gameloop::loop_event() {
 			direction = Down;
 			activity = ON_GAME;
 			break;
-		case SPEED_UP:
-			game.increaseSpeed();
-			plugin->update_speed(game.getLevelSpeed());
-			break;
-		case SPEED_DOWN:
-			game.decreaseSpeed();
-			plugin->update_speed(game.getLevelSpeed());
-			break;
 		case F1:
 			if (lib == SFML)
 				break;
@@ -124,7 +116,7 @@ void Gameloop::loop() {
 
 		clear();
 		/* Move Snakes */
-		if (!game.over() && timer.elapsed() > game.getSpeed()) {
+		if (!game.over() && timer.elapsed() > speedRate) {
 			game.moveSnake(direction);
 			timer.reset();
 		}
@@ -144,7 +136,6 @@ Gameloop	&Gameloop::operator=(const Gameloop &rhs) {
 	game = rhs.game;
 	_audio = rhs._audio;
 	plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
-	plugin->update_speed(game.getLevelSpeed());
 	activity = ON_GAME;
 	direction = Down;
 
