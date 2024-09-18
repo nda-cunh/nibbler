@@ -174,7 +174,7 @@ Event Plugin::poll_event (Activity)   {
 /**
  * Update the snake on the screen
  */
-void Plugin::update_snake (const std::deque<Position> &queue, Direction)  {
+void Plugin::update_snake (const std::deque<Position> &queue)  {
 	SDL_Rect rect = { 0, 0, tile_size, tile_size };
 
 	for (const auto &pos : queue) {

@@ -20,7 +20,7 @@ class Plugin : public IPlugin {
 		void open (int x, int y) override;
 		void close () override;
 		Event poll_event (Activity) override;
-		void update_snake (const std::deque<Position> &queue, Direction) override;
+		void update_snake (const std::deque<Position> &queue) override;
 		void update_food (Position &position) override;
 		void update_score (int score) override;
 		void update_speed(int speed) override;

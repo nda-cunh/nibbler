@@ -37,10 +37,6 @@ const std::deque<Position> &Game::getSnakePositions( void ) const {
 const std::vector<Position> &Game::getFoodPositions( void ) const {
 	return _foods;
 }
-
-const Direction &Game::getSnakeDirection( void ) const {
-	return _snake.getDirection();
-}
 		
 
 /* ____ METHODS ____ */

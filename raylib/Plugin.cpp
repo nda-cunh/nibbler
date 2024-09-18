@@ -97,8 +97,7 @@ Event Plugin::poll_event(Activity current_activity) {
 
 /* ____ DATA ____ */
 
-void Plugin::update_snake(const std::deque<Position> &snake, Direction direction) {
-	(void) direction;
+void Plugin::update_snake(const std::deque<Position> &snake) {
 	_game.setSnake(snake);
 }
 

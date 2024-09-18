@@ -131,7 +131,7 @@ Event Plugin::poll_event(Activity act){
 
 /* ____ DATA ____ */
 
-void Plugin::update_snake(const std::deque<Position> &p, Direction) {
+void Plugin::update_snake(const std::deque<Position> &p) {
 	snake.update_snake(*texture_game, p);
 }
 

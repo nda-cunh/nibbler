@@ -25,7 +25,7 @@ Gameloop::Gameloop(const Gameloop &other)
 
 /* ____ METHODS ____ */
 void Gameloop::display() {
-	plugin->update_snake(game.getSnakePositions(), game.getSnakeDirection());
+	plugin->update_snake(game.getSnakePositions());
 
 	for (auto pos : game.getFoodPositions())
 		plugin->update_food(pos);

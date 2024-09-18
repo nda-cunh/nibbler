@@ -32,7 +32,7 @@ class IPlugin {
 		virtual ~IPlugin() = default;
 		virtual void open(int, int) = 0;
 		virtual void close() = 0;
-		virtual void update_snake(const std::deque<Position> &snake, Direction direction) = 0;
+		virtual void update_snake(const std::deque<Position> &snake) = 0;
 		virtual void update_food(Position &position) = 0;
 		virtual void update_score(int n) = 0;
 		virtual void update_speed(int n) = 0;

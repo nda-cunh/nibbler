@@ -56,8 +56,8 @@ void Plugin::display(const Activity act) {
 	game->display(act);
 }
 
-void Plugin::update_snake(const std::deque<Position> &queue, Direction direction) {
-	game->update_snake(queue, direction);
+void Plugin::update_snake(const std::deque<Position> &queue) {
+	game->update_snake(queue);
 }
 
 void Plugin::update_food(Position &position) {
