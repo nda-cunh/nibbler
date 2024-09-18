@@ -9,9 +9,8 @@ Snake::Snake(const Snake &o) : _positions(NULL) {
 	*this = o;
 }
 
-Snake::Snake(std::deque<Position> *snake, int tile_size) {
+Snake::Snake(std::deque<Position> *snake) {
 	_positions = snake;
-	TILE_SIZE = tile_size;
 }
 
 Snake::~Snake() {}
@@ -19,7 +18,6 @@ Snake::~Snake() {}
 Snake	&Snake::operator=(const Snake &rhs) {
 	if (this == &rhs)
 		return *this;
-	TILE_SIZE = rhs.TILE_SIZE;
 	_positions = rhs._positions;
 	return *this;
 }
@@ -31,7 +29,7 @@ void Snake::update(const std::deque<Position> *snake) {
 
 /* ____ DRAW ____ */
 
-Rectangle getRect(const Position &a, const Position &b, float TILE_SIZE) {
+Rectangle getRect(const Position &a, const Position &b) {
 	Position	first = a;
 	Vector2		begin;
 	Vector2		size;
@@ -62,7 +60,7 @@ Position	Snake::draw() const{
 	/* Draw body */
 	color = GetColor(0x315ec9ff);
 	for (++pos; pos != _positions->end(); ++pos) {
-		rect= getRect(*pos, *prev, TILE_SIZE);
+		rect= getRect(*pos, *prev);
 		DrawRectangleRounded(rect, 0.5f, 10, color);
 		++prev;
 	}

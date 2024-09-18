@@ -3,8 +3,8 @@
 
 # include "../include/utils.hpp"
 # include "../include/IPlugin.hpp"
+# include "utils.hpp"
 # include <string>
-# include "./utils.hpp"
 
 class Button {
 	Rectangle	_rect;

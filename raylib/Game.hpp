@@ -4,7 +4,6 @@
 #include "Snake.hpp"
 
 class Game {
-	int						TILE_SIZE;
 	Vector2					_size;
 	std::deque<Position>	_food;
 	Snake					_snake;
@@ -23,7 +22,7 @@ class Game {
 		/* ---- Constructors & Coplien ---- */
 		Game();
 		Game(const Game &);
-		Game(int w, int h, int tile_size);
+		Game(int w, int h);
 		~Game();
 
 		Game	&operator=(const Game &);

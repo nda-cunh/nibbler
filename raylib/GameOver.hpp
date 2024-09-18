@@ -5,7 +5,6 @@
 # include "../include/IPlugin.hpp"
 
 class GameOver {
-	const int	TILE_SIZE;
 	Vector2		_size;
 	Button		_button_restart;
 	Button		_button_quit;
@@ -17,14 +16,14 @@ class GameOver {
 		/* ---- Constructors & Coplien ---- */
 		GameOver();
 		GameOver(const GameOver &);
-		GameOver(int width, int height, int tile_size);
+		GameOver(int width, int height);
 		~GameOver();
 
 		GameOver	&operator=(const GameOver &);
 
 		/* ---- Methods ---- */
-		Event	checkCollision(Activity act, float x, float y);
-		void	checkHover(Activity act, float x, float y);
+		Event	checkCollision(float x, float y);
+		void	checkHover(float x, float y);
 		void	draw() const;
 };
 

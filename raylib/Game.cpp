@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "utils.hpp"
 #include <raylib.h>
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
@@ -6,13 +7,13 @@ Game::Game() {
 	this->_size = {1, 1};
 }
 
-Game::Game(const Game &o): TILE_SIZE(o.TILE_SIZE) {
+Game::Game(const Game &o) {
 	*this = o;
 }
 
-Game::Game(int w, int h, int tile_size) : TILE_SIZE(tile_size) {
+Game::Game(int w, int h) {
 	this->_size = {(w + 2.f) * TILE_SIZE, (h + 3.f) * TILE_SIZE};
-	_snake = Snake(NULL, TILE_SIZE);
+	_snake = Snake(NULL);
 }
 
 Game::~Game() {}
@@ -20,7 +21,6 @@ Game::~Game() {}
 Game	&Game::operator=(const Game &rhs) {
 	if (this == &rhs)
 		return *this;
-	TILE_SIZE = rhs.TILE_SIZE;
 	_size = rhs._size;
 	_food = rhs._food;
 	_snake = rhs._snake;

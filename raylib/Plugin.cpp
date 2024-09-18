@@ -1,4 +1,5 @@
 #include "Plugin.hpp"
+#include "utils.hpp"
 
 /* ____ COPLIEN ____ */
 
@@ -27,8 +28,8 @@ Plugin::~Plugin() {
 void Plugin::open(int x, int y) {
 	_width = (x + 2) * TILE_SIZE;
 	_height = (y + 3) * TILE_SIZE;
-	_game = Game(x, y, TILE_SIZE);
-	_game_over = GameOver(_width, _height, TILE_SIZE);
+	_game = Game(x, y);
+	_game_over = GameOver(_width, _height);
 	SetTraceLogLevel(LOG_ERROR);
 	InitWindow(_width, _height, "nibbler - raylib");
 }
@@ -46,9 +47,9 @@ Event	Plugin::check_mouse_events(const Activity &act){
 	if (act != ON_GAME_OVER)
 		return e;
 	else if (IsMouseButtonPressed(0))
-		e = _game_over.checkCollision(ON_GAME_OVER, pos.x, pos.y);
+		e = _game_over.checkCollision(pos.x, pos.y);
 	else
-		_game_over.checkHover(ON_GAME_OVER, pos.x, pos.y);
+		_game_over.checkHover(pos.x, pos.y);
 	return e;
 }
 

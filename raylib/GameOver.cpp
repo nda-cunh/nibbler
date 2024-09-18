@@ -1,16 +1,17 @@
 # include "GameOver.hpp"
+#include "utils.hpp"
 #include <raylib.h>
 
 /* ____ CONSTRUCTOR & COPLIEN ____ */
-GameOver::GameOver() : TILE_SIZE(32) {}
+GameOver::GameOver() {}
 
-GameOver::GameOver(const GameOver &other): TILE_SIZE(other.TILE_SIZE) {
+GameOver::GameOver(const GameOver &other) {
 	*this = other;
 }
 
-GameOver::GameOver(int width, int height, int tile_size): TILE_SIZE(tile_size) {
-	this->init_buttons(width, height);
+GameOver::GameOver(int width, int height) {
 	_size = {static_cast<float>(width), static_cast<float>(height)};
+	this->init_buttons(width, height);
 }
 
 GameOver::~GameOver() {}
@@ -49,7 +50,7 @@ void	GameOver::init_buttons(int width, int height) {
 }
 
 /* ____ METHODS ____ */
-Event	GameOver::checkCollision(Activity , float x, float y) {
+Event	GameOver::checkCollision(float x, float y) {
 	if (CheckCollisionPointRec({x, y}, _button_restart.getRect()))
 		return _button_restart.getEvent();
 	else if (CheckCollisionPointRec({x, y}, _button_quit.getRect()))
@@ -57,21 +58,21 @@ Event	GameOver::checkCollision(Activity , float x, float y) {
 	return NONE;
 }
 
-void	GameOver::checkHover(Activity, float x, float y) {
-	bool	has_hover = false;
+void	GameOver::checkHover(float x, float y) {
+	bool	is_hover = false;
 
 	_button_quit.setHover(false);
 	_button_restart.setHover(false);
 
 	if (CheckCollisionPointRec({x, y}, _button_restart.getRect())) {
-		has_hover = true;
+		is_hover = true;
 		_button_restart.setHover(true);
 	} else if (CheckCollisionPointRec({x, y}, _button_quit.getRect())){
-		has_hover = true;
+		is_hover = true;
 		_button_quit.setHover(true);
 	}
 
-	if (has_hover)
+	if (is_hover)
 		SetMouseCursor(MOUSE_CURSOR_POINTING_HAND);
 	else
 		SetMouseCursor(MOUSE_CURSOR_DEFAULT);
@@ -82,7 +83,7 @@ void	GameOver::draw() const{
 	// Darker background
 	DrawRectangle(0, 0, _size.x, _size.y, GetColor(0x00000084));
 
-	// Draw Game Over
+	// Draw Game Over Main title
 	{
 		int width = _size.x, height = _size.y;
 		auto beg = Vector2{0.2f * width, 0.4f * height};

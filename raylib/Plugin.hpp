@@ -6,7 +6,6 @@
 #include "GameOver.hpp"
 
 class Plugin : public IPlugin {
-	const int	TILE_SIZE = 32;
 	int 	_width;
 	int 	_height;
 	Game	_game;
