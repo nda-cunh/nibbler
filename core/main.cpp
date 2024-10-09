@@ -4,7 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <glib-2.0/glib.h>
+#include <glib.h>
 
 int check_args_params(int ac, char **av, int &w, int &h, int &s) {
 	GOptionContext *context;
@@ -39,6 +39,11 @@ int check_args_params(int ac, char **av, int &w, int &h, int &s) {
 		return false;
 	} else if (speed < 1 || speed > 6) {
 		ERROR("Speed must be between 1 and 6");
+		return false;
+	}
+
+	if (ac > 1) {
+		ERROR("Too many arguments");
 		return false;
 	}
 
