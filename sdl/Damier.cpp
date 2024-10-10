@@ -4,7 +4,13 @@
 /// Constructors and Destructor
 ////////////////////////////////////////////////
 
-Damier::Damier() : tile_size(0), x(0), y(0) { }
+Damier::Damier() :
+	tile_size(0),
+	x(0),
+	y(0) 
+{
+
+}
 
 Damier::Damier (const Damier &d): RenderTexture(){
 	this->x = d.x;

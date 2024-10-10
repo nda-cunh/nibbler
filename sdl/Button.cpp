@@ -4,13 +4,19 @@
 /// Constructors and Destructor
 ////////////////////////////////////////////////
 
-Button::Button () {
-	background_color_hover = {76, 158, 249, 255};
-	background_color = {76, 191, 248, 255};
-	size_font = 21;
-	color = {255, 255, 255, 255};
-	x = 0;
-	y = 0;
+Button::Button () 
+	: surface(nullptr),
+	cairo_surface(nullptr),
+	cairo_context(nullptr),
+	text(""),
+	color({255, 255, 255, 255}),
+	background_color({76, 191, 248, 255}),
+	background_color_hover({76, 158, 249, 255}),
+	size_font(21),
+	is_hover(false),
+	x(0),
+	y(0)
+{
 }
 
 Button::Button (const Button &other) {
