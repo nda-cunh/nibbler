@@ -1,12 +1,20 @@
 #include "Plugin.hpp"
 
-Plugin::Plugin () {
-	win = NULL;
-	renderer = NULL;
-	width = 0;
-	height = 0;
-	x = 0;
-	y = 0;
+Plugin::Plugin () :
+	win(nullptr),
+	renderer(nullptr),
+	damier(),
+	gameover(),
+	render_game(),
+	text_score(),
+	text_bestscore(),
+	tile_size(32),
+	width(0),
+	height(0),
+	x(0),
+	y(0)
+
+{
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		throw std::runtime_error("SDL_Init failed");
 }
@@ -30,8 +38,10 @@ Plugin	&Plugin::operator=(const Plugin &p) {
 }
 
 Plugin::~Plugin() {
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(win);
+	if (renderer)
+		SDL_DestroyRenderer(renderer);
+	if (win)
+		SDL_DestroyWindow(win);
 	SDL_Quit();
 }
 
@@ -46,7 +56,7 @@ void Plugin::open (int x, int y) {
 	///	Window
 	////////////////////////////////////////
 	win = SDL_CreateWindow("Nibbler - SDL2", 0, 0, width + tile_size * 2, height + tile_size * 2 * 2, SDL_WINDOW_HIDDEN);
-	if (win == NULL)
+	if (win == nullptr)
 		throw std::runtime_error("SDL_CreateWindow failed" + std::string(SDL_GetError()));
 	if (SDL_GetDesktopDisplayMode(0, &dm) < 0)
 		throw std::runtime_error("SDL_GetDesktopDisplayMode failed" + std::string(SDL_GetError()));
@@ -57,7 +67,7 @@ void Plugin::open (int x, int y) {
 	///	Renderer
 	////////////////////////////////////////
 	renderer = SDL_CreateRenderer(win, 0, 0);
-	if (renderer == NULL)
+	if (renderer == nullptr)
 		throw std::runtime_error("SDL_CreateRenderer failed");
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -85,17 +95,7 @@ void Plugin::open (int x, int y) {
 	/// Gameover
 	////////////////////////////////////////
 
-	gameover.createGameOver(w, h);
-
-	////////////////////////////////////////
-	/// Buttons
-	////////////////////////////////////////
-	button_retry = std::make_shared<Button> ("Try Again", (gameover.get_width()) , 50);
-
-	int gameover_x, gameover_y;
-	gameover.get_position(gameover_x, gameover_y);
-
-	button_retry->set_position (gameover_x, gameover_y + gameover.get_height() + 10);
+	gameover.createGameOver(w, h, y);
 }
 
 void Plugin::close ()  {
@@ -105,6 +105,7 @@ Event Plugin::poll_event (Activity)   {
 	int px, py;
 	SDL_Event event;
 	Event e = NONE;
+	
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
 
@@ -114,9 +115,7 @@ Event Plugin::poll_event (Activity)   {
 
 			case SDL_MOUSEMOTION:
 				SDL_GetMouseState(&px, &py);
-				button_retry->unhover();
-				if (button_retry->collide(px, py))
-					button_retry->hover();
+				gameover.hover(px, py);
 				break;
 
 
@@ -124,9 +123,12 @@ Event Plugin::poll_event (Activity)   {
 				switch (event.button.button) {
 					case SDL_BUTTON_LEFT:
 						SDL_GetMouseState(&px, &py);
-						if (button_retry->collide(px, py))
-							return ENTER;
-						break;
+						switch (gameover.collide(px, py)) {
+							case 1: // click retry button
+								return ENTER;
+							case 2: // click quit button
+								return CLOSE;
+						}
 					default:
 						e = NONE;
 						break;
@@ -266,8 +268,6 @@ void Plugin::display (Activity activity)  {
 
 			// Draw the gameover screen
 			gameover.draw(renderer);
-
-			button_retry->draw(renderer);
 			break;
 
 		default:

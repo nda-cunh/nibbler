@@ -4,11 +4,16 @@
 /// Constructors and Destructor
 ////////////////////////////////////////////////
 
-Text::Text () {
-	font = "Answer";
-	size_font = 32;
-	x = 0;
-	y = 0;
+Text::Text () :
+	surface(nullptr),
+	cairo_surface(nullptr),
+	cairo_context(nullptr),
+	text(""),
+	font("Answer"),
+	size_font(32),
+	x(0),
+	y(0)
+{
 	create (1, 1);
 }
 

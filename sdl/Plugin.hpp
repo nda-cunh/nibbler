@@ -48,6 +48,5 @@ class Plugin : public IPlugin {
 		int height;
 		int x;
 		int y;
-		std::shared_ptr<Button> button_retry;
 };
 
