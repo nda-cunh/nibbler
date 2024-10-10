@@ -66,12 +66,12 @@ Event	Plugin::handle_keyboard_event(sf::Event	event) {
 			return ENTER;
 		case sf::Keyboard::Escape:
 			return CLOSE;
-		case sf::Keyboard::F1:
-			return F1;
-		case sf::Keyboard::F2:
-			return F2;
-		case sf::Keyboard::F3:
-			return F3;
+		case sf::Keyboard::Num1:
+			return NUM1;
+		case sf::Keyboard::Num2:
+			return NUM2;
+		case sf::Keyboard::Num3:
+			return NUM3;
 		default:
 			return NONE;
 	}

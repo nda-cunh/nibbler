@@ -68,21 +68,21 @@ inline Event Gameloop::loop_event() {
 			direction = Down;
 			activity = ON_GAME;
 			break;
-		case F1:
+		case NUM1:
 			if (lib == SFML)
 				break;
 			lib = SFML;
 			plugin.reset();
 			plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 			break;
-		case F2:
+		case NUM2:
 			if (lib == RAYLIB)
 				break;
 			lib = RAYLIB;
 			plugin.reset();
 			plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
 			break;
-		case F3:
+		case NUM3:
 			if (lib == SDL)
 				break;
 			lib = SDL;

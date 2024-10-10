@@ -13,9 +13,9 @@ enum Event {
 	CLICK_1P,
 	ENTER, // enter-key
 	CLOSE, // Alt+F4 or cross window
-	F1,
-	F2,
-	F3,
+	NUM1,
+	NUM2,
+	NUM3,
 	SPEED_UP,
 	SPEED_DOWN
 };

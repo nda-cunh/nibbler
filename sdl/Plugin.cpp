@@ -101,49 +101,6 @@ void Plugin::open (int x, int y) {
 void Plugin::close ()  {
 }
 
-static inline Event event_keydown(SDL_Scancode scancode) {
-	Event e;
-	switch (scancode) {
-		case SDL_SCANCODE_LEFT:
-			e = LEFT;
-			break;
-		case SDL_SCANCODE_RIGHT:
-			e = RIGHT;
-			break;
-		case SDL_SCANCODE_UP:
-			e = UP;
-			break;
-		case SDL_SCANCODE_DOWN:
-			e = DOWN;
-			break;
-		case SDL_SCANCODE_RETURN:
-			e = ENTER;
-			break;
-		case SDL_SCANCODE_ESCAPE:
-			e = CLOSE;
-			break;
-		case SDL_SCANCODE_F1:
-			e = F1;
-			break;
-		case SDL_SCANCODE_F2:
-			e = F2;
-			break;
-		case SDL_SCANCODE_F3:
-			e = F3;
-			break;
-		case SDL_SCANCODE_MINUS:
-			e = SPEED_DOWN;
-			break;
-		case SDL_SCANCODE_KP_PLUS:
-			e = SPEED_UP;
-			break;
-		default:
-			e = NONE;
-			break;
-	}
-	return e;
-}
-
 Event Plugin::poll_event (Activity)   {
 	int px, py;
 	SDL_Event event;
@@ -174,12 +131,31 @@ Event Plugin::poll_event (Activity)   {
 						e = NONE;
 						break;
 				}
-				/* fallthrough */
-
-			case SDL_KEYDOWN:
-				e = event_keydown(event.key.keysym.scancode);
 				break;
-
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.scancode) {
+					case SDL_SCANCODE_LEFT:
+						return LEFT;
+					case SDL_SCANCODE_RIGHT:
+						return RIGHT;
+					case SDL_SCANCODE_UP:
+						return UP;
+					case SDL_SCANCODE_DOWN:
+						return DOWN;
+					case SDL_SCANCODE_RETURN:
+						return ENTER;
+					case SDL_SCANCODE_ESCAPE:
+						return CLOSE;
+					case SDL_SCANCODE_1:
+						return NUM1;
+					case SDL_SCANCODE_2:
+						return NUM2;
+					case SDL_SCANCODE_3:
+						return NUM3;
+					default:
+						break;
+				}
+				break;
 			default:
 				e = NONE;
 				break;

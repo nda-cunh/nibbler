@@ -77,12 +77,12 @@ Event Plugin::poll_event(Activity current_activity) {
 				return ENTER;
 			case KEY_ESCAPE:
 				return CLOSE;
-			case KEY_F1:
-				return F1;
-			case KEY_F2:
-				return F2;
-			case KEY_F3:
-				return F3;
+			case KEY_ONE:
+				return NUM1;
+			case KEY_TWO:
+				return NUM2;
+			case KEY_THREE:
+				return NUM3;
 			case KEY_KP_ADD:
 				return SPEED_UP;
 			case KEY_KP_SUBTRACT:
