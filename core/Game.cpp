@@ -87,7 +87,6 @@ void Game::moveSnake (const Direction &dir) {
 		_audio->playSound(IAudioModule::EAT);
 		_foods.erase(food_it);
 		generateFood();
-		generateFood();
 	}
 }
 
