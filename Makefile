@@ -22,10 +22,10 @@ $(NAME): build
 	ninja install -C build
 
 run: all
-	./$(NAME) 15 20
+	./$(NAME) -h 10 -w 10
 
 run2: all
-	valgrind ./$(NAME) 15 20
+	valgrind --leak-check=full ./$(NAME) -h 10 -w 10
 
 run3: all
 	@read -p "Enter the width:  " width; \
