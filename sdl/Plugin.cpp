@@ -11,6 +11,24 @@ Plugin::Plugin () {
 		throw std::runtime_error("SDL_Init failed");
 }
 
+Plugin::Plugin(const Plugin &p) {
+	*this = p;
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+		throw std::runtime_error("SDL_Init failed");
+}
+
+Plugin	&Plugin::operator=(const Plugin &p) {
+	if (this == &p) {
+		win = p.win;
+		renderer = p.renderer;
+		width = p.width;
+		height = p.height;
+		x = p.x;
+		y = p.y;
+	}
+	return *this;
+}
+
 Plugin::~Plugin() {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(win);

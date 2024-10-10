@@ -11,6 +11,8 @@ class Text {
 		Text ();
 		~Text ();
 		explicit Text (const std::string &text_str);
+		Text (const Text &text);
+		Text &operator= (const Text &text);
 
 		void create (int width, int height);
 		void draw (SDL_Renderer *renderer);

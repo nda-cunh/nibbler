@@ -12,6 +12,21 @@ Gameover::Gameover () : RenderTexture() {
 	y_gameover = 0;
 }
 
+Gameover::Gameover(const Gameover &g) : RenderTexture(g) {
+	*this = g;
+}
+
+Gameover	&Gameover::operator= (const Gameover &g) {
+	if (this != &g) {
+		score = g.score;
+		best_score = g.best_score;
+		x_gameover = g.x_gameover;
+		y_gameover = g.y_gameover;
+		text = g.text;
+	}
+	return *this;
+}
+
 void Gameover::createGameOver (int width, int height) {
 	text.set_text(std::to_string(score));
 	x_gameover = (- (this->get_width()/2.0) + width/2.0);

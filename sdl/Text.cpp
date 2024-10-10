@@ -18,6 +18,24 @@ Text::Text (const std::string &text_str) : Text(){
 	update();
 }
 
+Text::Text(const Text &text) {
+	*this = text;
+}
+
+Text	&Text::operator=(const Text &text) {
+	if (this != &text) {
+		this->text = text.text;
+		this->font = text.font;
+		this->size_font = text.size_font;
+		this->x = text.x;
+		this->y = text.y;
+		this->surface = text.surface;
+		this->cairo_surface = text.cairo_surface;
+		this->cairo_context = text.cairo_context;
+	}
+	return *this;
+}
+
 
 Text::~Text () {
 

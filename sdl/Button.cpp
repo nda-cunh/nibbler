@@ -13,6 +13,25 @@ Button::Button () {
 	y = 0;
 }
 
+Button::Button (const Button &other) {
+	*this = other;
+	create(other.surface->w, other.surface->h);
+}
+
+Button	&Button::operator=(const Button &rhs) {
+	if (this != &rhs) {
+		background_color_hover = rhs.background_color_hover;
+		background_color = rhs.background_color;
+		size_font = rhs.size_font;
+		color = rhs.color;
+		x = rhs.x;
+		y = rhs.y;
+		is_hover = rhs.is_hover;
+		text = rhs.text;
+	}
+	return *this;
+}
+
 
 Button::Button (const std::string &str, int width, int height) : Button () {
 	int w, h;

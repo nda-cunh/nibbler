@@ -8,8 +8,9 @@
 
 class Button {
 	public:
-		~Button ();
 		Button (const std::string& str, int width, int height);
+		Button &operator=(const Button &other);
+		~Button ();
 
 		void create (int width, int height);
 		void clear();
@@ -30,6 +31,7 @@ class Button {
 
 	private: 
 		Button ();
+		Button(const Button& other);
 		std::shared_ptr<SDL_Surface> surface;
 		std::shared_ptr<cairo_surface_t> cairo_surface;
 		std::shared_ptr<cairo_t> cairo_context;

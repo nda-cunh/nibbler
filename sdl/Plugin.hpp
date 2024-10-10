@@ -15,8 +15,11 @@
 
 class Plugin : public IPlugin {
 	public:
-		virtual ~Plugin();
 		Plugin ();
+		Plugin(const Plugin &p);
+		Plugin	&operator=(const Plugin &p);
+		virtual ~Plugin();
+
 		void open (int x, int y) override;
 		void close () override;
 		Event poll_event (Activity) override;
