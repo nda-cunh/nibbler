@@ -33,7 +33,6 @@ void Gameover::createGameOver (int width, int height, int tile_y) {
 	y_gameover = (- (this->get_height()/2.0) + height/2.0);
 	button_retry = std::make_shared<Button> ("Try Again", ((get_width() / 3.0) * 2) - 10 , 50);
 	button_quit = std::make_shared<Button> ("Quit", ((get_width() / 3.0) * 1) - 10 , 50);
-	printf("%d\n", (height/ 32));
 	if (tile_y < 12) {
 		button_retry->set_position (x_gameover, y_gameover + get_height() - 60);
 		button_quit ->set_position (x_gameover + ((get_width() / 3.0)* 2), y_gameover + get_height() - 60);
