@@ -8,5 +8,6 @@ shared_library('raylib',
            'GameOver.cpp',
            'Timer.cpp',
            'Game.cpp',
+           'Score.cpp',
            dependencies: dep,
            install : true)
