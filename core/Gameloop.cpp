@@ -1,20 +1,5 @@
 # include "Gameloop.hpp"
 
-// const int	FPS;
-// const int	frameDelay;
-// const float	speedRate;
-// const int	width;
-// const int	height;
-// 
-// std::unique_ptr<Plugin> plugin;
-// Game			game;
-// ModuleAudio		_audio;
-// Activity		activity;
-// LIBS			lib = SFML;
-// Direction		direction;
-// Timer			timer;
-// Timer			frame_timer;
-
 /* ____ CONSTRUCTORS ____ */
 Gameloop::Gameloop(int width, int height, int speed) :
 	FPS(120),
@@ -22,14 +7,14 @@ Gameloop::Gameloop(int width, int height, int speed) :
 	speedRate(0.125 - speed * 0.0125), 
 	width(width),
 	height(height),
-	plugin(std::make_unique<Plugin>(lib_names.at(lib), width, height)),
 	game (width, height, &_audio),
 	_audio(),
 	activity(ON_GAME),
 	lib(SFML),
 	direction(Down),
 	timer(),
-	frame_timer()
+	frame_timer(),
+	plugin(std::make_unique<Plugin>(lib_names.at(lib), width, height))
 {
 	loop();
 }
@@ -40,14 +25,14 @@ Gameloop::Gameloop(const Gameloop &other)
 	speedRate(other.speedRate),
 	width(other.width),
 	height(other.height),
-	plugin(std::make_unique<Plugin>(lib_names.at(lib), width, height)),
 	game (other.game),
 	_audio(other._audio),
 	activity(other.activity),
 	lib(other.lib),
 	direction(other.direction),
 	timer(other.timer),
-	frame_timer(other.frame_timer)
+	frame_timer(other.frame_timer),
+	plugin(std::make_unique<Plugin>(lib_names.at(lib), width, height))
 {
 	loop();
 }

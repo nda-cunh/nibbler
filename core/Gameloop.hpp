@@ -40,7 +40,6 @@ class Gameloop
 		const int	width;
 		const int	height;
 
-		std::unique_ptr<Plugin> plugin;
 		Game			game;
 		ModuleAudio		_audio;
 		Activity		activity;
@@ -48,6 +47,7 @@ class Gameloop
 		Direction		direction;
 		Timer			timer;
 		Timer			frame_timer;
+		std::unique_ptr<Plugin> plugin;
 };
 
 #endif
