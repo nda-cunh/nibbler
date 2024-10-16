@@ -25,15 +25,15 @@ class Score {
 		Score &operator=(const Score &rhs);
 
 		/* ---- Public methods ---- */
-		void draw(int n) const;
+		void draw(int n);
 
 	private:
 		Color 	_color;
 		Vector2 _position;
 
 		/* ---- Private draw methods ---- */
-		void drawDigit(int digit, Vector2 start) const; 
-		void drawLed(LedPosition led_pos, Vector2 start, Color c) const; 
+		void drawDigit(int digit, Vector2 start); 
+		void drawLed(LedPosition led_pos, Vector2 start) const; 
 		void drawBackground(Vector2 start) const; 
 };
 

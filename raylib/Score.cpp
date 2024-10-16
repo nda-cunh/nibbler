@@ -24,7 +24,7 @@ Score &Score::operator=(const Score &rhs) {
 }
 
 /* ____ PUBLIC METHODS ____ */
-void Score::draw(int n) const {
+void Score::draw(int n) {
 	int decimal = n % 10;
 	int power = 1;
 
@@ -43,9 +43,10 @@ void Score::draw(int n) const {
 }
 
 /* ____ PRIVATE DRAW METHODS ____ */
-void Score::drawLed(LedPosition led_pos, Vector2 start, Color c) const {
+void Score::drawLed(LedPosition led_pos, Vector2 start) const {
 	const float rdns = 0.8f;
 	const Vector2	shape = {15, 3};
+	Color c = this->_color;
 
 	switch (led_pos) {
 		case Top:
@@ -88,89 +89,88 @@ void Score::drawLed(LedPosition led_pos, Vector2 start, Color c) const {
 }
 
 void Score::drawBackground(Vector2 start) const {
-	Color c = this->_color;
-	c.a = 30;
-
-	drawLed(Top, start, c);
-	drawLed(TopLeft, start, c);
-	drawLed(TopRight, start, c);
-	drawLed(Middle, start, c);
-	drawLed(BottomLeft, start, c);
-	drawLed(BottomRight, start, c);
-	drawLed(Bottom, start, c);
+	drawLed(Top, start);
+	drawLed(TopLeft, start);
+	drawLed(TopRight, start);
+	drawLed(Middle, start);
+	drawLed(BottomLeft, start);
+	drawLed(BottomRight, start);
+	drawLed(Bottom, start);
 }
 
-void Score::drawDigit(int digit, Vector2 start) const {
+void Score::drawDigit(int digit, Vector2 start) {
+	_color.a = 30;
 	this->drawBackground(start);
+	_color.a = 255;
 	switch (digit) {
 		case 0:
-			drawLed(Top, start, this->_color);
-			drawLed(TopLeft, start, this->_color);
-			drawLed(TopRight, start, this->_color);
-			drawLed(BottomLeft, start, this->_color);
-			drawLed(BottomRight, start, this->_color);
-			drawLed(Bottom, start, this->_color);
+			drawLed(Top, start);
+			drawLed(TopLeft, start);
+			drawLed(TopRight, start);
+			drawLed(BottomLeft, start);
+			drawLed(BottomRight, start);
+			drawLed(Bottom, start);
 			break;
 		case 1:
-			drawLed(TopRight, start, this->_color);
-			drawLed(BottomRight, start, this->_color);
+			drawLed(TopRight, start);
+			drawLed(BottomRight, start);
 			break;
 		case 2:
-			drawLed(Top, start, this->_color);
-			drawLed(TopRight, start, this->_color);
-			drawLed(Middle, start, this->_color);
-			drawLed(BottomLeft, start, this->_color);
-			drawLed(Bottom, start, this->_color);
+			drawLed(Top, start);
+			drawLed(TopRight, start);
+			drawLed(Middle, start);
+			drawLed(BottomLeft, start);
+			drawLed(Bottom, start);
 			break;
 		case 3:
-			drawLed(Top, start, this->_color);
-			drawLed(TopRight, start, this->_color);
-			drawLed(Middle, start, this->_color);
-			drawLed(BottomRight, start, this->_color);
-			drawLed(Bottom, start, this->_color);
+			drawLed(Top, start);
+			drawLed(TopRight, start);
+			drawLed(Middle, start);
+			drawLed(BottomRight, start);
+			drawLed(Bottom, start);
 			break;
 		case 4:
-			drawLed(TopLeft, start, this->_color);
-			drawLed(TopRight, start, this->_color);
-			drawLed(Middle, start, this->_color);
-			drawLed(BottomRight, start, this->_color);
+			drawLed(TopLeft, start);
+			drawLed(TopRight, start);
+			drawLed(Middle, start);
+			drawLed(BottomRight, start);
 			break;
 		case 5:
-			drawLed(Top, start, this->_color);
-			drawLed(TopLeft, start, this->_color);
-			drawLed(Middle, start, this->_color);
-			drawLed(BottomRight, start, this->_color);
-			drawLed(Bottom, start, this->_color);
+			drawLed(Top, start);
+			drawLed(TopLeft, start);
+			drawLed(Middle, start);
+			drawLed(BottomRight, start);
+			drawLed(Bottom, start);
 			break;
 		case 6:
-			drawLed(Top, start, this->_color);
-			drawLed(TopLeft, start, this->_color);
-			drawLed(Middle, start, this->_color);
-			drawLed(BottomLeft, start, this->_color);
-			drawLed(BottomRight, start, this->_color);
-			drawLed(Bottom, start, this->_color);
+			drawLed(Top, start);
+			drawLed(TopLeft, start);
+			drawLed(Middle, start);
+			drawLed(BottomLeft, start);
+			drawLed(BottomRight, start);
+			drawLed(Bottom, start);
 			break;
 		case 7:
-			drawLed(Top, start, this->_color);
-			drawLed(TopRight, start, this->_color);
-			drawLed(BottomRight, start, this->_color);
+			drawLed(Top, start);
+			drawLed(TopRight, start);
+			drawLed(BottomRight, start);
 			break;
 		case 8:
-			drawLed(Top, start, this->_color);
-			drawLed(TopLeft, start, this->_color);
-			drawLed(TopRight, start, this->_color);
-			drawLed(Middle, start, this->_color);
-			drawLed(BottomLeft, start, this->_color);
-			drawLed(BottomRight, start, this->_color);
-			drawLed(Bottom, start, this->_color);
+			drawLed(Top, start);
+			drawLed(TopLeft, start);
+			drawLed(TopRight, start);
+			drawLed(Middle, start);
+			drawLed(BottomLeft, start);
+			drawLed(BottomRight, start);
+			drawLed(Bottom, start);
 			break;
 		case 9:
-			drawLed(Top, start, this->_color);
-			drawLed(TopLeft, start, this->_color);
-			drawLed(TopRight, start, this->_color);
-			drawLed(Middle, start, this->_color);
-			drawLed(BottomRight, start, this->_color);
-			drawLed(Bottom, start, this->_color);
+			drawLed(Top, start);
+			drawLed(TopLeft, start);
+			drawLed(TopRight, start);
+			drawLed(Middle, start);
+			drawLed(BottomRight, start);
+			drawLed(Bottom, start);
 			break;
 	}
 }
