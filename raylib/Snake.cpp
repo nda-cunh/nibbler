@@ -52,10 +52,10 @@ Rectangle getRect(const Position &a, const Position &b) {
 Position	Snake::draw() const{
 	if (_positions == NULL)
 		return {0, 0};
-	auto pos = _positions->begin();
+	auto pos  = _positions->begin();
 	auto prev = pos;
 	Rectangle	rect;
-	Color color;
+	Color 		color;
 
 	/* Draw body */
 	color = GetColor(0x315ec9ff);

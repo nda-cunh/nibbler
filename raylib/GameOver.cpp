@@ -27,7 +27,7 @@ GameOver	&GameOver::operator=(const GameOver &rhs) {
 
 /* ____ INIT ACTIVITIES ____ */
 void	GameOver::init_buttons(int width, int height) {
-	Vector2		beg = {0.2f * width, 0.4f * height};
+	Vector2	beg = {0.2f * width, 0.4f * height};
 	Vector2	size = {(width - 2.f * beg.x) / 2.1f, TILE_SIZE * 1.2f};
 
 	_button_restart.setTxt("Try Again");
@@ -85,9 +85,9 @@ void	GameOver::draw() const{
 
 	// Draw Game Over Main title
 	{
-		int width = _size.x, height = _size.y;
-		auto beg = Vector2{0.2f * width, 0.4f * height};
-		int txt_size = 0.07 * std::min(height, width);
+		int		width = _size.x, height = _size.y;
+		auto	beg = Vector2{0.2f * width, 0.4f * height};
+		int		txt_size = 0.07 * std::min(height, width);
 		Rectangle	rect = {beg.x, beg.y,
 			width - 2.f * beg.x, height - 2.f * beg.y};
 

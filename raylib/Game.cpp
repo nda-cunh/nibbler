@@ -44,8 +44,8 @@ void Game::setBestScore(int score) { _best_score = score; }
 /* ____ DRAW METHODS ____ */
 
 void	Game::draw_background() {
-	bool is_dark = true;
-	Color colors[2] = {
+	bool	is_dark = true;
+	Color	colors[2] = {
 		GetColor(0xA2D149FF),
 		GetColor(0xAAD751FF)
 	};

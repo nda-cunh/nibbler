@@ -44,11 +44,11 @@ void Score::draw(int n) const {
 
 /* ____ PRIVATE DRAW METHODS ____ */
 void Score::drawDigit(int d, Vector2 start) const {
-	const Color c_on = _color;
-	const Color c_off = {c_on.r, c_on.g, c_on.b, 30};
+	const Color 	c_on = _color;
+	const Color 	c_off = {c_on.r, c_on.g, c_on.b, 30};
 	const Vector2	shape = {15, 3};
-	const float rdns = 0.8f;
-	const bool leds[10][7] = {
+	const float 	rdns = 0.8f;
+	const bool 		leds[10][7] = {
 		{1, 1, 1, 0, 1, 1, 1}, // 0
 		{0, 0, 1, 0, 0, 1, 0}, // 1
 		{1, 0, 1, 1, 1, 0, 1}, // 2
