@@ -1,13 +1,19 @@
 # include "Snake.hpp"
 
 /* ____ CONSTRUCTORS ____ */
-Snake::Snake() {}
+Snake::Snake() :
+	_positions(std::deque<Position>()),
+	_dir(Up)
+{ }
+
 Snake::~Snake() {}
 
-void Snake::create(const int &width, const int &height) {
+Snake::Snake(const int width, const int height) :
+	_positions(std::deque<Position>()),
+	_dir (Down)
+{
 	for (int j = 4; j > 0; j--)
 		_positions.push_front({width / 2, height / 2 - j});
-	_dir = Down;
 }
 
 /* ____ COPLIEN ____ */

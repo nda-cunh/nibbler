@@ -15,9 +15,9 @@ class Gameloop
 	public:
 		/* ---- Constructors ---- */
 		Gameloop(int width, int height, int speed);
-		Gameloop(const Gameloop &other);
 		/* ---- Coplien  ---- */
 		Gameloop &operator=(const Gameloop &rhs);
+		Gameloop(const Gameloop &other);
 		~Gameloop();
 
 		/* ---- Methods ---- */

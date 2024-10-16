@@ -1,19 +1,28 @@
 #include "Game.hpp"
 
 /* ____ CONSTRUCTORS ____ */
-Game::Game()	{}
+Game::Game() :
+	_score(0),
+	_best_score(0),
+	_is_over(false),
+	_size({0, 0}),
+	_foods(std::vector<Position>()),
+	_snake(Snake()),
+	_audio(nullptr) {
+
+}
 
 Game::~Game()	{}
 
-Game::Game(const int width, const int height, ModuleAudio *audio) {
-	_audio = audio;
-	_snake.create(width, height);
-	_size = {width, height};
-	_is_over = false;
-	_score = 0;
-	_best_score = 0;
-	_foods = std::vector<Position>();
-	// for (int i = 0; i < width*height; ++i)
+Game::Game(const int width, const int height, ModuleAudio *audio) :
+	_score(0),
+	_best_score(0),
+	_is_over(false),
+	_size({width, height}),
+	_foods(std::vector<Position>()),
+	_snake(width, height),
+	_audio(audio)
+{
 	generateFood();
 }
 

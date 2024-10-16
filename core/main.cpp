@@ -21,7 +21,7 @@ int check_args_params(int ac, char **av, int &w, int &h, int &s) {
 		{ NULL, 0, 0, G_OPTION_ARG_NONE, NULL, NULL, NULL}
 	};
 
-	context = g_option_context_new("-  Nibbler -");
+	context = g_option_context_new("- Nibbler -");
 	g_option_context_set_summary(context, "Nibbler is a simple snake game.");
 	g_option_context_add_main_entries(context, entries, NULL);
 	g_option_context_parse(context, &ac, &av, &error);
@@ -89,7 +89,7 @@ int	main(int argc, char **argv)
 		if (!check_args(argc, argv, width, height, speed))
 			return -1;
 
-		std::cout << "\033[1;32m <===\033[92m Game Launched \033[32m==O-<\033[m" << std::endl;
+		std::cout << "\033[1;32m <===\033[92m Game Launched \033[32m===\033[m" << std::endl;
 		std::cout << "width:" << width << " height:" << height << " speed:" << speed << std::endl;
 		Gameloop(width, height, speed);
 	} catch (std::exception &e) {

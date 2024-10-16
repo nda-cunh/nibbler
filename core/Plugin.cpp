@@ -2,7 +2,10 @@
 #include <stdexcept>
 
 /* ____ CONSTRUCTORS ____ */
-Plugin::Plugin (std::string so, int x, int y) {
+Plugin::Plugin (std::string so, int x, int y) :
+	game(nullptr),
+	handler(nullptr)
+{
 	handler = dlopen(so.c_str(), RTLD_LAZY);
 	if (handler == NULL)
 		throw std::runtime_error("can't load " + so);
@@ -22,9 +25,10 @@ Plugin::~Plugin(){
 	dlclose(handler);
 }
 		
-Plugin::Plugin(const Plugin &other) {
-	*this = other;
-}
+Plugin::Plugin(const Plugin &other) :
+	game(other.game),
+	handler(other.handler)
+{ }
 
 Plugin &Plugin::operator=(const Plugin &other) {
 	if (&other != this) {

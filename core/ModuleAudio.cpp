@@ -1,7 +1,10 @@
 # include "ModuleAudio.hpp"
 
 /* ____ CONSTRUCTORS ____ */
-ModuleAudio::ModuleAudio() {
+ModuleAudio::ModuleAudio() :
+	audio(nullptr),
+	handler(nullptr)
+{
 	handler = dlopen("./libaudio.so", RTLD_LAZY);
 	if (handler == NULL)
 		throw std::runtime_error("can't load libaudio.so");
@@ -20,17 +23,18 @@ ModuleAudio::~ModuleAudio() {
 }
 
 /* ____ COPLIEN ____ */
-ModuleAudio::ModuleAudio(const ModuleAudio &src) {
-	*this = src;
-}
+ModuleAudio::ModuleAudio(const ModuleAudio &src):
+	audio(src.audio),
+	handler(src.handler)
+{ }
 
-// TODO: implement operator= for ModuleAudio
 ModuleAudio& ModuleAudio::operator=(const ModuleAudio &rhs){
 	if (this == &rhs)
 		return *this;
+	audio = rhs.audio;
+	handler = rhs.handler;
 	return *this;
 }
-
 
 /* ____ METHODS ____ */
 void ModuleAudio::playSound(const SoundType &soundType) {
