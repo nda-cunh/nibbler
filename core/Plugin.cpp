@@ -16,7 +16,6 @@ Plugin::Plugin (std::string so, int x, int y) :
 	if (game == NULL)
 		throw std::runtime_error("can't load game");
 	this->open(x, y);
-	std::cout << "Load " << so << " " << handler << std::endl;
 }
 
 Plugin::~Plugin(){
@@ -28,7 +27,6 @@ Plugin::~Plugin(){
 		func(game);
 	if (handler)
 		dlclose(handler);
-	std::cout << "UnLoad " << " " << handler << std::endl;
 }
 		
 Plugin::Plugin(const Plugin &other) :
