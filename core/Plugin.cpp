@@ -13,7 +13,10 @@ Plugin::Plugin (std::string so, int x, int y) :
 	if (func == NULL)
 		throw std::runtime_error("can't dlsym \"load\" function");
 	game = func();
+	if (game == NULL)
+		throw std::runtime_error("can't load game");
 	this->open(x, y);
+	std::cout << "Load " << so << " " << handler << std::endl;
 }
 
 Plugin::~Plugin(){
@@ -21,8 +24,11 @@ Plugin::~Plugin(){
 	auto func = (void(*)(IPlugin*))dlsym(handler, "unload");
 	if (func == NULL)
 		std::cerr << "can't dlsym \"unload\" function" << std::endl;
-	func(game);
-	dlclose(handler);
+	if (func != NULL && game)
+		func(game);
+	if (handler)
+		dlclose(handler);
+	std::cout << "UnLoad " << " " << handler << std::endl;
 }
 		
 Plugin::Plugin(const Plugin &other) :
@@ -44,7 +50,8 @@ void Plugin::open (int x, int y) {
 }
 
 void Plugin::close() {
-	game->close();
+	if (game)
+		game->close();
 }
 
 /* ____ API RELATED METHODS ____ */
