@@ -42,6 +42,7 @@ Plugin::~Plugin() {
 		SDL_DestroyRenderer(renderer);
 	if (win)
 		SDL_DestroyWindow(win);
+	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	SDL_Quit();
 }
 
