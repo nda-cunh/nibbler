@@ -130,6 +130,7 @@ Event Plugin::poll_event (Activity)   {
 							case 2: // click quit button
 								return CLOSE;
 						}
+						break;
 					default:
 						e = NONE;
 						break;
