@@ -13,7 +13,7 @@ class ModuleAudio : public IAudioModule {
 		ModuleAudio& operator=(const ModuleAudio&);
 
 		/* ---- Methods ---- */
-		void playSound(const SoundType &soundType);
+		void playSound(const SoundType &soundType) override;
 
 	private:
 		IAudioModule *audio;

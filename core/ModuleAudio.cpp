@@ -8,14 +8,14 @@ ModuleAudio::ModuleAudio() :
 	handler = dlopen("./libaudio.so", RTLD_LAZY);
 	if (handler == NULL)
 		throw std::runtime_error("can't load libaudio.so");
-	auto func = (IAudioModule*(*)())dlsym(handler, "load");
+	auto func = reinterpret_cast<IAudioModule*(*)()>(dlsym(handler, "load"));
 	if (func == NULL)
 		throw std::runtime_error("can't dlsym \"load\" function");
 	audio = func();
 };
 
 ModuleAudio::~ModuleAudio() {
-	auto func = (void(*)(IAudioModule*))dlsym(handler, "unload");
+	auto func = reinterpret_cast<void(*)(IAudioModule*)>(dlsym(handler, "unload"));
 	if (func != NULL)
 		func(audio);
 	if (dlclose(handler) != 0)

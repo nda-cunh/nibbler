@@ -38,7 +38,6 @@ const Direction	&Snake::getDirection( void )  const { return _dir; }
 
 /* ____ METHODS ____ */
 void	Snake::loseTail( void ) { _positions.pop_back(); }
-void	Snake::loseHead( void ) { _positions.pop_front(); }
 
 const Position	Snake::move(const Direction &new_dir) {
 	if (this->isCompatibleDir(new_dir))
