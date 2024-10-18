@@ -34,7 +34,6 @@ class Button {
 		void	setTxtSize(int size);
 		void	setBgColor(const Color &c);
 		void	setTxtColor(const Color &c);
-		void	setOffSet(float x, float y);
 		void	setTxt(const std::string &txt);
 		void	setRect(float x, float y, float w, float h);
 

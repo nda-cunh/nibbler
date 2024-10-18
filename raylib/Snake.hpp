@@ -12,7 +12,7 @@ class Snake {
 		/* ---- Constructors & Coplien ---- */
 		Snake();
 		Snake(const Snake &);
-		Snake(std::deque<Position> *snake);
+		explicit Snake(std::deque<Position> *snake);
 		~Snake();
 
 		Snake	&operator=(const Snake &);

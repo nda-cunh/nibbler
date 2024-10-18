@@ -24,22 +24,22 @@ class Plugin : public IPlugin {
 		Plugin &operator=(const Plugin &rhs);
 
 		/* ---- Plugin ---- */
-		void open(int x, int y); 
-		void close(); 
+		void open(int x, int y) override; 
+		void close() override; 
 
 		/* ---- Event ---- */
-		Event poll_event(Activity current_activity);
+		Event poll_event(Activity current_activity) override;
 
 		/* ---- Data ---- */
-		void update_snake(const std::deque<Position> &snake); 
-		void update_food(Position &pos) ; 
-		void update_score(int n);
-		void update_bestscore(int n); 
-		void update_speed(int n); 
+		void update_snake(const std::deque<Position> &snake) override; 
+		void update_food(Position &pos) override; 
+		void update_score(int n) override;
+		void update_bestscore(int n) override;
+		void update_speed(int n) override; 
 
 		/* ---- Display ---- */
-		void clear(); 
-		void display(const Activity act); 
+		void clear() override; 
+		void display(const Activity act) override; 
 };
 
 #endif

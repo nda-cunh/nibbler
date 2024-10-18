@@ -4,18 +4,25 @@
 #include "Score.hpp"
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
-Game::Game() {
-	this->_size = {1, 1};
-}
+Game::Game() : 
+	_size({1, 1}),
+	_food({}),
+	_snake(Snake(NULL)),
+	_score(0),
+	_best_score(0),
+	_is_over(false) {}
 
 Game::Game(const Game &o) {
 	*this = o;
 }
 
-Game::Game(int w, int h) {
-	this->_size = {(w + 2.f) * TILE_SIZE, (h + 3.f) * TILE_SIZE};
-	_snake = Snake(NULL);
-}
+Game::Game(int w, int h) : 
+	_size({(w +2.f) * TILE_SIZE, (h + 3.f) * TILE_SIZE}),
+	_food({}),
+	_snake(Snake(NULL)),
+	_score(0),
+	_best_score(0),
+	_is_over(false) {}
 
 Game::~Game() {}
 
@@ -44,14 +51,14 @@ void Game::setBestScore(int score) { _best_score = score; }
 /* ____ DRAW METHODS ____ */
 
 void	Game::draw_background() {
-	bool	is_dark = true;
 	Color	colors[2] = {
 		GetColor(0xA2D149FF),
 		GetColor(0xAAD751FF)
 	};
+
 	ClearBackground(GetColor(0x578a34ff));
 	for (int x = 1; x < _size.x / TILE_SIZE - 1; x++) {
-		is_dark = (x & 1);
+		bool	is_dark = (x & 1);
 		for (int y = 2; y < _size.y / TILE_SIZE - 1; y++) {
 			is_dark = !is_dark;
 			DrawRectangle(x * TILE_SIZE, y * TILE_SIZE,

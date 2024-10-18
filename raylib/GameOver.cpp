@@ -3,14 +3,17 @@
 #include <raylib.h>
 
 /* ____ CONSTRUCTOR & COPLIEN ____ */
-GameOver::GameOver() {}
+GameOver::GameOver() : 
+	_size({0, 0})
+{}
 
 GameOver::GameOver(const GameOver &other) {
 	*this = other;
 }
 
-GameOver::GameOver(int width, int height) {
-	_size = {static_cast<float>(width), static_cast<float>(height)};
+GameOver::GameOver(int width, int height) : 
+	_size({static_cast<float>(width), static_cast<float>(height)})
+{
 	this->init_buttons(width, height);
 }
 

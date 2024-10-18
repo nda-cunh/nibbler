@@ -34,7 +34,6 @@ Event	Button::getEvent( void ) const { return _click_event; }
 void	Button::setClickEvent(Event act) {_click_event = act;}
 void	Button::setHover(bool hover) {_is_hover = hover;}
 void	Button::setTxtSize(int size) { _txt_size = size; }
-void	Button::setOffSet(float x, float y) { _offset = {x, y}; }
 void	Button::setTxt(const std::string &txt) { _txt = txt; }
 void	Button::setTxtColor(const Color &c) { _txt_color = c; }
 void	Button::setBgColor(const Color &c) { _bg_color = c; }

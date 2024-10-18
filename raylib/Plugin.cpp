@@ -3,7 +3,12 @@
 
 /* ____ COPLIEN ____ */
 
-Plugin::Plugin() {}
+Plugin::Plugin() :
+	_width(0),
+	_height(0),
+	_game(Game(0, 0)),
+	_game_over(GameOver(0, 0))
+{}
 
 Plugin::Plugin(const Plugin &o) {
 	*this = o;
