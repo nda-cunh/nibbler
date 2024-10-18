@@ -22,10 +22,6 @@ class Button {
 		int get_width ();
 		int get_height ();
 		void set_position (int x, int y);
-		void set_size_font (const int size_font);
-		void set_color (int r, int g, int b);
-		void set_background_color (int r, int g, int b);
-		void set_background_color_hover (int r, int g, int b);
 		void hover ();
 		void unhover ();
 

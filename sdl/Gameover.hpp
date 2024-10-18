@@ -15,7 +15,6 @@ class Gameover : public RenderTexture {
 		void update_score (int score);
 		void update_bestscore (int best_score);
 		void draw (SDL_Renderer* renderer, int px = 0, int py = 0) override;
-		void get_position (int &x, int &y);
 		void hover (int x, int y);
 		int collide(int x, int y);
 

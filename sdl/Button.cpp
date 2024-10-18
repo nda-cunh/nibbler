@@ -16,7 +16,32 @@ Button::Button ()
 	is_hover(false),
 	x(0),
 	y(0)
+{ }
+
+Button::Button (const std::string &str, int width, int height) :
+	surface(nullptr),
+	cairo_surface(nullptr),
+	cairo_context(nullptr),
+	text(str),
+	color({255, 255, 255, 255}),
+	background_color({76, 191, 248, 255}),
+	background_color_hover({76, 158, 249, 255}),
+	size_font(21),
+	is_hover(false),
+	x(0),
+	y(0)
 {
+	int w, h;
+
+	this->text = str;
+	create (width, height);
+	get_text_size(w, h);
+	if (w > width)
+		width = w;
+	if (h > height)
+		height = h;
+	if (surface->w < width || surface->h < height)
+		create(width, height);
 }
 
 Button::Button (const Button &other) {
@@ -36,23 +61,6 @@ Button	&Button::operator=(const Button &rhs) {
 		text = rhs.text;
 	}
 	return *this;
-}
-
-
-Button::Button (const std::string &str, int width, int height) : Button () {
-	int w, h;
-
-	x = 0;
-	y = 0;
-	this->text = str;
-	create (width, height);
-	get_text_size(w, h);
-	if (w > width)
-		width = w;
-	if (h > height)
-		height = h;
-	if (surface->w < width || surface->h < height)
-		create(width, height);
 }
 
 Button::~Button () {
@@ -178,12 +186,6 @@ bool Button::collide (int x, int y) {
 /// Setters and Getters
 ////////////////////////////////////////////////
 
-void Button::set_color (int r, int g, int b) {
-	color.r = r;
-	color.g = g;
-	color.b = b;
-}
-
 int Button::get_width () {
 	return surface->w;
 }
@@ -195,22 +197,6 @@ int Button::get_height () {
 void Button::set_position (int x, int y) {
 	this->x = x;
 	this->y = y;
-}
-
-void Button::set_size_font (const int size_font) {
-	this->size_font = size_font;
-}
-
-void Button::set_background_color (int r, int g, int b) {
-	background_color.r = r;
-	background_color.g = g;
-	background_color.b = b;
-}
-
-void Button::set_background_color_hover (int r, int g, int b) {
-	background_color_hover.r = r;
-	background_color_hover.g = g;
-	background_color_hover.b = b;
 }
 
 void Button::hover () {

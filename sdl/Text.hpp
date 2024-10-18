@@ -21,8 +21,6 @@ class Text {
 		int get_height ();
 		void set_position (int x, int y);
 		void set_text (const std::string &str);
-		void set_font (const std::string &font);
-		void set_size_font (int size);
 
 	private:
 		void update ();

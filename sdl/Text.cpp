@@ -181,17 +181,3 @@ void Text::set_text (const std::string &str) {
 		update();
 	}
 }
-
-void Text::set_font (const std::string &font) {
-	if (this->font != font) {
-		this->font = font;
-		update();
-	}
-}
-
-void Text::set_size_font (int size) {
-	if (size != size_font) {
-		size_font = size;
-		update();
-	}
-}

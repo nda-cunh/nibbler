@@ -102,12 +102,3 @@ void Gameover::draw (SDL_Renderer* renderer, int px, int py) {
 	button_quit->draw(renderer);
 
 }
-
-////////////////////////////////////////////////
-/// Setters and Getters
-////////////////////////////////////////////////
-
-void Gameover::get_position (int &x, int &y) {
-	x = this->x_gameover;
-	y = this->y_gameover;
-}
