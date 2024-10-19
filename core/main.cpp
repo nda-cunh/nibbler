@@ -89,8 +89,10 @@ int	main(int argc, char **argv)
 		if (!check_args(argc, argv, width, height, speed))
 			return -1;
 
-		std::cout << "\033[1;32m <===\033[92m Game Launched \033[32m===\033[m" << std::endl;
-		std::cout << "width:" << width << " height:" << height << " speed:" << speed << std::endl;
+		std::cout << "\033[1;32m <======\033[92m Game Launched \033[32m======>\033[m" << std::endl;
+		std::cout << "\033[m  width \033[32m" << width;
+		std::cout << "\033[m  height \033[32m" << height;
+		std::cout << "\033[m speed \033[32m" << speed << "\033[m" << std::endl;
 		Gameloop(width, height, speed);
 	} catch (std::exception &e) {
 		std::cerr << "Error runtime (" << e.what() << ")" << std::endl;
