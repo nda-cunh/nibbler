@@ -7,7 +7,7 @@ class ModuleAudio : public IAudioModule {
 		/* ---- Constructors ---- */
 		ModuleAudio();
 		ModuleAudio(const ModuleAudio&);
-		~ModuleAudio();
+		~ModuleAudio() override;
 
 		/* ---- Coplien  ---- */
 		ModuleAudio& operator=(const ModuleAudio&);

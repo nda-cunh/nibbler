@@ -2,7 +2,7 @@
 #include <stdexcept>
 
 /* ____ CONSTRUCTORS ____ */
-Plugin::Plugin (std::string so, int x, int y) :
+Plugin::Plugin (const std::string &so, int x, int y) :
 	game(nullptr),
 	handler(nullptr)
 {

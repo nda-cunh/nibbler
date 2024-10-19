@@ -14,20 +14,20 @@ class Plugin : public IPlugin {
 		Plugin(const Plugin &other);
 		Plugin &operator=(const Plugin &other);
 		/* ---- Constructors ---- */
-		virtual ~Plugin();
-		Plugin (std::string so, int x, int y);
+		virtual ~Plugin() override;
+		Plugin (const std::string &so, int x, int y);
 
 		/* ---- Lib loading related methods ---- */
-		void open (int x, int y);
-		void close();
+		void open (int x, int y) override;
+		void close() override;
 
 		/* ---- API related methods ---- */
-		Event poll_event(Activity current_activity);
-		void clear();
-		void display(const Activity);
-		void update_snake(const std::deque<Position> &queue);
-		void update_food(Position &position);
-		void update_score(int n);
-		void update_bestscore(int n);
+		Event poll_event(Activity current_activity) override;
+		void clear() override;
+		void display(const Activity) override;
+		void update_snake(const std::deque<Position> &queue) override;
+		void update_food(Position &position) override;
+		void update_score(int n) override;
+		void update_bestscore(int n) override;
 };
 #endif

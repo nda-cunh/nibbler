@@ -93,8 +93,6 @@ inline Event Gameloop::loop_event() {
 			lib = SFML;
 			plugin.reset();
 			plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
-			if (!plugin)
-				throw std::runtime_error("Plugin failed to load");
 			break;
 		case NUM2:
 			if (lib == RAYLIB)
@@ -102,8 +100,6 @@ inline Event Gameloop::loop_event() {
 			lib = RAYLIB;
 			plugin.reset();
 			plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
-			if (!plugin)
-				throw std::runtime_error("Plugin failed to load");
 			break;
 		case NUM3:
 			if (lib == SDL)
@@ -111,8 +107,6 @@ inline Event Gameloop::loop_event() {
 			lib = SDL;
 			plugin.reset();
 			plugin = std::make_unique<Plugin>(lib_names.at(lib), width, height);
-			if (!plugin)
-				throw std::runtime_error("Plugin failed to load");
 			break;
 		default:
 			break;

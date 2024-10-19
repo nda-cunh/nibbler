@@ -19,7 +19,7 @@ class Plugin : public IPlugin {
 		/* ---- Coplien ---- */
 		Plugin();
 		Plugin(const Plugin &);
-		virtual ~Plugin(); 
+		virtual ~Plugin() override; 
 
 		Plugin &operator=(const Plugin &rhs);
 

@@ -18,7 +18,7 @@ class Plugin : public IPlugin {
 		Plugin ();
 		Plugin(const Plugin &p);
 		Plugin	&operator=(const Plugin &p);
-		virtual ~Plugin();
+		virtual ~Plugin() override;
 
 		void open (int x, int y) override;
 		void close () override;

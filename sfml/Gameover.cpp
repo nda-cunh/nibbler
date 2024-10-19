@@ -2,11 +2,28 @@
 
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
-
-GameOver::GameOver(){
-	surface = std::make_unique<sf::RenderTexture>();
-
-	texture_gameover = std::make_unique<sf::Texture>();
+		// std::unique_ptr<sf::RenderTexture>	surface;
+		// std::unique_ptr<sf::Texture> 		texture_gameover;
+// 
+		// sf::Font	_font;
+		// sf::Text	_text_score;
+		// sf::Text	_text_best;
+// 
+		// sf::Sprite	sprite_gameover;
+		// Button		_button_menu;
+		// Button		_button_retry;
+// 
+GameOver::GameOver() :
+	surface(std::make_unique<sf::RenderTexture>()),
+	texture_gameover(std::make_unique<sf::Texture>()),
+	_font(),
+	_text_score(),
+	_text_best(),
+	sprite_gameover(),
+	_button_menu(),
+	_button_retry()
+{
+	
 	if (texture_gameover->loadFromFile("./sfml/gameover.bmp") == false)
 		throw std::runtime_error("can't load gameover.bmp");
 
@@ -34,7 +51,10 @@ GameOver::GameOver(){
 
 }
 
-GameOver::GameOver(const GameOver &other) : sf::Sprite() { *this = other; }
+GameOver::GameOver(const GameOver &other)
+{
+	*this = other;
+}
 
 GameOver::~GameOver() {
 }

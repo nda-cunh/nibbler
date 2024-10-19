@@ -44,20 +44,20 @@ class Plugin : public IPlugin {
 		Plugin &operator=(const Plugin &rhs);
 
 		/* ---- Plugin ---- */
-		void open(int x, int y);
-		void close();
+		void open(int x, int y) override;
+		void close() override;
 
 		/* ---- Event ---- */
-		Event poll_event(Activity act);
+		Event poll_event(Activity act) override;
 
 		/* ---- Data ---- */
-		void update_snake(const std::deque<Position> &p1);
-		void update_food(Position &position) ;
-		void update_score(int score);
-		void update_bestscore(int bestscore);
+		void update_snake(const std::deque<Position> &p1) override;
+		void update_food(Position &position) override ;
+		void update_score(int score) override;
+		void update_bestscore(int bestscore) override;
 
 		/* ---- Display ---- */
-		void clear () ;
-		void display (const Activity act) ;
+		void clear ()  override;
+		void display (const Activity act)  override;
 };
 #endif
