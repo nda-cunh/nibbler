@@ -26,7 +26,6 @@ class Plugin : public IPlugin {
 		void update_snake (const std::deque<Position> &queue) override;
 		void update_food (Position &position) override;
 		void update_score (int score) override;
-		void update_speed(int speed) override;
 		void update_bestscore (int score) override;
 		void clear () override;
 		void display (Activity activity) override;

@@ -118,9 +118,6 @@ void Plugin::update_bestscore(int n) {
 	_game.setBestScore(n);
 }
 
-void Plugin::update_speed(int) {
-}
-
 
 /* ____ DISPLAY ____ */
 

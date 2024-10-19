@@ -35,7 +35,6 @@ class IPlugin {
 		virtual void update_snake(const std::deque<Position> &snake) = 0;
 		virtual void update_food(Position &position) = 0;
 		virtual void update_score(int n) = 0;
-		virtual void update_speed(int n) = 0;
 		virtual void update_bestscore(int n) = 0;
 		virtual void clear () = 0;
 		virtual void display (const Activity) = 0;

@@ -81,7 +81,3 @@ void Plugin::update_bestscore(int n) {
 	game->update_bestscore(n);
 }
 
-void Plugin::update_speed(int n) {
-	game->update_speed(n);
-}
-

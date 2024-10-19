@@ -228,11 +228,6 @@ void Plugin::update_bestscore (int score)  {
 	gameover.update_bestscore(score);
 }
 
-void Plugin::update_speed (int speed)  {
-	(void) speed;
-}
-
-
 void Plugin::clear ()  {
 	SDL_Rect rect = {0, 0, width + tile_size * 2, tile_size * 2};
 

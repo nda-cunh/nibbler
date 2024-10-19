@@ -144,10 +144,6 @@ void Plugin::update_score(int score) {
 	header.setScore(score);
 }
 
-void Plugin::update_speed(int speed) {
-	(void) speed;
-}
-
 void Plugin::update_bestscore(int best_score) {
 	gameover.setBestScore(best_score); 
 	header.setBestScore(best_score);

@@ -55,7 +55,6 @@ class Plugin : public IPlugin {
 		void update_food(Position &position) ;
 		void update_score(int score);
 		void update_bestscore(int bestscore);
-		void update_speed(int n);
 
 		/* ---- Display ---- */
 		void clear () ;
