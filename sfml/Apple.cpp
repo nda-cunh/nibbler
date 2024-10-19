@@ -4,8 +4,12 @@
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
 
-Apple::Apple () {
-	_texture = std::make_shared<sf::Texture>();
+Apple::Apple () :
+	_texture(std::make_shared<sf::Texture>()),
+	_is_up(false),
+	_tileX(0),
+	_tileY(0)
+{
 	if (_texture->loadFromFile("./sfml/food.bmp") == false)
 		throw std::runtime_error("can't load food.bmp");
 	this->setTexture(*_texture);
@@ -29,7 +33,7 @@ Apple	&Apple::operator=(const Apple &rhs) {
 
 /* ____ PUBLIC METHODS ____ */
 
-void Apple::update_food(sf::RenderTexture &window, Position &position) {
+void Apple::update_food(sf::RenderTexture &window, const Position &position) {
 	auto size = _texture->getSize();
 
 	this->setPosition(position.x * TILE + size.x / 2.0,

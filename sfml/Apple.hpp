@@ -22,7 +22,7 @@ class Apple : sf::Sprite{
 		Apple	&operator=(const Apple &);
 
 		/* ---- Public methods ---- */
-		void update_food(sf::RenderTexture &window, Position &position);
+		void update_food(sf::RenderTexture &window, const Position &position);
 };
 
 #endif

@@ -3,11 +3,12 @@
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
 
-Header::Header () {
-	_font = nullptr;
-	_texture = nullptr;
-	_texture_snakes = nullptr;
-}
+Header::Header () :
+	_font(nullptr),
+	_texture(nullptr),
+	_texture_snakes(nullptr)
+{}
+
 Header::Header (const Header &other): sf::RectangleShape() { *this = other; }
 Header::~Header () {}
 

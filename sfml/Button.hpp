@@ -34,7 +34,7 @@ class Button {
 		void	setHover( bool );
 		void	setBgColor(const sf::Color &c);
 		void	setTxtColor(const sf::Color &c);
-		void	setTxt(const std::string txt);
+		void	setTxt(const std::string &txt);
 		void	setRect(float x, float y, float w, float h);
 
 		/* ---- Display methods ---- */

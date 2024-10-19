@@ -1,16 +1,18 @@
 # include "Button.hpp"
 
 /* ____ CONSTRUCTOR & COPLIEN ____ */
-Button::Button() {
-	_font = std::make_unique<sf::Font>();
+Button::Button() :
+	_font(std::make_unique<sf::Font>()),
+	_rect(sf::RectangleShape({0, 0})),
+	_text(sf::Text()),
+	_click_event(NONE),
+	_is_hover(false)
+{
 	if (_font->loadFromFile("./sfml/coolvetica.otf") == false)
 		throw std::runtime_error("can't load coolvetica.otf");
 	_text.setFont(*_font.get());
 	_text.setPosition({0, 0});
-	_rect = sf::RectangleShape({0, 0});
 	_rect.setFillColor(sf::Color::White);
-	_click_event = NONE;
-	_is_hover = false;
 }
 
 Button::~Button() {
@@ -42,7 +44,7 @@ void		Button::setClickEvent(Event e)			{_click_event = e;}
 void		Button::setTxtSize(int size)			{ _text.setCharacterSize(size); }
 void		Button::setBgColor(const sf::Color &c)	{ _rect.setFillColor(c); }
 void		Button::setHover(bool is_hover)			{ this->_is_hover = is_hover; }
-void		Button::setTxt(const std::string txt)	{ _text.setString(txt); }
+void		Button::setTxt(const std::string &txt)	{ _text.setString(txt); }
 
 sf::Rect<float>	Button::getRect( void ) const { 
 	sf::Vector2f	pos = _rect.getPosition();

@@ -21,12 +21,12 @@ class AudioModule : public IAudioModule {
 		/**
 		 *  Play a sound
 		 */
-		void playSound(const SoundType &soundType);
+		void playSound(const SoundType &soundType) override;
 
 		/**
 		 *  Destroy the Audio Module object
 		 */
-		~AudioModule();
+		~AudioModule() override;
 
 	private:
 		sf::Sound sound_up;

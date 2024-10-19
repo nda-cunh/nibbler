@@ -1,12 +1,14 @@
 #include "Animation.hpp"
 
 /* ____ CONSTRUCTORS & COPLIEN ____ */
-Animation::Animation() {
-	_idx = 0;
-	_timer = Timer();
-	_freq = 2.0;
-	_speed = 0.1;
-}
+Animation::Animation() : 
+	_frames({}),
+	_tex(sf::Texture()),
+	_idx(0),
+	_freq(2.0),
+	_speed(0.1),
+	_timer(Timer())
+{}
 
 Animation::Animation(const Animation &other) {
 	*this = other;

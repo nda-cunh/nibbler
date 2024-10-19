@@ -9,7 +9,7 @@ Plugin::Plugin (const std::string &so, int x, int y) :
 	handler = dlopen(so.c_str(), RTLD_LAZY);
 	if (handler == NULL)
 		throw std::runtime_error("can't load " + so);
-	auto func = (IPlugin*(*)())dlsym(handler, "load");
+	auto func = reinterpret_cast<IPlugin*(*)()>(dlsym(handler, "load"));
 	if (func == NULL)
 		throw std::runtime_error("can't dlsym \"load\" function");
 	game = func();
@@ -20,7 +20,7 @@ Plugin::Plugin (const std::string &so, int x, int y) :
 
 Plugin::~Plugin(){
 	this->close();
-	auto func = (void(*)(IPlugin*))dlsym(handler, "unload");
+	auto func = reinterpret_cast<void(*)(IPlugin*)>(dlsym(handler, "unload"));
 	if (func == NULL)
 		std::cerr << "can't dlsym \"unload\" function" << std::endl;
 	if (func != NULL && game)
