@@ -5,3 +5,4 @@ nibbler
 *.swo
 *.nfs*
 .cache
+compile_commands.json
