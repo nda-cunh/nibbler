@@ -15,11 +15,11 @@ suprapack:
 		suprapack install $$INSTALL_DEPS --force --yes; \
 	fi
 
-build: suprapack
+build/build.ninja: 
 	@meson build --prefix="${PWD}" --bindir="" --libdir="" 
 
-$(NAME): build
-	ninja install -C build
+$(NAME): suprapack build/build.ninja
+	@ninja install -C build
 
 run: all
 	./$(NAME) -h 10 -w 10
@@ -40,4 +40,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: $(NAME) all run run2 clean fclean re suprapack
+.PHONY: $(NAME) all run run2 run3 clean fclean re suprapack
